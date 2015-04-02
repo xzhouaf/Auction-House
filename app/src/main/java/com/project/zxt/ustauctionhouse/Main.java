@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+//This is just a testing code for Xutong
 public class Main extends ActionBarActivity {
 
     private int test = 1;
