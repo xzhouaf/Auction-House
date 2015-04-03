@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/itemInfo">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/itemName"
+        android:layout_marginTop="10dp"
+        android:textSize="21dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/itemImage"
+        android:layout_below="@+id/itemName"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/itemImage"
+        android:layout_toRightOf="@+id/itemImage"
+        android:layout_toEndOf="@+id/itemImage"
+        android:layout_marginTop="55dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/itemPrice">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="current bid:        "
+            android:id="@+id/priceTag"
+            android:layout_below="@+id/itemName"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/price" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemPrice"
+        android:layout_alignLeft="@+id/itemPrice"
+        android:layout_alignStart="@+id/itemPrice"
+        android:layout_marginTop="10dp"
+        android:id="@+id/timeInfo">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time left:          "
+            android:id="@+id/timeTag" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/timeLeft" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/itemPrice"
+        android:layout_below="@+id/itemImage"
+        android:id="@+id/categoryInfo"
+        android:layout_marginTop="20dp"
+        android:background="#ffd8ffb1">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="category:      "
+            android:id="@+id/categoryTag"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/categoryInfo"
+        android:layout_below="@+id/timeInfo"
+        android:id="@+id/conditionInfo"
+        android:layout_marginTop="71dp"
+        android:layout_alignRight="@+id/itemPrice"
+        android:layout_alignEnd="@+id/itemPrice"
+        android:background="#fffff29e">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="condition:        "
+            android:id="@+id/conditionTag"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/condition" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/categoryInfo"
+        android:layout_alignLeft="@+id/itemImage"
+        android:layout_alignStart="@+id/itemImage"
+        android:id="@+id/descriptionInfo">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="item description："
+            android:id="@+id/descriptionTag"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/description"
+            android:layout_below="@+id/descriptionTag"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timeInfo"
+        android:layout_alignLeft="@+id/timeInfo"
+        android:layout_alignStart="@+id/timeInfo"
+        android:id="@+id/sellerInfo"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="seller:             "
+            android:id="@+id/sellerTag" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/seller" />
+    </LinearLayout>
+
+</RelativeLayout>
