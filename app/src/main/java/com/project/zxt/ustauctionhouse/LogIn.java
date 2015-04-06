@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -146,8 +148,13 @@ public class LogIn extends Activity implements View.OnClickListener {
                         fetchedEmail = result.getString("email");
                         fetchedApiKey = result.getString("apiKey");
                         fetchedCreatedAt = result.getString("createdAt");
-                        Toast.makeText(ctx, "Welcome, " + fetchedUserName, Toast.LENGTH_SHORT).show();
+                        new RegisterApp(fetchedApiKey ,ctx, GoogleCloudMessaging.getInstance(ctx), Utility.getAppVersion(ctx)).execute();
+
                         //TODO: create a new object and finish the login object
+                        Toast.makeText(ctx, "Welcome, " + fetchedUserName, Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(ctx, PersonalInformation.class);
+                        startActivity(i);
+                        finish();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

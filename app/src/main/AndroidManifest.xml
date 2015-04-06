@@ -50,6 +50,10 @@
         <!--  Entry for RegisterActivity.class -->
         <activity android:name=".Register"
             android:label="Register New Account"></activity>
+
+        <!--  Entry for PersonalInformation.class -->
+        <activity android:name=".PersonalInformation"
+            android:label="Me"></activity>
     </application>
 
 </manifest>

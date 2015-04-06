@@ -1,5 +1,9 @@
 package com.project.zxt.ustauctionhouse;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.json.JSONObject;
@@ -33,6 +37,17 @@ public class Utility {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    public static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // should never happen
+            throw new RuntimeException("Could not get package name: " + e);
+        }
     }
 
     public static boolean isValidUserName(String user) {
