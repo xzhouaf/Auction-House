@@ -150,9 +150,12 @@ public class LogIn extends Activity implements View.OnClickListener {
                         fetchedCreatedAt = result.getString("createdAt");
                         new RegisterApp(fetchedApiKey ,ctx, GoogleCloudMessaging.getInstance(ctx), Utility.getAppVersion(ctx)).execute();
 
-                        //TODO: create a new object and finish the login object
                         Toast.makeText(ctx, "Welcome, " + fetchedUserName, Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(ctx, PersonalInformation.class);
+                        i.putExtra("user_name", fetchedUserName);
+                        i.putExtra("user_email", fetchedEmail);
+                        i.putExtra("user_apiKey", fetchedApiKey);
+                        i.putExtra("user_createdAt", fetchedCreatedAt);
                         startActivity(i);
                         finish();
                 }
