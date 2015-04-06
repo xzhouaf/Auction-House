@@ -85,8 +85,9 @@ public class Register extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btnRegister:
                 //register
-                validateInput();
-                new AsyncRegister().execute();
+                if(validateInput()) {
+                    new AsyncRegister().execute();
+                }
                 break;
             case R.id.link_to_login:
                 finish();
@@ -99,7 +100,6 @@ public class Register extends Activity implements View.OnClickListener {
     }
 
     private boolean validateInput(){
-        //TODO Check the correctness of input values
         final String user = userNameReg.getText().toString();
         if (!Utility.isValidUserName(user)) {
             userNameReg.setError("Invalid UserName");
