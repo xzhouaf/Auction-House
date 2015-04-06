@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -30,6 +31,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import com.project.zxt.ustauctionhouse.Utility;
 
 /**
  * Created by Xutong on 2015/4/6.
@@ -96,8 +100,27 @@ public class Register extends Activity implements View.OnClickListener {
 
     private boolean validateInput(){
         //TODO Check the correctness of input values
-        return false;
+        final String user = userNameReg.getText().toString();
+        if (!Utility.isValidUserName(user)) {
+            userNameReg.setError("Invalid UserName");
+            return false;
+        }
+
+        final String email_ = emailReg.getText().toString();
+        if (!Utility.isValidEmail(email_)) {
+            emailReg.setError("Invalid Email");
+            return false;
+        }
+
+        final String pass = passwordReg.getText().toString();
+        if (!Utility.isValidPassword(pass)) {
+            passwordReg.setError("Invalid Password");
+            return false;
+        }
+        return true;
     }
+
+
 
     private class AsyncRegister extends AsyncTask<String, Void, JSONObject> {
 
