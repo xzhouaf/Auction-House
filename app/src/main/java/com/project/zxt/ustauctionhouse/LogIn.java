@@ -43,12 +43,6 @@ public class LogIn extends Activity implements View.OnClickListener {
 
         registerScreen.setOnClickListener(this);
 
-
-
-
-
-
-
     }
 
     @Override
