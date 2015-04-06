@@ -95,7 +95,7 @@ public class Register extends Activity implements View.OnClickListener {
     }
 
     private boolean validateInput(){
-
+        //TODO Check the correctness of input values
         return false;
     }
 

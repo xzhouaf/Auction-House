@@ -40,7 +40,6 @@ public class LogIn extends Activity implements View.OnClickListener {
         passwordInput = (EditText) findViewById(R.id.passwordInput);
 
         registerScreen = (TextView) findViewById(R.id.link_to_register);
-
         registerScreen.setOnClickListener(this);
 
     }
@@ -67,12 +66,10 @@ public class LogIn extends Activity implements View.OnClickListener {
                 break;
             default:
                 break;
-
-
-
         }
-
-
-
     }
+
+
+
+
 }
