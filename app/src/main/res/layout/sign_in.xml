@@ -51,7 +51,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/Exit"
+            android:id="@+id/SignUp"
             android:layout_gravity="left|bottom" />
     </LinearLayout>
 
