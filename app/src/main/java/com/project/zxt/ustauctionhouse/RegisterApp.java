@@ -60,7 +60,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
             // so it can use GCM/HTTP or CCS to send messages to your app.
             // The request to your server should be authenticated if your app
             // is using accounts.
-            msg = sendRegistrationIdToBackend();
+            sendRegistrationIdToBackend();
 
             // For this demo: we don't need to send it because the device
             // will send upstream messages to a server that echo back the
@@ -94,11 +94,10 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
 
         }
     */
-    private String sendRegistrationIdToBackend() {
+    private void sendRegistrationIdToBackend() {
         NameValuePair pair1 = new BasicNameValuePair("regId", regid);
         List<NameValuePair> pairList = new ArrayList<>();
         pairList.add(pair1);
-        String result = "";
         try {
             HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
             // URL使用基本URL即可，其中不需要加参数
@@ -111,19 +110,16 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
             HttpClient httpClient = new DefaultHttpClient();
             // 发送请求
             HttpResponse response = httpClient.execute(httpPost);
-            JSONObject obj = Utility.response2obj(response);
-            result = obj.getString("error");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
     }
 
 
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Toast.makeText(ctx, result, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ctx, result, Toast.LENGTH_SHORT).show();
         Log.v(TAG, result);
     }
 }

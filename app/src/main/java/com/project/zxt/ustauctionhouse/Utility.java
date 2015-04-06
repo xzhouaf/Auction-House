@@ -11,6 +11,9 @@ import java.io.InputStreamReader;
  * Created by Paul on 2015/4/6.
  */
 public class Utility {
+
+    public static final String serverurl = "http://gaozihou.ddns.net/task_manager/v1";
+
     public static JSONObject response2obj(HttpResponse response){
         String result = "";
         String line = "";
