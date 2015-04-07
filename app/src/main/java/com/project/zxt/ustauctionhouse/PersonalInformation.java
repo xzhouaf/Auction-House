@@ -26,16 +26,13 @@ import org.json.JSONObject;
 public class PersonalInformation extends Activity implements View.OnClickListener{
     private static final String TAG = "Personal Information";
     private LinearLayout personalInfo, myAuction, myBid, myHistory;
-    private Button logoutBut;
     private String UserName, Email, ApiKey, CreatedAt;
     Intent intent;
     Context ctx;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.me);
-
         Log.i(TAG, "Activity: onCreate()");
 
         personalInfo = (LinearLayout) findViewById(R.id.personal_info);
@@ -50,7 +47,7 @@ public class PersonalInformation extends Activity implements View.OnClickListene
         myHistory = (LinearLayout) findViewById(R.id.myHistory);
         myHistory.setOnClickListener(this);
 
-        logoutBut = (Button) findViewById(R.id.logoutButton);
+        Button logoutBut = (Button) findViewById(R.id.logoutButton);
         logoutBut.setOnClickListener(this);
 
         intent = this.getIntent();
@@ -60,6 +57,7 @@ public class PersonalInformation extends Activity implements View.OnClickListene
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
 
+        Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
     }
 
     @Override
@@ -71,6 +69,8 @@ public class PersonalInformation extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logoutButton:
+                Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
+                Log.i(TAG, personalInfo.toString() +  myAuction.toString() + myBid.toString() +  myHistory.toString());
                 new AsyncLogout().execute();
                 break;
             default:
