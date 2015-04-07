@@ -2,7 +2,9 @@ package com.project.zxt.ustauctionhouse;
 
 /**
  * Created by Paul on 2015/4/6.
+ *
  */
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

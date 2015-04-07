@@ -23,13 +23,13 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
     GoogleCloudMessaging gcm;
     String SENDER_ID = "163181979124";
     String regid = null;
-    //private int appVersion;
+    private int appVersion;
     String userKey = null;
 
     public RegisterApp(String registrationID, Context ctx, GoogleCloudMessaging gcm, int appVersion){
         this.ctx = ctx;
         this.gcm = gcm;
-        //this.appVersion = appVersion;
+        this.appVersion = appVersion;
         userKey = registrationID;
     }
 
@@ -57,8 +57,6 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
             // will send upstream messages to a server that echo back the
             // message using the 'from' address in the message.
             // Persist the regID - no need to register again.
-
-
 
 
             //storeRegistrationId(ctx, regid);
@@ -111,6 +109,6 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         //Toast.makeText(ctx, result, Toast.LENGTH_SHORT).show();
-        Log.v(TAG, result);
+        Log.v(TAG, result + " " + appVersion);
     }
 }

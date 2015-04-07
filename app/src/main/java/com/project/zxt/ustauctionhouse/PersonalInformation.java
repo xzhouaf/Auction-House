@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * Created by Xutong on 2015/4/6.
+ * To be finished by Xutong
  */
 public class PersonalInformation extends Activity implements View.OnClickListener{
     private static final String TAG = "Personal Information";
