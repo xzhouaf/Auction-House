@@ -79,6 +79,10 @@ public class LogIn extends Activity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.btnLogin:
                 //login
+                if(!Utility.isOnline(ctx)){
+                    Toast.makeText(ctx,"Please check your network connection!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(validateInput()) {
                     new AsyncLogin().execute();
                 }

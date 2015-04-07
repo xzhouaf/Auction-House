@@ -85,6 +85,10 @@ public class Register extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btnRegister:
                 //register
+                if(!Utility.isOnline(ctx)){
+                    Toast.makeText(ctx,"Please check your network connection!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(validateInput()) {
                     new AsyncRegister().execute();
                 }

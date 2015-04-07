@@ -3,6 +3,8 @@ package com.project.zxt.ustauctionhouse;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,7 +20,7 @@ import java.util.regex.Pattern;
  */
 public class Utility {
 
-    public static final String serverurl = "http://gaozihou.ddns.net/task_manager/v1";
+    public static final String serverurl = "http://gaozihou.no-ip.org/task_manager/v1";
 
     public static JSONObject response2obj(HttpResponse response){
         String result = "";
@@ -37,6 +39,19 @@ public class Utility {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    public static boolean isOnline(Context ctx) {
+
+        ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public static int getAppVersion(Context context) {
