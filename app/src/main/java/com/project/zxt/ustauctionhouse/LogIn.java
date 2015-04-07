@@ -46,11 +46,10 @@ public class LogIn extends Activity implements View.OnClickListener {
     @Override
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.login);
-
         Log.i(TAG, "Activity: onCreate()");
 
+        Utility.initializeDirectory();
         loginBtn = (Button) findViewById(R.id.btnLogin);
         loginBtn.setOnClickListener(this);
 

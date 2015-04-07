@@ -5,11 +5,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
@@ -21,6 +24,7 @@ import java.util.regex.Pattern;
 public class Utility {
 
     public static final String serverurl = "http://gaozihou.no-ip.org/task_manager/v1";
+    public static String DATABASE_PATH = Environment.getExternalStorageDirectory() + "/AuctionHouse";
 
     public static JSONObject response2obj(HttpResponse response){
         String result = "";
@@ -39,6 +43,18 @@ public class Utility {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    public static void initializeDirectory(){
+        File dir = new File(DATABASE_PATH);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+
+        File dir3 = new File(DATABASE_PATH + "/temp");
+        if (!dir3.exists()) {
+            dir3.mkdir();
+        }
     }
 
     public static boolean isOnline(Context ctx) {

@@ -124,8 +124,6 @@ public class Register extends Activity implements View.OnClickListener {
         return true;
     }
 
-
-
     private class AsyncRegister extends AsyncTask<String, Void, JSONObject> {
 
         @Override
