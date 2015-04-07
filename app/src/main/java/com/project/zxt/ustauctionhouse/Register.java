@@ -131,7 +131,7 @@ public class Register extends Activity implements View.OnClickListener {
             try {
                 HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
                 // URL使用基本URL即可，其中不需要加参数
-                HttpPost httpPost = new HttpPost(Utility.serverurl + "/register");
+                HttpPost httpPost = new HttpPost(Utility.serverUrl + "/register");
                 // 将请求体内容加入请求中
                 httpPost.setEntity(requestHttpEntity);
                 // 需要客户端对象来发送请求

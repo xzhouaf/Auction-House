@@ -22,7 +22,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
     Context ctx;
     GoogleCloudMessaging gcm;
     String SENDER_ID = "163181979124";
-    String regid = null;
+    String regId = null;
     private int appVersion;
     String userKey = null;
 
@@ -46,8 +46,8 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
             if (gcm == null) {
                 gcm = GoogleCloudMessaging.getInstance(ctx);
             }
-            regid = gcm.register(SENDER_ID);
-            msg = "Device registered, registration ID=" + regid;
+            regId = gcm.register(SENDER_ID);
+            msg = "Device registered, registration ID=" + regId;
 
             // You should send the registration ID to your server over HTTP,
             // so it can use GCM/HTTP or CCS to send messages to your app.
@@ -61,7 +61,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
             // Persist the regID - no need to register again.
 
 
-            //storeRegistrationId(ctx, regid);
+            //storeRegistrationId(ctx, regId);
 
 
 
@@ -74,25 +74,25 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
         return msg;
     }
     /*
-        private void storeRegistrationId(Context ctx, String regid) {
+        private void storeRegistrationId(Context ctx, String regId) {
             final SharedPreferences prefs = ctx.getSharedPreferences(Main.class.getSimpleName(),
                     Context.MODE_PRIVATE);
             Log.i(TAG, "Saving regId on app version " + appVersion);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("registration_id", regid);
+            editor.putString("registration_id", regId);
             editor.putInt("appVersion", appVersion);
             editor.apply();
 
         }
     */
     private void sendRegistrationIdToBackend() {
-        NameValuePair pair1 = new BasicNameValuePair("regId", regid);
+        NameValuePair pair1 = new BasicNameValuePair("regId", regId);
         List<NameValuePair> pairList = new ArrayList<>();
         pairList.add(pair1);
         try {
             HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
             // URL使用基本URL即可，其中不需要加参数
-            HttpPost httpPost = new HttpPost(Utility.serverurl + "/registerGCM");
+            HttpPost httpPost = new HttpPost(Utility.serverUrl + "/registerGCM");
             httpPost.addHeader("Authorization",userKey);
             //httpPost.addHeader("Authorization","91c9bfa10ff21db168154fe3ab064b95");
             // 将请求体内容加入请求中

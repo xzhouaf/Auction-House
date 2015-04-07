@@ -87,7 +87,7 @@ public class PersonalInformation extends Activity implements View.OnClickListene
             }
             JSONObject obj = null;
             // 使用GET方法发送请求,需要把参数加在URL后面，用？连接，参数之间用&分隔
-            String url1 = Utility.serverurl + "/logout";
+            String url1 = Utility.serverUrl + "/logout";
             // 生成请求对象
             HttpGet httpGet = new HttpGet(url1);
             HttpClient httpClient = new DefaultHttpClient();

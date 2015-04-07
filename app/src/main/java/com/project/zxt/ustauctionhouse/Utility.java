@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class Utility {
 
-    public static final String serverurl = "http://gaozihou.no-ip.org/task_manager/v1";
+    public static final String serverUrl = "http://gaozihou.no-ip.org/task_manager/v1";
     public static String DATABASE_PATH = Environment.getExternalStorageDirectory() + "/AuctionHouse";
 
     public static JSONObject response2obj(HttpResponse response){
@@ -98,7 +98,7 @@ public class Utility {
     }
 
     public static boolean serverTest(){
-        HttpGet httpGet = new HttpGet(serverurl + "/serverTest");
+        HttpGet httpGet = new HttpGet(serverUrl + "/serverTest");
         HttpClient httpClient = new DefaultHttpClient();
         Integer code = 0;
         try{
