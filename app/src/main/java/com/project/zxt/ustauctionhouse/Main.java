@@ -8,9 +8,6 @@ import android.view.MenuItem;
 //This is just a testing code for Xutong
 public class Main extends ActionBarActivity {
 
-    private int test = 1;
-    private final int testingting = 222;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

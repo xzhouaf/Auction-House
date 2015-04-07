@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,19 +28,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Xutong on 2015/4/6.
- */
 public class LogIn extends Activity implements View.OnClickListener {
 
     private static final String TAG = "LogIn";
-    private static Button loginBtn;
-    private TextView userName, password;
+    //private TextView userName, password;
     private EditText userNameInput, passwordInput;
     TextView registerScreen;
     private Context ctx;
-
-    private String fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt;
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +43,11 @@ public class LogIn extends Activity implements View.OnClickListener {
         Log.i(TAG, "Activity: onCreate()");
 
         Utility.initializeDirectory();
-        loginBtn = (Button) findViewById(R.id.btnLogin);
+        Button loginBtn = (Button) findViewById(R.id.btnLogin);
         loginBtn.setOnClickListener(this);
 
-        userName = (TextView) findViewById(R.id.userName);
-        password = (TextView) findViewById(R.id.password);
+        //userName = (TextView) findViewById(R.id.userName);
+        //password = (TextView) findViewById(R.id.password);
 
         userNameInput = (EditText) findViewById(R.id.userNameInput);
         passwordInput = (EditText) findViewById(R.id.passwordInput);
@@ -121,7 +114,7 @@ public class LogIn extends Activity implements View.OnClickListener {
             JSONObject obj = null;
             NameValuePair pair1 = new BasicNameValuePair("email", userNameInput.getText().toString());
             NameValuePair pair2 = new BasicNameValuePair("password", passwordInput.getText().toString());
-            List<NameValuePair> pairList = new ArrayList<NameValuePair>();
+            List<NameValuePair> pairList = new ArrayList<>();
             pairList.add(pair1);
             pairList.add(pair2);
             try {
@@ -155,10 +148,10 @@ public class LogIn extends Activity implements View.OnClickListener {
                         passwordInput.setText("");
                         break;
                     case "false":
-                        fetchedUserName = result.getString("name");
-                        fetchedEmail = result.getString("email");
-                        fetchedApiKey = result.getString("apiKey");
-                        fetchedCreatedAt = result.getString("createdAt");
+                        String fetchedUserName = result.getString("name");
+                        String fetchedEmail = result.getString("email");
+                        String fetchedApiKey = result.getString("apiKey");
+                        String fetchedCreatedAt = result.getString("createdAt");
                         new RegisterApp(fetchedApiKey ,ctx, GoogleCloudMessaging.getInstance(ctx), Utility.getAppVersion(ctx)).execute();
 
                         Toast.makeText(ctx, "Welcome, " + fetchedUserName, Toast.LENGTH_SHORT).show();

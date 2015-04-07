@@ -1,26 +1,17 @@
 package com.project.zxt.ustauctionhouse;
 
-/**
- * Created by Paul on 2015/4/6.
- */
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,13 +23,13 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
     GoogleCloudMessaging gcm;
     String SENDER_ID = "163181979124";
     String regid = null;
-    private int appVersion;
+    //private int appVersion;
     String userKey = null;
 
     public RegisterApp(String registrationID, Context ctx, GoogleCloudMessaging gcm, int appVersion){
         this.ctx = ctx;
         this.gcm = gcm;
-        this.appVersion = appVersion;
+        //this.appVersion = appVersion;
         userKey = registrationID;
     }
 
@@ -109,7 +100,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
             // 需要客户端对象来发送请求
             HttpClient httpClient = new DefaultHttpClient();
             // 发送请求
-            HttpResponse response = httpClient.execute(httpPost);
+            /*HttpResponse response = */httpClient.execute(httpPost);
         } catch (Exception e) {
             e.printStackTrace();
         }

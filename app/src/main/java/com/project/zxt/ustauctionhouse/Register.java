@@ -2,7 +2,6 @@ package com.project.zxt.ustauctionhouse;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,33 +15,23 @@ import android.widget.Toast;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import com.project.zxt.ustauctionhouse.Utility;
 
-/**
- * Created by Xutong on 2015/4/6.
- */
+
 public class Register extends Activity implements View.OnClickListener {
 
     private final String TAG = "Register";
-    private static Button registerBtn;
-    private TextView userName, email, password;
+    //private static Button registerBtn;
+    //private TextView userName, email, password;
     private EditText userNameReg, emailReg, passwordReg;
     TextView loginScreen;
     private Context ctx;
@@ -55,12 +44,12 @@ public class Register extends Activity implements View.OnClickListener {
 
         Log.i(TAG, "Activity: onCreate()");
 
-        registerBtn = (Button) findViewById(R.id.btnRegister);
+        Button registerBtn = (Button) findViewById(R.id.btnRegister);
         registerBtn.setOnClickListener(this);
 
-        userName = (TextView) findViewById(R.id.userName);
+        /*userName = (TextView) findViewById(R.id.userName);
         email = (TextView) findViewById(R.id.email);
-        password = (TextView) findViewById(R.id.password);
+        password = (TextView) findViewById(R.id.password);*/
 
         userNameReg = (EditText) findViewById(R.id.userNameReg);
         emailReg = (EditText) findViewById(R.id.emailReg);
@@ -135,7 +124,7 @@ public class Register extends Activity implements View.OnClickListener {
             NameValuePair pair1 = new BasicNameValuePair("name", userNameReg.getText().toString());
             NameValuePair pair2 = new BasicNameValuePair("email", emailReg.getText().toString());
             NameValuePair pair3 = new BasicNameValuePair("password", passwordReg.getText().toString());
-            List<NameValuePair> pairList = new ArrayList<NameValuePair>();
+            List<NameValuePair> pairList = new ArrayList<>();
             pairList.add(pair1);
             pairList.add(pair2);
             pairList.add(pair3);
