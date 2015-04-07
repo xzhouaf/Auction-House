@@ -69,6 +69,7 @@ public class PersonalInformation extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logoutButton:
+                //These are just for eliminating the warnings
                 Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
                 Log.i(TAG, personalInfo.toString() +  myAuction.toString() + myBid.toString() +  myHistory.toString());
                 new AsyncLogout().execute();

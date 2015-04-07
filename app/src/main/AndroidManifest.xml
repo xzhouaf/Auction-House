@@ -13,10 +13,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <permission
-        android:name="hk.ust.cse.comp4521.unthreaded.permission.C2D_MESSAGE"
+        android:name="com.project.zxt.ustauctionhouse.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
     <uses-permission
-        android:name="hk.ust.cse.comp4521.unthreaded.permission.C2D_MESSAGE"/>
+        android:name="com.project.zxt.ustauctionhouse.permission.C2D_MESSAGE"/>
     <uses-permission
         android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
@@ -49,11 +49,11 @@
 
         <!--  Entry for RegisterActivity.class -->
         <activity android:name=".Register"
-            android:label="Register New Account"></activity>
+            android:label="Register New Account"/>
 
         <!--  Entry for PersonalInformation.class -->
         <activity android:name=".PersonalInformation"
-            android:label="Me"></activity>
+            android:label="Me"/>
     </application>
 
 </manifest>
