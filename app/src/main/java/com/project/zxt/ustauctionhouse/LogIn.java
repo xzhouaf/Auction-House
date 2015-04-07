@@ -115,6 +115,9 @@ public class LogIn extends Activity implements View.OnClickListener {
 
         @Override
         protected JSONObject doInBackground(String... params) {
+            if(!Utility.serverTest()){
+                return null;
+            }
             JSONObject obj = null;
             NameValuePair pair1 = new BasicNameValuePair("email", userNameInput.getText().toString());
             NameValuePair pair2 = new BasicNameValuePair("password", passwordInput.getText().toString());
@@ -140,6 +143,11 @@ public class LogIn extends Activity implements View.OnClickListener {
 
         protected void onPostExecute(JSONObject result){
             super.onPostExecute(result);
+            if(result == null){
+                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
+                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
+                return;
+            }
             try {
                 switch(result.getString("error")){
                     case "true":

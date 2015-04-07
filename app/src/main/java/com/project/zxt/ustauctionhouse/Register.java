@@ -128,6 +128,9 @@ public class Register extends Activity implements View.OnClickListener {
 
         @Override
         protected JSONObject doInBackground(String... params) {
+            if(!Utility.serverTest()){
+                return null;
+            }
             JSONObject obj = null;
             NameValuePair pair1 = new BasicNameValuePair("name", userNameReg.getText().toString());
             NameValuePair pair2 = new BasicNameValuePair("email", emailReg.getText().toString());
@@ -155,6 +158,11 @@ public class Register extends Activity implements View.OnClickListener {
 
         protected void onPostExecute(JSONObject result){
             super.onPostExecute(result);
+            if(result == null){
+                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
+                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
+                return;
+            }
             try {
                 Toast.makeText(ctx, result.getString("message"), Toast.LENGTH_SHORT).show();
                 if(result.getString("error").equals("true")){
