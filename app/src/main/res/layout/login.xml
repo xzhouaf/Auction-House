@@ -25,6 +25,7 @@
                 android:layout_marginTop="5dip"
                 android:layout_marginBottom="20dip"
                 android:singleLine="true"
+                android:inputType="textEmailAddress"
                 android:id="@+id/userNameInput" />
             <!--  Password Label -->
             <TextView android:layout_width="fill_parent"
@@ -37,6 +38,7 @@
                 android:layout_marginTop="5dip"
                 android:singleLine="true"
                 android:password="true"
+                android:imeOptions="actionGo"
                 android:id="@+id/passwordInput" />
             <!-- Login button -->
             <Button android:id="@+id/btnLogin"

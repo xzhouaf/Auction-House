@@ -8,7 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -53,6 +55,17 @@ public class LogIn extends Activity implements View.OnClickListener {
 
         userNameInput = (EditText) findViewById(R.id.userNameInput);
         passwordInput = (EditText) findViewById(R.id.passwordInput);
+        passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    login();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
         registerScreen = (TextView) findViewById(R.id.link_to_register);
         registerScreen.setOnClickListener(this);
@@ -73,14 +86,7 @@ public class LogIn extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin:
-                //login
-                if(!Utility.isOnline(ctx)){
-                    Toast.makeText(ctx,"Please check your network connection!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(validateInput()) {
-                    new AsyncLogin().execute();
-                }
+                login();
                 break;
             case R.id.link_to_register:
                 Intent i = new Intent(getApplicationContext(), Register.class);
@@ -88,6 +94,17 @@ public class LogIn extends Activity implements View.OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void login(){
+        //login
+        if(!Utility.isOnline(ctx)){
+            Toast.makeText(ctx,"Please check your network connection!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(validateInput()) {
+            new AsyncLogin().execute();
         }
     }
 
