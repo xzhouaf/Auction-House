@@ -1,11 +1,14 @@
 package com.project.zxt.ustauctionhouse;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,8 +30,9 @@ public class PersonalInformation extends Activity implements View.OnClickListene
     private static final String TAG = "Personal Information";
     private LinearLayout personalInfo, myAuction, myBid, myHistory;
     private String UserName, Email, ApiKey, CreatedAt;
-    Intent intent;
-    Context ctx;
+    private Intent intent;
+    private Context ctx;
+    private long mExitTime;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +76,44 @@ public class PersonalInformation extends Activity implements View.OnClickListene
                 //These are just for eliminating the warnings
                 Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
                 Log.i(TAG, personalInfo.toString() +  myAuction.toString() + myBid.toString() +  myHistory.toString());
-                new AsyncLogout().execute();
+                onLogoutPressed();
                 break;
             default:
                 break;
         }
+    }
+
+    private void onLogoutPressed(){
+        new AlertDialog.Builder(this).setTitle("Logout")
+                .setIcon(R.drawable.hhh)
+                .setMessage("Are you sure to logout now?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new AsyncLogout().execute();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Do nothing
+                    }
+                }).show();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(this, "Double click to exit UST Auction", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private class AsyncLogout extends AsyncTask<String, Void, JSONObject> {

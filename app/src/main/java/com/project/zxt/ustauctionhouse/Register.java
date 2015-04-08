@@ -33,7 +33,7 @@ public class Register extends Activity implements View.OnClickListener {
     //private static Button registerBtn;
     //private TextView userName, email, password;
     private EditText userNameReg, emailReg, passwordReg;
-    TextView loginScreen;
+    private TextView loginScreen;
     private Context ctx;
 
     @Override

@@ -19,12 +19,12 @@ import java.util.List;
 
 public class RegisterApp extends AsyncTask<Void, Void, String> {
     private static final String TAG = "GCMRelated";
-    Context ctx;
-    GoogleCloudMessaging gcm;
-    String SENDER_ID = "163181979124";
-    String regId = null;
+    private Context ctx;
+    private GoogleCloudMessaging gcm;
+    private String SENDER_ID = "163181979124";
+    private String regId = null;
     private int appVersion;
-    String userKey = null;
+    private String userKey = null;
 
     public RegisterApp(String registrationID, Context ctx, GoogleCloudMessaging gcm, int appVersion){
         this.ctx = ctx;

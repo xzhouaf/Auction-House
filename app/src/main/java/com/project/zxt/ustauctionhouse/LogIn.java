@@ -37,7 +37,7 @@ public class LogIn extends Activity implements View.OnClickListener {
     private static final String TAG = "LogIn";
     //private TextView userName, password;
     private EditText userNameInput, passwordInput;
-    TextView registerScreen;
+    private TextView registerScreen;
     private Context ctx;
 
     @Override
