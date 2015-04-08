@@ -3,8 +3,10 @@ package com.project.zxt.ustauctionhouse;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +58,7 @@ public class LogIn extends Activity implements View.OnClickListener {
         registerScreen.setOnClickListener(this);
 
         ctx = getApplicationContext();
+        userNameInput.setText(getSavedLoginEmail());
 
     }
 
@@ -102,6 +105,18 @@ public class LogIn extends Activity implements View.OnClickListener {
             return false;
         }
         return true;
+    }
+
+    private void saveLoginEmail(String s){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor prefed = prefs.edit();
+        prefed.putString("lastLoginEmail", s);
+        prefed.commit();
+    }
+
+    private String getSavedLoginEmail(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getString("lastLoginEmail", null);
     }
 
     private class AsyncLogin extends AsyncTask<String, Void, JSONObject> {
@@ -155,6 +170,7 @@ public class LogIn extends Activity implements View.OnClickListener {
                         new RegisterApp(fetchedApiKey ,ctx, GoogleCloudMessaging.getInstance(ctx), Utility.getAppVersion(ctx)).execute();
 
                         Toast.makeText(ctx, "Welcome, " + fetchedUserName, Toast.LENGTH_SHORT).show();
+                        saveLoginEmail(userNameInput.getText().toString());
                         Intent i = new Intent(ctx, PersonalInformation.class);
                         i.putExtra("user_name", fetchedUserName);
                         i.putExtra("user_email", fetchedEmail);
