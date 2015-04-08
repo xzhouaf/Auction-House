@@ -111,7 +111,7 @@ public class LogIn extends Activity implements View.OnClickListener {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor prefed = prefs.edit();
         prefed.putString("lastLoginEmail", s);
-        prefed.commit();
+        prefed.apply();
     }
 
     private String getSavedLoginEmail(){
