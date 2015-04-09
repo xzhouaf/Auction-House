@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class UploadPortrait extends AsyncTask<String, Void, Integer> {
+public class UploadPortrait extends AsyncTask<Bitmap, Void, Integer> {
 
     private String TAG = "UploadPortrait";
     private String imageFileName = "";
@@ -46,13 +46,13 @@ public class UploadPortrait extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(String... params) {
-        String imagePath = savePic(getimage(params[0]), currentTime);
+    protected Integer doInBackground(Bitmap... params) {
+        String imagePath = savePic(params[0], currentTime);
         Integer receivedCode = 0;
         try {
             receivedCode = uploadByCommonPost(imagePath);
             if(receivedCode == 201) {
-                createUserPortrait(params[1]);
+                createUserPortrait(PersonalInformation.curr_user_id);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,33 +68,6 @@ public class UploadPortrait extends AsyncTask<String, Void, Integer> {
             //Toast.makeText(getApplicationContext(),"Upload failed. Please try again!", Toast.LENGTH_SHORT).show();
             //imageFileName = "";
         }
-    }
-
-    private Bitmap getimage(String srcPath) {
-        BitmapFactory.Options newOpts = new BitmapFactory.Options();
-        //开始读入图片，此时把options.inJustDecodeBounds 设回true了
-        newOpts.inJustDecodeBounds = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(srcPath,newOpts);//此时返回bm为空
-
-        newOpts.inJustDecodeBounds = false;
-        int w = newOpts.outWidth;
-        int h = newOpts.outHeight;
-        //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
-        float hh = 800f;//这里设置高度为800f
-        float ww = 450f;//这里设置宽度为480f
-        //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
-        int be = 1;//be=1表示不缩放
-        if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放
-            be = (int) (newOpts.outWidth / ww);
-        } else if (w < h && h > hh) {//如果高度高的话根据宽度固定大小缩放
-            be = (int) (newOpts.outHeight / hh);
-        }
-        if (be <= 0)
-            be = 1;
-        newOpts.inSampleSize = be;//设置缩放比例
-        //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
-        bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
-        return bitmap;
     }
 
     private String savePic(Bitmap b, String time) {
@@ -169,9 +142,9 @@ public class UploadPortrait extends AsyncTask<String, Void, Integer> {
         return response;
     }
 
-    private void createUserPortrait(String user_id){
-        NameValuePair pair1 = new BasicNameValuePair("user_id", user_id);
-        Log.i(TAG, user_id);
+    private void createUserPortrait(int user_id){
+        NameValuePair pair1 = new BasicNameValuePair("user_id", user_id+"");
+        Log.i(TAG, user_id+"");
         NameValuePair pair2 = new BasicNameValuePair("file_name", imageFileName);
         List<NameValuePair> pairList = new ArrayList<NameValuePair>();
         pairList.add(pair1);
