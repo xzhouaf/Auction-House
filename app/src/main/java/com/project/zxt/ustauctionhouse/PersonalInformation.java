@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class PersonalInformation extends Activity implements View.OnClickListene
     private Intent intent;
     private Context ctx;
     private long mExitTime;
+    private ImageView portrait;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,9 @@ public class PersonalInformation extends Activity implements View.OnClickListene
 
         myHistory = (LinearLayout) findViewById(R.id.myHistory);
         myHistory.setOnClickListener(this);
+
+        portrait = (ImageView) findViewById(R.id.portrait);
+        portrait.setOnClickListener(this);
 
         Button logoutBut = (Button) findViewById(R.id.logoutButton);
         logoutBut.setOnClickListener(this);
@@ -78,6 +84,9 @@ public class PersonalInformation extends Activity implements View.OnClickListene
                 Log.i(TAG, personalInfo.toString() +  myAuction.toString() + myBid.toString() +  myHistory.toString());
                 onLogoutPressed();
                 break;
+            case R.id.portrait:
+                modifyPortrait(11, "/sdcard/DCIM/Camera/20150218_174237.jpg");
+                break;
             default:
                 break;
         }
@@ -101,6 +110,10 @@ public class PersonalInformation extends Activity implements View.OnClickListene
                         //Do nothing
                     }
                 }).show();
+    }
+
+    private void modifyPortrait(int user_id, String file_path){
+        new UploadPortrait().execute(file_path, user_id+"");
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
