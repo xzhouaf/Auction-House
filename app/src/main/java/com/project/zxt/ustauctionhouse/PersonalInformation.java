@@ -48,8 +48,6 @@ public class PersonalInformation extends Activity implements View.OnClickListene
     private long mExitTime;
     private ImageView portrait;
 
-    public static int curr_user_id;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me);
@@ -81,7 +79,6 @@ public class PersonalInformation extends Activity implements View.OnClickListene
         CreatedAt = intent.getStringExtra("user_createdAt");
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
-        curr_user_id = 10;
         new AsyncDownloadPortrait().execute("1428600138388.bmp");
     }
 

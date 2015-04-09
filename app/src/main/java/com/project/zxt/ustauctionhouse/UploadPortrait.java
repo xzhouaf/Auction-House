@@ -52,7 +52,7 @@ public class UploadPortrait extends AsyncTask<Bitmap, Void, Integer> {
         try {
             receivedCode = uploadByCommonPost(imagePath);
             if(receivedCode == 201) {
-                createUserPortrait(PersonalInformation.curr_user_id);
+                createUserPortrait("cd8c812b03327d3557e2b531d7bd1fd4");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -142,17 +142,15 @@ public class UploadPortrait extends AsyncTask<Bitmap, Void, Integer> {
         return response;
     }
 
-    private void createUserPortrait(int user_id){
-        NameValuePair pair1 = new BasicNameValuePair("user_id", user_id+"");
-        Log.i(TAG, user_id+"");
+    private void createUserPortrait(String api_key){
         NameValuePair pair2 = new BasicNameValuePair("file_name", imageFileName);
         List<NameValuePair> pairList = new ArrayList<NameValuePair>();
-        pairList.add(pair1);
         pairList.add(pair2);
         try {
             HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
             // URL使用基本URL即可，其中不需要加参数
             HttpPost httpPost = new HttpPost(Utility.serverUrl + "/userPortrait");
+            httpPost.addHeader("Authorization", api_key);
             // 将请求体内容加入请求中
             httpPost.setEntity(requestHttpEntity);
             // 需要客户端对象来发送请求
