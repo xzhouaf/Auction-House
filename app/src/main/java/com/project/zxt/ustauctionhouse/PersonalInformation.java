@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -65,13 +66,15 @@ public class PersonalInformation extends Activity implements View.OnClickListene
         myHistory = (LinearLayout) findViewById(R.id.myHistory);
         myHistory.setOnClickListener(this);
 
-        portrait = (ImageView) findViewById(R.id.portrait);
-        portrait.setOnClickListener(this);
-
         Button logoutBut = (Button) findViewById(R.id.logoutButton);
         logoutBut.setOnClickListener(this);
 
-        intent = this.getIntent();
+        Button updateBut = (Button) findViewById(R.id.update);
+        updateBut.setOnClickListener(this);
+
+        portrait = (ImageView) findViewById(R.id.portrait);
+
+                intent = this.getIntent();
         ctx = getApplicationContext();
         UserName = intent.getStringExtra("user_name");
         Email = intent.getStringExtra("user_email");
@@ -79,7 +82,8 @@ public class PersonalInformation extends Activity implements View.OnClickListene
         CreatedAt = intent.getStringExtra("user_createdAt");
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
-        new AsyncDownloadPortrait().execute("1428600138388.bmp");
+        updatePortrait();
+        //intent.putExtra("portraitFile", "1428605715447.bmp");
     }
 
     @Override
@@ -96,8 +100,14 @@ public class PersonalInformation extends Activity implements View.OnClickListene
                 Log.i(TAG, personalInfo.toString() +  myAuction.toString() + myBid.toString() +  myHistory.toString());
                 onLogoutPressed();
                 break;
-            case R.id.portrait:
-                modifyPortrait();
+            case R.id.personal_info:
+                Intent i = new Intent(ctx, ModifyPersonalInfo.class);
+                i.putExtra("api_key", ApiKey);
+                //i.putExtra("parent", intent);
+                startActivity(i);
+                break;
+            case R.id.update:
+                updatePortrait();
                 break;
             default:
                 break;
@@ -122,79 +132,6 @@ public class PersonalInformation extends Activity implements View.OnClickListene
                         //Do nothing
                     }
                 }).show();
-    }
-
-    private void modifyPortrait(){
-        final CharSequence[] items = { "Camera", "Gallery" };
-        new AlertDialog.Builder(this).setTitle("Select Source")
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 1) {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                                intent.setAction(Intent.ACTION_PICK);
-                                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            } else {
-                                intent.setAction(Intent.ACTION_GET_CONTENT);
-                            }
-                            startActivityForResult(intent, 1);
-                        } else {
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, 1);
-                        }
-                    }
-                }).create().show();
-        //new UploadPortrait().execute("/sdcard/DCIM/Camera/20150218_174237.jpg", 10 + "");
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 1:
-                Uri uri = data.getData();
-                Log.i("uri", uri.toString());
-                startPhotoZoom(uri);
-                break;
-            case 2:
-                if(data != null){
-                    uploadPortraitToServer(data);
-                }
-                break;
-            default:
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void startPhotoZoom(Uri uri) {
-        /*
-         * 至于下面这个Intent的ACTION是怎么知道的，大家可以看下自己路径下的如下网页
-         * yourself_sdk_path/docs/reference/android/content/Intent.html
-         * 直接在里面Ctrl+F搜：CROP ，之前小马没仔细看过，其实安卓系统早已经有自带图片裁剪功能,
-         * 是直接调本地库的，小马不懂C C++  这个不做详细了解去了，有轮子就用轮子，不再研究轮子是怎么
-         * 制做的了...吼吼
-         */
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, 2);
-    }
-
-    private void uploadPortraitToServer(Intent picdata){
-        Bundle extras = picdata.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            portrait.setImageBitmap(photo);
-            new UploadPortrait().execute(photo);
-        }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -255,13 +192,38 @@ public class PersonalInformation extends Activity implements View.OnClickListene
         }
     }
 
+    public void updatePortrait(){
+        new AsyncDownloadPortrait().execute();
+    }
+
     private class AsyncDownloadPortrait extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
+
+            String url1 = Utility.serverUrl + "/getPortrait";
+            HttpGet httpGet = new HttpGet(url1);
+            HttpClient httpClient = new DefaultHttpClient();
+            httpGet.addHeader("Authorization",ApiKey);
+            JSONObject obj = null;
+            String fileName = "";
+            try{
+                HttpResponse response = httpClient.execute(httpGet);
+                StatusLine a = response.getStatusLine();
+                Log.i("IMPORTANT", "GET request: Status code = " + a.getStatusCode());
+                obj = Utility.response2obj(response);
+                if(obj.getBoolean("error") == true){
+                    return null;
+                }else{
+                    fileName = obj.getString("file_name");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
             Bitmap bitmap = null;
             try{
-                URL url = new URL(Utility.serverUrl + "/portrait/" + params[0]);
+                URL url = new URL(Utility.serverUrl + "/portrait/" + fileName);
                 HttpURLConnection conn  = (HttpURLConnection)url.openConnection();
                 conn.setDoInput(true);
                 conn.connect();
@@ -277,7 +239,11 @@ public class PersonalInformation extends Activity implements View.OnClickListene
 
         protected void onPostExecute(Bitmap result){
             super.onPostExecute(result);
-            portrait.setImageBitmap(result);
+            if(result != null) {
+                portrait.setImageBitmap(result);
+            }else{
+                portrait.setImageDrawable(getResources().getDrawable(R.drawable.hhh));
+            }
         }
     }
 
