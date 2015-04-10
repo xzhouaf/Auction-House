@@ -7,10 +7,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,15 +33,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class LogIn extends Activity implements View.OnClickListener {
 
     private static final String TAG = "LogIn";
     //private TextView userName, password;
-    private EditText userNameInput, passwordInput;
+    private EditText  passwordInput;
     private TextView registerScreen;
     private Context ctx;
+    AutoCompleteTextView userNameInput;
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +57,7 @@ public class LogIn extends Activity implements View.OnClickListener {
         Button loginBtn = (Button) findViewById(R.id.btnLogin);
         loginBtn.setOnClickListener(this);
 
-        //userName = (TextView) findViewById(R.id.userName);
-        //password = (TextView) findViewById(R.id.password);
-
-        userNameInput = (EditText) findViewById(R.id.userNameInput);
+        //userNameInput = (EditText) findViewById(R.id.userNameInput);
         passwordInput = (EditText) findViewById(R.id.passwordInput);
         passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -70,9 +74,13 @@ public class LogIn extends Activity implements View.OnClickListener {
         registerScreen = (TextView) findViewById(R.id.link_to_register);
         registerScreen.setOnClickListener(this);
 
-        ctx = getApplicationContext();
-        userNameInput.setText(getSavedLoginEmail());
+        ctx = this.getApplicationContext();
+        String[] countries = getSavedLoginEmail();
+        userNameInput = (AutoCompleteTextView)findViewById(R.id.userNameInput);//找到相应的控件
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.login_list_item, countries);//配置Adaptor
+        userNameInput.setAdapter(adapter);
 
+        checkLoggedIn();
     }
 
     @Override
@@ -127,13 +135,44 @@ public class LogIn extends Activity implements View.OnClickListener {
     private void saveLoginEmail(String s){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor prefed = prefs.edit();
-        prefed.putString("lastLoginEmail", s);
+        prefed.putString("loginHistoryEmail", s);
         prefed.apply();
     }
 
-    private String getSavedLoginEmail(){
+    private String[] getSavedLoginEmail(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return prefs.getString("lastLoginEmail", null);
+        String a = prefs.getString("loginHistoryEmail", null);
+        if(a != null){
+            String result[] = new String[1];
+            result[0] = a;
+            return result;
+        }
+        String result[] = new String[1];
+        result[0] = " ";
+        return result;
+    }
+
+    private void saveLoggedInUser(String a, String b, String c, String d){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor prefed = prefs.edit();
+        prefed.putString("loggedInA", a);
+        prefed.putString("loggedInB", b);
+        prefed.putString("loggedInC", c);
+        prefed.putString("loggedInD", d);
+        prefed.apply();
+    }
+
+    private void checkLoggedIn(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String a = prefs.getString("loggedInA", null);
+        String b = prefs.getString("loggedInB", null);
+        String c = prefs.getString("loggedInC", null);
+        String d = prefs.getString("loggedInD", null);
+        if(a == null){
+            return;
+        }else{
+            jumpToMe(a,b,c,d);
+        }
     }
 
     private class AsyncLogin extends AsyncTask<String, Void, JSONObject> {
@@ -169,8 +208,8 @@ public class LogIn extends Activity implements View.OnClickListener {
         protected void onPostExecute(JSONObject result){
             super.onPostExecute(result);
             if(result == null){
-                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
-                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, "Cannot connect to server now. " +
+                        "Make sure the server is turned on!", Toast.LENGTH_LONG).show();
                 return;
             }
             try {
@@ -186,20 +225,25 @@ public class LogIn extends Activity implements View.OnClickListener {
                         String fetchedCreatedAt = result.getString("createdAt");
                         new RegisterApp(fetchedApiKey ,ctx, GoogleCloudMessaging.getInstance(ctx), Utility.getAppVersion(ctx)).execute();
 
-                        Toast.makeText(ctx, "Welcome, " + fetchedUserName, Toast.LENGTH_SHORT).show();
                         saveLoginEmail(userNameInput.getText().toString());
-                        Intent i = new Intent(ctx, PersonalInformation.class);
-                        i.putExtra("user_name", fetchedUserName);
-                        i.putExtra("user_email", fetchedEmail);
-                        i.putExtra("user_apiKey", fetchedApiKey);
-                        i.putExtra("user_createdAt", fetchedCreatedAt);
-                        startActivity(i);
-                        finish();
+                        saveLoggedInUser(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt);
+                        jumpToMe(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void jumpToMe(String a, String b, String c, String d){
+        Intent i = new Intent(ctx, PersonalInformation.class);
+        i.putExtra("user_name", a);
+        i.putExtra("user_email", b);
+        i.putExtra("user_apiKey", c);
+        i.putExtra("user_createdAt", d);
+        startActivity(i);
+        Toast.makeText(ctx, "Welcome, " + a, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
 

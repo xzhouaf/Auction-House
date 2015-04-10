@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -182,6 +184,13 @@ public class PersonalInformation extends Activity implements View.OnClickListene
             try {
                 Toast.makeText(ctx, result.getString("message"), Toast.LENGTH_SHORT).show();
                 if(result.getString("error").equals("false")){
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+                    SharedPreferences.Editor prefed = prefs.edit();
+                    prefed.putString("loggedInA", null);
+                    prefed.putString("loggedInB", null);
+                    prefed.putString("loggedInC", null);
+                    prefed.putString("loggedInD", null);
+                    prefed.apply();
                     Intent i = new Intent(ctx, LogIn.class);
                     startActivity(i);
                     finish();

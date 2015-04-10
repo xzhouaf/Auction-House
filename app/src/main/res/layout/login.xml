@@ -2,10 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-
-
-
-
         <!-- Login Form -->
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,13 +16,16 @@
                 android:textColor="#372c24"
                 android:text="Email"
                 android:id="@+id/userName" />
-            <EditText android:layout_width="fill_parent"
+
+            <AutoCompleteTextView
+                android:completionThreshold="1"
+                android:id="@+id/userNameInput"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
                 android:layout_marginBottom="20dip"
                 android:singleLine="true"
-                android:inputType="textEmailAddress"
-                android:id="@+id/userNameInput" />
+                android:inputType="textEmailAddress"/>
             <!--  Password Label -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
