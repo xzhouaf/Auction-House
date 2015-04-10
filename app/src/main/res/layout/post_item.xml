@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/itemInfo">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/itemPrice"
+        android:layout_below="@+id/picName"
+        android:layout_alignLeft="@+id/itemImage"
+        android:layout_alignStart="@+id/itemImage"
+        android:background="#fffbdaff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Initial Price :"
+            android:id="@+id/IpriceTag"
+            android:layout_below="@+id/itemName"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="10dp"
+            android:layout_marginLeft="5dp" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/iniPrice"
+            android:layout_weight="0.10"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direct Buy: "
+            android:id="@+id/dPriceTag"
+            android:textSize="10dp" />
+
+        <EditText
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText3"
+            android:layout_alignTop="@+id/itemPrice"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginRight="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemPrice"
+        android:layout_alignLeft="@+id/itemPrice"
+        android:layout_alignStart="@+id/itemPrice"
+        android:layout_marginTop="5dp"
+        android:id="@+id/timeInfo"
+        android:background="#ffffd9c2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time limit:     "
+            android:id="@+id/timeLimitTag"
+            android:textSize="10dp"
+            android:layout_marginLeft="5dp" />
+
+        <EditText
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hours"
+            android:id="@+id/hrsTaag"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="100dp"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/picName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:background="#fffffcf5">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Item Name:"
+            android:id="@+id/iNameTag"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/conditionInfo"
+            android:background="#fffff29e"
+            android:layout_below="@+id/itemNameInput"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="180dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="condition:        "
+                android:id="@+id/conditionTag"
+                android:layout_marginLeft="20dp" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/conditionSel"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemNameInput"
+            android:layout_alignLeft="@+id/iNameTag"
+            android:layout_alignStart="@+id/iNameTag"
+            android:layout_alignRight="@+id/conditionInfo"
+            android:layout_alignEnd="@+id/conditionInfo"
+            android:textSize="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:editable="true"
+            android:layout_below="@+id/iNameTag"
+            android:layout_marginTop="5dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/categoryInfo"
+            android:background="#ffd8ffb1"
+            android:layout_below="@+id/conditionInfo"
+            android:layout_alignLeft="@+id/conditionInfo"
+            android:layout_alignStart="@+id/conditionInfo">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="category:      "
+                android:id="@+id/categoryTag"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/categorySel"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/timeInfo"
+        android:id="@+id/descriptionField">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:id="@+id/descriptionTag"
+            android:textSize="10dp"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/descriptionInPut"
+            android:layout_margin="5dp" />
+    </LinearLayout>
+
+
+</RelativeLayout>
