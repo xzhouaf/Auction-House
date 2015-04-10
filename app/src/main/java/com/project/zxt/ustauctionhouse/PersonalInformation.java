@@ -103,16 +103,27 @@ public class PersonalInformation extends Activity implements View.OnClickListene
                 onLogoutPressed();
                 break;
             case R.id.personal_info:
-                Intent i = new Intent(ctx, ModifyPersonalInfo.class);
+                Intent i = new Intent(getBaseContext(), ModifyPersonalInfo.class);
                 i.putExtra("api_key", ApiKey);
-                //i.putExtra("parent", intent);
-                startActivity(i);
+                startActivityForResult(i, 1);
                 break;
             case R.id.update:
                 updatePortrait();
                 break;
             default:
                 break;
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1){
+            if(resultCode==RESULT_CANCELED)
+                setTitle("cancle");
+            else if (resultCode==RESULT_OK) {
+                updatePortrait();
+            }
         }
     }
 

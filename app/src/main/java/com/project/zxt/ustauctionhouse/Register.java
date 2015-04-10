@@ -2,6 +2,7 @@ package com.project.zxt.ustauctionhouse;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -158,6 +159,10 @@ public class Register extends Activity implements View.OnClickListener {
                     emailReg.setText("");
                     passwordReg.setText("");
                 }else{
+                    Intent intent = new Intent();
+                    intent.putExtra("email", emailReg.getText().toString());
+                    intent.putExtra("pass", passwordReg.getText().toString());
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
             } catch (JSONException e) {

@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -46,6 +48,7 @@ public class LogIn extends Activity implements View.OnClickListener {
     private TextView registerScreen;
     private Context ctx;
     AutoCompleteTextView userNameInput;
+    private InputMethodManager imm;
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +59,8 @@ public class LogIn extends Activity implements View.OnClickListener {
         Utility.initializeDirectory();
         Button loginBtn = (Button) findViewById(R.id.btnLogin);
         loginBtn.setOnClickListener(this);
+        imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        //userNameInput = (EditText) findViewById(R.id.userNameInput);
         passwordInput = (EditText) findViewById(R.id.passwordInput);
         passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -79,7 +82,6 @@ public class LogIn extends Activity implements View.OnClickListener {
         userNameInput = (AutoCompleteTextView)findViewById(R.id.userNameInput);//找到相应的控件
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.login_list_item, countries);//配置Adaptor
         userNameInput.setAdapter(adapter);
-
         checkLoggedIn();
     }
 
@@ -97,21 +99,33 @@ public class LogIn extends Activity implements View.OnClickListener {
                 login();
                 break;
             case R.id.link_to_register:
-                Intent i = new Intent(getApplicationContext(), Register.class);
-                startActivity(i);
+                Intent i = new Intent(getBaseContext(), Register.class);
+                startActivityForResult(i, 2);
                 break;
             default:
                 break;
         }
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==2){
+            if (resultCode==RESULT_OK) {
+                userNameInput.setText(data.getStringExtra("email"));
+                passwordInput.setText(data.getStringExtra("pass"));
+            }
+        }
+    }
+
     private void login(){
         //login
         if(!Utility.isOnline(ctx)){
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             Toast.makeText(ctx,"Please check your network connection!", Toast.LENGTH_SHORT).show();
             return;
         }
         if(validateInput()) {
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             new AsyncLogin().execute();
         }
     }

@@ -194,6 +194,9 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
             super.onPostExecute(result);
             if(result == 201){
                 Toast.makeText(ctx, "Portrait updated successfully!", Toast.LENGTH_SHORT).show();
+                Intent intent = getIntent();
+                //intent.putExtra("fileName", imageFileName);
+                setResult(RESULT_OK, intent);
                 //parent.putExtra("portraitFile", imageFileName);
             }else{
                 Toast.makeText(ctx,"Update failed. Please try again!", Toast.LENGTH_SHORT).show();
