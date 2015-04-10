@@ -116,7 +116,6 @@ public class PersonalInformation extends Activity implements View.OnClickListene
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==1){
             if(resultCode==RESULT_CANCELED)
