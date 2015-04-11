@@ -32,7 +32,7 @@ public class bottomMenuLayout extends LinearLayout {
 
     private View bottomMenuLayout;
 
-    public static final int bottom_layoutHeight = 70;
+    public static final int bottom_layoutHeight = 65;
 
     public bottomMenuLayout(Context context)
     {

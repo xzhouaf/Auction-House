@@ -1,8 +1,5 @@
 package com.project.zxt.ustauctionhouse;
 
-import android.graphics.Point;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -19,15 +16,9 @@ public class getScreenSize {
         public getScreenSize(WindowManager windowManager)
         {
             instance = this;
-
-            DisplayMetrics dm = new DisplayMetrics();
             Display display = windowManager.getDefaultDisplay();
-            display.getMetrics(dm);
-
-            this.screenHeight = dm.heightPixels; //屏幕高度
-            this.screenWidth = dm.widthPixels;  //屏幕宽度
-            Log.i("SB", this.screenHeight+"");
-            Log.i("SB", this.screenWidth+"");
+            this.screenHeight = display.getHeight(); //屏幕高度
+            this.screenWidth = display.getWidth();  //屏幕宽度
         }
         public static getScreenSize getInstance()
         {

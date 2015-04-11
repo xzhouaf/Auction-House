@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.project.zxt.ustauctionhouse.bottomMenu.bottomButton;
 import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuLayout;
+import com.project.zxt.ustauctionhouse.getScreenSize;
 
 import java.util.List;
 
@@ -79,6 +80,8 @@ public abstract class bottomMenuActivity extends Activity{
      * 创建底部菜单，需要子类实现，在此方法中，
      * 创建多个BottomButton对象并放置到List中返回即可。
      * 如果需要哪一个按钮当前被选中，则设置BottomButton的isCurrent属性为ture.
+     * @param bottomButtons
+     * @param bottomMenuLayout
      * @return
      */
     public abstract List<bottomButton> getButtonList();
