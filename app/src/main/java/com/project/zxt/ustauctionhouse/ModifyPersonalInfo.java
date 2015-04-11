@@ -116,9 +116,11 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case 1:
-                Uri uri = data.getData();
-                Log.i("uri", uri.toString());
-                startPhotoZoom(uri);
+                if(data != null) {
+                    Uri uri = data.getData();
+                    Log.i("uri", uri.toString());
+                    startPhotoZoom(uri);
+                }
                 break;
             case 2:
                 if(data != null){

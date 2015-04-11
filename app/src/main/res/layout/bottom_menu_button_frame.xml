@@ -1,11 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="64px"
-    android:layout_height="wrap_content" android:id="@+id/bottom_menu_template_button_id"
+
+    android:orientation="vertical"
+    android:layout_width="64px"
+
+    android:layout_height="wrap_content"
+    android:id="@+id/bottom_menu_template_button_id"
+
     android:background="@drawable/tab_one_normal">
-    <ImageView android:id="@+id/bottom_menu_template_img_id"   android:paddingTop="5px" android:layout_gravity="center"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/image" />
-    <TextView android:layout_width="wrap_content" android:id="@+id/bottom_menu_template_text_id"
-        android:layout_height="wrap_content" android:layout_gravity="center"
-        android:gravity="center" android:textSize="11sp" android:paddingBottom="5px"  />
-</LinearLayout> 
+
+    <ImageView
+        android:id="@+id/bottom_menu_template_img_id"
+        android:paddingTop="5px"
+        android:layout_gravity="center"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/bottom_menu_template_text_id"
+
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+        android:textSize="11sp"
+        android:paddingBottom="5px"
+        android:textColor="#ffecffef" />
+
+</LinearLayout>

@@ -54,7 +54,16 @@
             android:label="Me"/>
 
         <activity android:name=".ModifyPersonalInfo"
-            android:label="Modify"/>
+        android:label="Modify"/>
+
+        <activity android:name=".Search"
+            android:label="Search"/>
+
+        <activity android:name=".NewItem"
+            android:label="Search"/>
+
+        <activity android:name=".PostItem"
+            android:label="Search"/>
     </application>
 
 </manifest>

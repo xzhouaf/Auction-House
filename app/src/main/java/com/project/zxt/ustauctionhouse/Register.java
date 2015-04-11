@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,12 +85,13 @@ public class Register extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.link_to_login:
+                Intent intent = new Intent(ctx, LogIn.class);
+                startActivity(intent);
+                //overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);
                 finish();
                 break;
             default:
                 break;
-
-
         }
     }
 
@@ -159,15 +161,32 @@ public class Register extends Activity implements View.OnClickListener {
                     emailReg.setText("");
                     passwordReg.setText("");
                 }else{
-                    Intent intent = new Intent();
-                    intent.putExtra("email", emailReg.getText().toString());
-                    intent.putExtra("pass", passwordReg.getText().toString());
-                    setResult(RESULT_OK, intent);
+                    Intent intent = new Intent(ctx, LogIn.class);
+                    intent.putExtra("emailForCompleteLogin", emailReg.getText().toString());
+                    intent.putExtra("passForCompleteLogin", passwordReg.getText().toString());
+                    startActivity(intent);
+                    //overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);
                     finish();
+                    //setResult(RESULT_OK, intent);
+                    //overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private long mExitTime;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(this, "Double click to exit UST Auction", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
