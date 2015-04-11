@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.project.zxt.ustauctionhouse.bottomMenu.bottomButton;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
@@ -36,13 +38,18 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Xutong on 2015/4/6.
  * To be finished by Xutong
  */
 
-public class PersonalInformation extends Activity implements View.OnClickListener{
+public class PersonalInformation extends bottomMenuActivity implements View.OnClickListener{
     private static final String TAG = "Personal Information";
     private LinearLayout personalInfo, myAuction, myBid, myHistory;
     private String UserName, Email, ApiKey, CreatedAt;
@@ -51,10 +58,10 @@ public class PersonalInformation extends Activity implements View.OnClickListene
     private long mExitTime;
     private ImageView portrait;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.me);
-        Log.i(TAG, "Activity: onCreate()");
+    final protected void onCreatOverride(Bundle savedInstanceState) {
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.me);
+        Log.i(TAG, "Subclass Activity: onCreate()");
 
         personalInfo = (LinearLayout) findViewById(R.id.personal_info);
         personalInfo.setOnClickListener(this);
@@ -215,6 +222,27 @@ public class PersonalInformation extends Activity implements View.OnClickListene
         new AsyncDownloadPortrait().execute();
     }
 
+    public List<bottomButton> getButtonList() {
+        Map<String,String> buttonMaps =  new HashMap<String,String>();
+        buttonMaps.put("Menu1", String.valueOf(R.drawable.home));
+        buttonMaps.put("Menu2", String.valueOf(R.drawable.home));
+        buttonMaps.put("Menu3", String.valueOf(R.drawable.home));
+        //buttonMaps.put("Menu4", String.valueOf(R.drawable.home));
+
+        List<bottomButton> buttons = new ArrayList<bottomButton>();
+        Iterator<String> itKey = buttonMaps.keySet().iterator();
+        while(itKey.hasNext())
+        {
+            String key = itKey.next();
+            String valueRes = buttonMaps.get(key);
+            bottomButton oneBottomButton = new bottomButton();
+            oneBottomButton.setText(key);
+            oneBottomButton.setBackgroundResource(Integer.parseInt(valueRes));
+            buttons.add(oneBottomButton);
+        }
+        return buttons;
+    }
+
     private class AsyncDownloadPortrait extends AsyncTask<String, Void, Bitmap> {
 
         @Override
@@ -265,5 +293,7 @@ public class PersonalInformation extends Activity implements View.OnClickListene
             }
         }
     }
+
+    public int getContentViewLayoutResId() { return R.layout.me; }
 
 }
