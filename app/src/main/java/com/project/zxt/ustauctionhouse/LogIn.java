@@ -49,6 +49,7 @@ public class LogIn extends Activity implements View.OnClickListener {
     private Context ctx;
     AutoCompleteTextView userNameInput;
     private InputMethodManager imm;
+    private Intent intent;
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,17 @@ public class LogIn extends Activity implements View.OnClickListener {
         userNameInput = (AutoCompleteTextView)findViewById(R.id.userNameInput);//找到相应的控件
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.login_list_item, countries);//配置Adaptor
         userNameInput.setAdapter(adapter);
+
+        intent = getIntent();
+        if(intent.getStringExtra("emailForCompleteLogin") != null){
+            userNameInput.setText(intent.getStringExtra("emailForCompleteLogin"));
+            passwordInput.setText(intent.getStringExtra("passForCompleteLogin"));
+            intent.putExtra("emailForCompleteLogin", "");
+            intent.putExtra("passForCompleteLogin", "");
+        }
+
         checkLoggedIn();
+
     }
 
     @Override
@@ -99,21 +110,13 @@ public class LogIn extends Activity implements View.OnClickListener {
                 login();
                 break;
             case R.id.link_to_register:
-                Intent i = new Intent(getBaseContext(), Register.class);
-                startActivityForResult(i, 2);
+                Intent i = new Intent(ctx, Register.class);
+                startActivity(i);
+                //overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);
+                finish();
                 break;
             default:
                 break;
-        }
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==2){
-            if (resultCode==RESULT_OK) {
-                userNameInput.setText(data.getStringExtra("email"));
-                passwordInput.setText(data.getStringExtra("pass"));
-            }
         }
     }
 
@@ -185,7 +188,7 @@ public class LogIn extends Activity implements View.OnClickListener {
         if(a == null){
             return;
         }else{
-            jumpToMe(a,b,c,d);
+            jumpToMainActivity(a,b,c,d);
         }
     }
 
@@ -241,7 +244,7 @@ public class LogIn extends Activity implements View.OnClickListener {
 
                         saveLoginEmail(userNameInput.getText().toString());
                         saveLoggedInUser(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt);
-                        jumpToMe(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt);
+                        jumpToMainActivity(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -249,15 +252,30 @@ public class LogIn extends Activity implements View.OnClickListener {
         }
     }
 
-    private void jumpToMe(String a, String b, String c, String d){
-        Intent i = new Intent(ctx, PersonalInformation.class);
+    private void jumpToMainActivity(String a, String b, String c, String d){
+        Intent i = new Intent(ctx, NewItem.class);
         i.putExtra("user_name", a);
         i.putExtra("user_email", b);
         i.putExtra("user_apiKey", c);
         i.putExtra("user_createdAt", d);
+        i.putExtra("current_tab", "New Item");
         startActivity(i);
         Toast.makeText(ctx, "Welcome, " + a, Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    private long mExitTime;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(this, "Double click to exit UST Auction", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 

@@ -23,8 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.project.zxt.ustauctionhouse.bottomMenu.bottomButton;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
@@ -55,12 +53,14 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
     private String UserName, Email, ApiKey, CreatedAt;
     private Intent intent;
     private Context ctx;
-    private long mExitTime;
     private ImageView portrait;
+
+    public int getContentViewLayoutResId() { return R.layout.me; }
 
     final protected void onCreatOverride(Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.me);
+
         Log.i(TAG, "Subclass Activity: onCreate()");
 
         personalInfo = (LinearLayout) findViewById(R.id.personal_info);
@@ -92,7 +92,7 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
         updatePortrait();
-        //intent.putExtra("portraitFile", "1428605715447.bmp");
+
     }
 
     @Override
@@ -153,6 +153,7 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
                 }).show();
     }
 
+    private long mExitTime;
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
@@ -222,27 +223,6 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
         new AsyncDownloadPortrait().execute();
     }
 
-    public List<bottomButton> getButtonList() {
-        Map<String,String> buttonMaps =  new HashMap<String,String>();
-        buttonMaps.put("Menu1", String.valueOf(R.drawable.home));
-        buttonMaps.put("Menu2", String.valueOf(R.drawable.home));
-        buttonMaps.put("Menu3", String.valueOf(R.drawable.home));
-        //buttonMaps.put("Menu4", String.valueOf(R.drawable.home));
-
-        List<bottomButton> buttons = new ArrayList<bottomButton>();
-        Iterator<String> itKey = buttonMaps.keySet().iterator();
-        while(itKey.hasNext())
-        {
-            String key = itKey.next();
-            String valueRes = buttonMaps.get(key);
-            bottomButton oneBottomButton = new bottomButton();
-            oneBottomButton.setText(key);
-            oneBottomButton.setBackgroundResource(Integer.parseInt(valueRes));
-            buttons.add(oneBottomButton);
-        }
-        return buttons;
-    }
-
     private class AsyncDownloadPortrait extends AsyncTask<String, Void, Bitmap> {
 
         @Override
@@ -294,6 +274,6 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
         }
     }
 
-    public int getContentViewLayoutResId() { return R.layout.me; }
+
 
 }

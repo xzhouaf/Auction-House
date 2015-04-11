@@ -14,7 +14,7 @@
         android:layout_gravity="center"
 
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/home" />
 
     <TextView
@@ -26,6 +26,7 @@
 
         android:gravity="center"
         android:textSize="11sp"
-        android:paddingBottom="5px"  />
+        android:paddingBottom="5px"
+        android:textColor="#ffecffef" />
 
 </LinearLayout>
