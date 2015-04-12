@@ -10,8 +10,8 @@
         android:layout_marginTop="5dp"
         android:id="@+id/itemPrice"
         android:layout_below="@+id/picName"
-        android:layout_alignLeft="@+id/itemImage"
-        android:layout_alignStart="@+id/itemImage"
+        android:layout_alignLeft="@+id/ViewItemImage"
+        android:layout_alignStart="@+id/ViewItemImage"
         android:background="#fffbdaff">
 
         <TextView
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="Initial Price :"
             android:id="@+id/IpriceTag"
-            android:layout_below="@+id/itemName"
+            android:layout_below="@+id/ViewItemName"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textSize="10dp"
@@ -79,13 +79,14 @@
             android:id="@+id/editText"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:text="timeLimitedInput" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hours"
-            android:id="@+id/hrsTaag"
+            android:id="@+id/hrsTag"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="100dp"
             android:textSize="10dp" />
@@ -104,7 +105,7 @@
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:id="@+id/imageView"
+            android:id="@+id/PostitemImage"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -116,11 +117,26 @@
             android:text="Your Item Name:"
             android:id="@+id/iNameTag"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageView"
-            android:layout_toEndOf="@+id/imageView"
+            android:layout_toRightOf="@+id/PostitemImage"
+            android:layout_toEndOf="@+id/PostitemImage"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemNameInput"
+            android:layout_alignLeft="@+id/iNameTag"
+            android:layout_alignStart="@+id/iNameTag"
+            android:layout_alignRight="@+id/conditionInfo"
+            android:layout_alignEnd="@+id/conditionInfo"
+            android:textSize="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:editable="true"
+            android:layout_below="@+id/iNameTag"
+            android:layout_marginTop="5dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -145,25 +161,10 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/conditionSel"
+                android:id="@+id/PostItemConditionSel"
                 android:layout_weight="1" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/itemNameInput"
-            android:layout_alignLeft="@+id/iNameTag"
-            android:layout_alignStart="@+id/iNameTag"
-            android:layout_alignRight="@+id/conditionInfo"
-            android:layout_alignEnd="@+id/conditionInfo"
-            android:textSize="15dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:editable="true"
-            android:layout_below="@+id/iNameTag"
-            android:layout_marginTop="5dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -187,7 +188,7 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/categorySel"
+                android:id="@+id/PostItemCategorySel"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -214,7 +215,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/descriptionInPut"
+            android:id="@+id/descriptionInput"
             android:layout_margin="5dp" />
     </LinearLayout>
 

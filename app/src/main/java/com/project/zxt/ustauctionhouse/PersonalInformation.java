@@ -1,20 +1,15 @@
 package com.project.zxt.ustauctionhouse;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -36,11 +31,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Xutong on 2015/4/6.
@@ -81,7 +71,7 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
         Button updateBut = (Button) findViewById(R.id.update);
         updateBut.setOnClickListener(this);
 
-        portrait = (ImageView) findViewById(R.id.portrait);
+        portrait = (ImageView) findViewById(R.id.me_portrait);
 
                 intent = this.getIntent();
         ctx = getApplicationContext();

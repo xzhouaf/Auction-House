@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/itemName"
+        android:id="@+id/ViewItemName"
         android:layout_marginTop="10dp"
         android:textSize="21dp"
         android:layout_marginLeft="5dp"
@@ -16,8 +16,8 @@
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:id="@+id/itemImage"
-        android:layout_below="@+id/itemName"
+        android:id="@+id/ViewItemImage"
+        android:layout_below="@+id/ViewItemName"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp" />
 
@@ -25,19 +25,17 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/itemImage"
-        android:layout_toRightOf="@+id/itemImage"
-        android:layout_toEndOf="@+id/itemImage"
-        android:layout_marginTop="55dp"
-        android:layout_marginRight="5dp"
-        android:id="@+id/itemPrice">
+        android:id="@+id/itemPrice"
+        android:layout_alignTop="@+id/ViewItemImage"
+        android:layout_toRightOf="@+id/ViewItemImage"
+        android:layout_toEndOf="@+id/ViewItemImage">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="current bid:        "
             android:id="@+id/priceTag"
-            android:layout_below="@+id/itemName"
+            android:layout_below="@+id/ViewItemName"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -45,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/price" />
+            android:id="@+id/ViewPrice" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/timeLeft" />
+            android:id="@+id/ViewTimeLeft" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,7 +76,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/itemPrice"
-        android:layout_below="@+id/itemImage"
+        android:layout_below="@+id/ViewItemImage"
         android:id="@+id/categoryInfo"
         android:layout_marginTop="20dp"
         android:background="#ffd8ffb1">
@@ -96,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView" />
+            android:id="@+id/ViewCategory" />
     </LinearLayout>
 
     <LinearLayout
@@ -106,7 +104,7 @@
         android:layout_toRightOf="@+id/categoryInfo"
         android:layout_below="@+id/timeInfo"
         android:id="@+id/conditionInfo"
-        android:layout_marginTop="71dp"
+        android:layout_marginTop="126dp"
         android:layout_alignRight="@+id/itemPrice"
         android:layout_alignEnd="@+id/itemPrice"
         android:background="#fffff29e">
@@ -122,15 +120,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/condition" />
+            android:id="@+id/ViewCondition" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/categoryInfo"
-        android:layout_alignLeft="@+id/itemImage"
-        android:layout_alignStart="@+id/itemImage"
+        android:layout_alignLeft="@+id/ViewItemImage"
+        android:layout_alignStart="@+id/ViewItemImage"
         android:id="@+id/descriptionInfo">
 
         <TextView
@@ -147,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/description"
+            android:id="@+id/ViewDescription"
             android:layout_below="@+id/descriptionTag"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
@@ -162,7 +160,7 @@
         android:layout_alignLeft="@+id/timeInfo"
         android:layout_alignStart="@+id/timeInfo"
         android:id="@+id/sellerInfo"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -174,7 +172,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/seller" />
+            android:id="@+id/ViewSeller" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:id="@+id/bidNow"
+        android:layout_above="@+id/categoryInfo"
+        android:layout_alignLeft="@+id/conditionInfo"
+        android:layout_alignStart="@+id/conditionInfo"
+        android:layout_marginLeft="10dp" />
 
 </RelativeLayout>

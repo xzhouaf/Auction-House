@@ -1,40 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
-    >
-    <ImageView
-        android:id="@+id/itemImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:maxHeight="16dp"
-        android:maxWidth="16dp"
-        android:scaleType="fitXY"
 
-        />
-    <TextView
-        android:id="@+id/itemList"
-        android:layout_width="fill_parent"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/itemImage"
-        android:text="item name"
-        android:textSize="16sp"
-        />
-    <TextView
-        android:id="@+id/sellerName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#fff6ffaa"
+        android:id="@+id/itemNameSearch">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/searchIcon"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/searchInput"
+            android:textSize="30dp"
+            android:editable="true"
+            android:text="Search item name here"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/itemNameSearch"
+        android:id="@+id/categorySearch"
+        android:weightSum="1"
+        android:background="#ffffd6f2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category selection:"
+            android:id="@+id/textView2"
+            android:layout_below="@+id/itemNameSearch"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="42dp"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:layout_width="93dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchCategorySel"
+            android:layout_below="@+id/itemNameSearch"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="65dp"
+            android:layout_marginStart="42dp"
+            android:layout_weight="0.36" />
+
+    </LinearLayout>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/itemImage"
-        android:layout_alignLeft="@+id/itemList"
-        android:layout_below="@id/itemList"
-        android:text="seller"
-        android:textSize="12sp"
-        />
-</RelativeLayout>
+        android:text="Search"
+        android:id="@+id/button"
+        android:textSize="15dp"
+        android:layout_below="@+id/categorySearch"
+        android:layout_alignRight="@+id/itemNameSearch"
+        android:layout_alignEnd="@+id/itemNameSearch"
+        android:layout_gravity="right" />
+
+</LinearLayout>

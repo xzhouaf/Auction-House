@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+    <ImageView
+        android:id="@+id/sHistoryItemImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:maxHeight="16dp"
+        android:maxWidth="16dp"
+        android:scaleType="fitXY"
+
+        />
+    <TextView
+        android:id="@+id/sHistoryEntryItemName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="item name"
+        android:textSize="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/sHistoryItemImage"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/sHistoryItemImage"
+        android:layout_marginLeft="5dp" />
+    <TextView
+        android:id="@+id/sHistorySellerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GAO Zihou"
+        android:textSize="12sp"
+        android:textColor="#ff6964ff"
+        android:layout_above="@+id/linearLayout"
+        android:layout_toRightOf="@+id/buyerTag"
+        android:layout_toEndOf="@+id/buyerTag" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:weightSum="1"
+        android:layout_alignBottom="@+id/sHistoryItemImage"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="105dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Complete at:"
+            android:id="@+id/timeTag" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sHistoryTime"
+            android:layout_weight="0.58"
+            android:text="111" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="99.99"
+        android:id="@+id/sHistoryEntryPrice"
+        android:layout_below="@+id/sHistoryEntryItemName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/linearLayout"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bought by:"
+        android:id="@+id/buyerTag"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout" />
+
+</RelativeLayout>
