@@ -57,20 +57,6 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener{
         }
     }
 
-    private long mExitTime;
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                Toast.makeText(this, "Double click to exit UST Auction", Toast.LENGTH_SHORT).show();
-                mExitTime = System.currentTimeMillis();
-            } else {
-                finish();
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     private class XutongAsyncTask extends AsyncTask<String, Void, String>{
 
         @Override
