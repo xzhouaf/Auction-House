@@ -4,9 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -14,56 +13,64 @@
 
     <permission
         android:name="com.project.zxt.ustauctionhouse.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
-    <uses-permission
-        android:name="com.project.zxt.ustauctionhouse.permission.C2D_MESSAGE"/>
-    <uses-permission
-        android:name="com.google.android.c2dm.permission.RECEIVE"/>
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.project.zxt.ustauctionhouse.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/brownchuizi"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name=".LogIn"
-            android:label="@string/app_name">
+        <activity
+            android:name=".LogIn"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <receiver
             android:name=".GCMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <category android:name="com.project.zxt.ustauctionhouse"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.project.zxt.ustauctionhouse" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".GCMIntentService"/>
+        <service android:name=".GCMIntentService" />
 
-        <activity android:name=".Register"
-            android:label="Register New Account"/>
-
-        <activity android:name=".PersonalInformation"
-            android:label="Me"/>
-
-        <activity android:name=".ModifyPersonalInfo"
-        android:label="Modify"/>
-
-        <activity android:name=".Search"
-            android:label="Search"/>
-
-        <activity android:name=".NewItem"
-            android:label="Search"/>
-
-        <activity android:name=".PostItem"
-            android:label="Search"/>
+        <activity
+            android:name=".Register"
+            android:label="Register New Account" />
+        <activity
+            android:name=".PersonalInformation"
+            android:label="Me" />
+        <activity
+            android:name=".ModifyPersonalInfo"
+            android:label="Modify" />
+        <activity
+            android:name=".Search"
+            android:label="Search" />
+        <activity
+            android:name=".NewItem"
+            android:label="Search" />
+        <activity
+            android:name=".PostItem"
+            android:label="Search" />
+        <activity
+            android:name=".SearchResult"
+            android:label="@string/title_activity_search_result" >
+        </activity>
     </application>
 
 </manifest>

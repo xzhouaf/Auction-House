@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search"
-        android:id="@+id/button"
+        android:id="@+id/searchButton"
         android:textSize="15dp"
         android:layout_below="@+id/categorySearch"
         android:layout_alignRight="@+id/itemNameSearch"

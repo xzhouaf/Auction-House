@@ -56,6 +56,17 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 
+        Button testToResult = (Button)findViewById(R.id.searchButton);
+        testToResult.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ctx, SearchResult.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
     }
 
     @Override
