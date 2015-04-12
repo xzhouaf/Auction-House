@@ -27,7 +27,7 @@
         android:textSize="25dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/bHistoryItemImage"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:layout_toRightOf="@+id/bHistoryItemImage"
         android:layout_marginLeft="5dp" />
     <TextView
@@ -71,11 +71,10 @@
         android:layout_height="wrap_content"
         android:text="99.99"
         android:id="@+id/bHistoryEntryPrice"
-        android:layout_below="@+id/EntryItemName"
+        android:textSize="25dp"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/linearLayout"
-        android:textSize="25dp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"

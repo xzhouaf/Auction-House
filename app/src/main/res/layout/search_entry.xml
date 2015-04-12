@@ -28,7 +28,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/EntryItemImage"
         android:layout_toEndOf="@+id/EntryItemImage"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="0dp" />
     <TextView
         android:id="@+id/EntrySellerName"
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:text="GAO Zihou"
         android:textSize="12sp"
         android:textColor="#ff6964ff"
-        android:layout_below="@+id/searchEntryPrice"
+        android:layout_above="@+id/linearLayout2"
         android:layout_toRightOf="@+id/sellerTag"
         android:layout_toEndOf="@+id/sellerTag" />
 

@@ -27,7 +27,7 @@
         android:textSize="25dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/bidEntryItemImage"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:layout_toRightOf="@+id/bidEntryItemImage"
         android:layout_marginLeft="5dp" />
     <TextView
@@ -71,11 +71,10 @@
         android:layout_height="wrap_content"
         android:text="99.99"
         android:id="@+id/bidEntryPrice"
-        android:layout_below="@+id/EntryItemName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/linearLayout"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -104,9 +103,7 @@
         android:layout_height="wrap_content"
         android:text="outbidded"
         android:id="@+id/bidStatus"
-        android:layout_alignTop="@+id/bidEntryPrice"
-        android:layout_toRightOf="@+id/StatusTag"
-        android:layout_toEndOf="@+id/StatusTag"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="6dp" />
+        android:layout_alignTop="@+id/StatusTag"
+        android:layout_alignRight="@+id/bidEntrySellerName"
+        android:layout_alignEnd="@+id/bidEntrySellerName" />
 </RelativeLayout>
