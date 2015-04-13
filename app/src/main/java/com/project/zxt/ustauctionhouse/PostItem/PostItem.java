@@ -421,9 +421,10 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         private void jsonAnalysis(JSONObject obj) throws JSONException {
             if(!obj.isNull("condition")){
                 JSONArray conditionArray = obj.getJSONArray("condition");
-                String conditionNewArray[] = new String[conditionArray.length()];
+                String conditionNewArray[] = new String[conditionArray.length()+1];
+                conditionNewArray[0] = "";
                 for(int i = 0; i < conditionArray.length(); i++){
-                    conditionNewArray[i] = (String)((JSONObject)conditionArray.get(i)).get("condition_name");
+                    conditionNewArray[i+1] = (String)((JSONObject)conditionArray.get(i)).get("condition_name");
                     //Log.i("Important: ", conditionNewArray[i]);
                 }
                 ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,conditionNewArray);
@@ -431,9 +432,10 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
             }
             if(!obj.isNull("category")){
                 JSONArray categoryArray = obj.getJSONArray("category");
-                String categoryNewArray[] = new String[categoryArray.length()];
+                String categoryNewArray[] = new String[categoryArray.length()+1];
+                categoryNewArray[0] = "";
                 for(int i = 0; i < categoryArray.length(); i++){
-                    categoryNewArray[i] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
+                    categoryNewArray[i+1] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
                     //Log.i("Important: ", categoryNewArray[i]);
                 }
                 ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,categoryNewArray);
