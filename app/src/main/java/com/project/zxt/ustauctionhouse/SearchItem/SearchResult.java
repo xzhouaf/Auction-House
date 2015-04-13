@@ -1,6 +1,8 @@
 package com.project.zxt.ustauctionhouse.SearchItem;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,70 +13,43 @@ import android.widget.ListView;
 
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
+import com.project.zxt.ustauctionhouse.Utility.Unit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 
-public class SearchResult extends Activity {
-
-
+public class SearchResult extends Activity implements Observer {
 
     private ListView list;
     private LazyAdapter adapter;
+    private GeneralSearch search;
+    private Context ctx;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_display_frame);
+        intent = getIntent();
+
+        String keyword = intent.getStringExtra("keywords");
+        String category = intent.getStringExtra("category");
+        if(category.equals("All")) category = "";
+
         list=(ListView)findViewById(R.id.frame_list);
+        search = new GeneralSearch("",category,keyword,"","","");
+        search.addObserver(this);
+        search.loadList();
 
-        ArrayList<HashMap<String, String>> goodList = new ArrayList<HashMap<String, String>>();
-
-        // 新建一个 HashMap
-        HashMap<String, String> map1 = new HashMap<String, String>();
-        //每个子节点添加到HashMap关键= >值
-        map1.put(Utility.KEY_ID, "0");
-        map1.put(Utility.KEY_NAME, "德国熊啤酒");
-        map1.put(Utility.KEY_SELLER, "Paul");
-        map1.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428604005173.bmp");
-        // HashList添加到数组列表
-        goodList.add(map1);
-
-        HashMap<String, String> map2 = new HashMap<String, String>();
-        //每个子节点添加到HashMap关键= >值
-        map2.put(Utility.KEY_ID, "1");
-        map2.put(Utility.KEY_NAME, "SONY PS4");
-        map2.put(Utility.KEY_SELLER, "Tony");
-        map2.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428610080251.bmp");
-        // HashList添加到数组列表
-        goodList.add(map2);
-
-        HashMap<String, String> map3 = new HashMap<String, String>();
-        //每个子节点添加到HashMap关键= >值
-        map3.put(Utility.KEY_ID, "2");
-        map3.put(Utility.KEY_NAME, "LG G3 Phone");
-        map3.put(Utility.KEY_SELLER, "Big Brother");
-        map3.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428613508787.bmp");
-        // HashList添加到数组列表
-        goodList.add(map3);
-
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        //每个子节点添加到HashMap关键= >值
-        map4.put(Utility.KEY_ID, "3");
-        map4.put(Utility.KEY_NAME, "Thinkpad T430");
-        map4.put(Utility.KEY_SELLER, "Paul");
-        map4.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428614319776.bmp");
-        // HashList添加到数组列表
-        goodList.add(map4);
-
-        adapter=new LazyAdapter(this, goodList);
-        list.setAdapter(adapter);
-
-
-        //为单一列表行添加单击事件
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -85,11 +60,16 @@ public class SearchResult extends Activity {
                 Log.i("onClickEntry: ", "ID is " + id);
             }
         });
-
     }
 
-
-
+    @Override
+    public void update(Observable observable, Object data) {
+        if(observable == search) {
+            adapter = new LazyAdapter(this, (ArrayList<HashMap<String, String>>) data);
+            search.deleteObserver(this);
+            list.setAdapter(adapter);
+        }
+    }
 }
 
 

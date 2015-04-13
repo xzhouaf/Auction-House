@@ -13,16 +13,19 @@ import android.widget.TextView;
 
 import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Paul on 2015/4/13.
  *
  */
-public class TransactionInfo extends Activity implements View.OnClickListener {
+public class TransactionInfo extends Activity implements View.OnClickListener, Observer {
 
     private ListView list;
     private LinearLayout sellingBut, biddingBut, sellHisBut, bidHisBut;
@@ -31,6 +34,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener {
     private Intent intent;
     private static final int DARK_COLOR = 0xffe9e31d, BRIGHT_COLOR = 0xfffdff29;
     private TextView prev, next, blank;
+    private GeneralSearch search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class TransactionInfo extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transaction_info_frame);
         list=(ListView)findViewById(R.id.transaction_info_frame_list);
+
+
 
         sellingBut = (LinearLayout)findViewById(R.id.selling_touch);
         sellingBut.setOnClickListener(this);
@@ -127,8 +133,9 @@ public class TransactionInfo extends Activity implements View.OnClickListener {
         bidHisBut.setBackgroundColor(DARK_COLOR);
         biddingBut.setBackgroundColor(BRIGHT_COLOR);
 
-        LazyMyBidAdapter adapter=new LazyMyBidAdapter(this, testInfoGenerator());
-        list.setAdapter(adapter);
+        search = new GeneralSearch("0","","",ApiKey,"","1");
+        search.addObserver(this);
+        search.loadList();
     }
 
     private void onSellingButClick(){
@@ -137,8 +144,9 @@ public class TransactionInfo extends Activity implements View.OnClickListener {
         bidHisBut.setBackgroundColor(DARK_COLOR);
         biddingBut.setBackgroundColor(DARK_COLOR);
 
-        LazyMyBidAdapter adapter=new LazyMyBidAdapter(this, testBlankInfoGenerator());
-        list.setAdapter(adapter);
+        search = new GeneralSearch("0","","",ApiKey,"","0");
+        search.addObserver(this);
+        search.loadList();
     }
 
     private void onBidHisButClick(){
@@ -147,8 +155,9 @@ public class TransactionInfo extends Activity implements View.OnClickListener {
         bidHisBut.setBackgroundColor(BRIGHT_COLOR);
         biddingBut.setBackgroundColor(DARK_COLOR);
 
-        LazyMyBidAdapter adapter=new LazyMyBidAdapter(this, testBlankInfoGenerator());
-        list.setAdapter(adapter);
+        search = new GeneralSearch("1","","",ApiKey,"","1");
+        search.addObserver(this);
+        search.loadList();
     }
 
     private void onSellHisButClick(){
@@ -157,15 +166,14 @@ public class TransactionInfo extends Activity implements View.OnClickListener {
         bidHisBut.setBackgroundColor(DARK_COLOR);
         biddingBut.setBackgroundColor(DARK_COLOR);
 
-        LazyMyBidAdapter adapter=new LazyMyBidAdapter(this, testBlankInfoGenerator());
-        list.setAdapter(adapter);
+        search = new GeneralSearch("1","","",ApiKey,"","0");
+        search.addObserver(this);
+        search.loadList();
     }
 
-
+/*
     private ArrayList<HashMap<String, String>> testBlankInfoGenerator(){
-        blank.setText("Sorry, no item found");
-        prev.setText("");
-        next.setText("");
+
 
         return new ArrayList<HashMap<String, String>>();
     }
@@ -217,6 +225,22 @@ public class TransactionInfo extends Activity implements View.OnClickListener {
         return goodList;
     }
 
-
-
+*/
+    @Override
+    public void update(Observable observable, Object data) {
+        if(observable == search) {
+            LazyMyBidAdapter adapter = new LazyMyBidAdapter(this, (ArrayList<HashMap<String, String>>) data);
+            search.deleteObserver(this);
+            list.setAdapter(adapter);
+            if(((ArrayList<HashMap<String, String>>)data).size() == 0){
+                blank.setText("Sorry, no item found");
+                prev.setText("");
+                next.setText("");
+            }else{
+                blank.setText("");
+                prev.setText("Previous");
+                next.setText("Next");
+            }
+        }
+    }
 }

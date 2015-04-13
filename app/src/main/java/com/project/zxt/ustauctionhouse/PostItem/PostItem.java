@@ -322,7 +322,7 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
             NameValuePair pair2 = new BasicNameValuePair("description", description.getText().toString());
             NameValuePair pair3 = new BasicNameValuePair("condition_name", condition_name.getSelectedItem().toString());
             NameValuePair pair4 = new BasicNameValuePair("category_name", category_name.getSelectedItem().toString());
-            NameValuePair pair5 = new BasicNameValuePair("time_limit", time_limit.getText().toString());
+            NameValuePair pair5 = new BasicNameValuePair("time_limit", (Integer.parseInt(time_limit.getText().toString()))*3600000+"");
             NameValuePair pair6 = new BasicNameValuePair("direct_buy_price", direct_buy_price.getText().toString());
             NameValuePair pair7 = new BasicNameValuePair("current_price", current_price.getText().toString());
             NameValuePair pair8 = new BasicNameValuePair("image_file_name", image_file_name);
@@ -421,10 +421,9 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         private void jsonAnalysis(JSONObject obj) throws JSONException {
             if(!obj.isNull("condition")){
                 JSONArray conditionArray = obj.getJSONArray("condition");
-                String conditionNewArray[] = new String[conditionArray.length()+1];
-                conditionNewArray[0] = "";
+                String conditionNewArray[] = new String[conditionArray.length()];
                 for(int i = 0; i < conditionArray.length(); i++){
-                    conditionNewArray[i+1] = (String)((JSONObject)conditionArray.get(i)).get("condition_name");
+                    conditionNewArray[i] = (String)((JSONObject)conditionArray.get(i)).get("condition_name");
                     //Log.i("Important: ", conditionNewArray[i]);
                 }
                 ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,conditionNewArray);
@@ -432,10 +431,9 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
             }
             if(!obj.isNull("category")){
                 JSONArray categoryArray = obj.getJSONArray("category");
-                String categoryNewArray[] = new String[categoryArray.length()+1];
-                categoryNewArray[0] = "";
+                String categoryNewArray[] = new String[categoryArray.length()];
                 for(int i = 0; i < categoryArray.length(); i++){
-                    categoryNewArray[i+1] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
+                    categoryNewArray[i] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
                     //Log.i("Important: ", categoryNewArray[i]);
                 }
                 ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,categoryNewArray);

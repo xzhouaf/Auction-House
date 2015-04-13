@@ -6,20 +6,31 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
+import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Paul on 2015/4/12.
  *
  */
-public class NewItem extends bottomMenuActivity implements View.OnClickListener{
+public class NewItem extends bottomMenuActivity implements View.OnClickListener, Observer{
     private static final String TAG = "New Item";
     private String UserName, Email, ApiKey, CreatedAt;
     private Intent intent;
     private Context ctx;
-    private TextView testingText;
+    private ListView list;
+    private GeneralSearch search;
 
     public int getContentViewLayoutResId() { return R.layout.new_item; }
 
@@ -34,8 +45,20 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener{
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
 
-        testingText = (TextView) findViewById(R.id.newItemTextview);
-        new XutongAsyncTask().execute();
+        list = (ListView) findViewById(R.id.new_item_listview);
+        list.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i("onClickEntry: ", "Position is " + position);
+                        Log.i("onClickEntry: ", "ID is " + id);
+                    }
+                }
+        );
+
+        search = new GeneralSearch("","","","","","");
+        search.addObserver(this);
+        search.loadList();
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 
@@ -55,20 +78,13 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener{
         }
     }
 
-    private class XutongAsyncTask extends AsyncTask<String, Void, String>{
 
-        @Override
-        protected String doInBackground(String... params) {
-            String tempString = null;
-            for(int i = 0; i < 1000; i++){
-                tempString += "Xutong...   ";
-            }
-            tempString += "This is the last line";
-            return tempString;
-        }
-
-        protected void onPostExecute(String result){
-            testingText.setText(result);
+    @Override
+    public void update(Observable observable, Object data) {
+        if(observable == search){
+            LazyAdapter adapter = new LazyAdapter(this, (ArrayList<HashMap<String, String>>) data);
+            search.deleteObserver(this);
+            list.setAdapter(adapter);
         }
     }
 }

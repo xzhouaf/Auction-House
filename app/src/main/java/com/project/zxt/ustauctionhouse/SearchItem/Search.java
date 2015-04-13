@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
     private Intent intent;
     private Context ctx;
     private Spinner searchCategory;
+    private EditText searchKeyword;
 
     public int getContentViewLayoutResId() { return R.layout.search; }
 
@@ -55,6 +57,8 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
         Button testToResult = (Button)findViewById(R.id.searchButton);
         testToResult.setOnClickListener(this);
 
+        searchKeyword = (EditText) findViewById(R.id.searchInput);
+
         new AsyncGetConditionCategory().execute();
 
     }
@@ -69,6 +73,8 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.searchButton:
                 Intent intent = new Intent(ctx, SearchResult.class);
+                intent.putExtra("keywords", searchKeyword.getText().toString());
+                intent.putExtra("category", searchCategory.getSelectedItem().toString());
                 startActivity(intent);
                 break;
             default:
@@ -134,7 +140,7 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
             if(!obj.isNull("category")){
                 JSONArray categoryArray = obj.getJSONArray("category");
                 String categoryNewArray[] = new String[categoryArray.length()+1];
-                categoryNewArray[0] = "";
+                categoryNewArray[0] = "All";
                 for(int i = 0; i < categoryArray.length(); i++){
                     categoryNewArray[i+1] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
                     //Log.i("Important: ", categoryNewArray[i]);
