@@ -11,11 +11,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.project.zxt.ustauctionhouse.LoginRelated.LogIn;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
@@ -23,11 +29,15 @@ import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
@@ -39,6 +49,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -52,10 +63,11 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
     private Intent intent;
     private Context ctx;
     private String image_file_name;
-    private EditText name, description, time_limit,
-                    direct_buy_price, current_price;
-    private Spinner condition, category_name;
+    private EditText time_limit, direct_buy_price, current_price;
+    private Spinner condition_name, category_name;
+    private TextView description, name;
     private ImageView itemImage;
+    private Button confirm;
 
     public int getContentViewLayoutResId() { return R.layout.post_item; }
 
@@ -75,6 +87,21 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         image_file_name = "";
         itemImage = (ImageView) findViewById(R.id.PostitemImage);
         itemImage.setOnClickListener(this);
+
+        condition_name = (Spinner) findViewById(R.id.PostItemConditionSel);
+        category_name = (Spinner) findViewById(R.id.PostItemCategorySel);
+
+        description = (TextView) findViewById(R.id.descriptionEditContent);
+        name = (TextView) findViewById(R.id.itemNameInput);
+
+        time_limit = (EditText) findViewById(R.id.limitTime);
+        direct_buy_price = (EditText) findViewById(R.id.dirPrice);
+        current_price = (EditText) findViewById(R.id.iniPrice);
+
+        confirm = (Button) findViewById(R.id.confirm_post_button);
+        confirm.setOnClickListener(this);
+
+        new AsyncGetConditionCategory().execute();
 
     }
 
@@ -263,8 +290,6 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         }
     }
 
-
-
     @Override
     public void onDestroy() {
         Log.i(TAG, "onDestroy()");
@@ -273,13 +298,149 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
 
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.PostitemImage:
+                modifyItemImage();
+                break;
+            case R.id.confirm_post_button:
+                Log.i(TAG, condition_name.getSelectedItem().toString());
+                new AsyncPostItem().execute();
+                break;
             default:
                 break;
         }
     }
 
+    private class AsyncPostItem extends AsyncTask<String, Void, JSONObject> {
 
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            if(!Utility.serverTest()){
+                return null;
+            }
+            JSONObject obj = null;
+            NameValuePair pair1 = new BasicNameValuePair("name", name.getText().toString());
+            NameValuePair pair2 = new BasicNameValuePair("description", description.getText().toString());
+            NameValuePair pair3 = new BasicNameValuePair("condition_name", condition_name.getSelectedItem().toString());
+            NameValuePair pair4 = new BasicNameValuePair("category_name", category_name.getSelectedItem().toString());
+            NameValuePair pair5 = new BasicNameValuePair("time_limit", time_limit.getText().toString());
+            NameValuePair pair6 = new BasicNameValuePair("direct_buy_price", direct_buy_price.getText().toString());
+            NameValuePair pair7 = new BasicNameValuePair("current_price", current_price.getText().toString());
+            NameValuePair pair8 = new BasicNameValuePair("image_file_name", image_file_name);
+            NameValuePair pair9 = new BasicNameValuePair("user_name", UserName);
+            List<NameValuePair> pairList = new ArrayList<>();
+            pairList.add(pair1);
+            pairList.add(pair2);
+            pairList.add(pair3);
+            pairList.add(pair4);
+            pairList.add(pair5);
+            pairList.add(pair6);
+            pairList.add(pair7);
+            pairList.add(pair8);
+            pairList.add(pair9);
+            try {
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                // URL使用基本URL即可，其中不需要加参数
+                HttpPost httpPost = new HttpPost(Utility.serverUrl + "/postItem");
+                httpPost.addHeader("Authorization", ApiKey);
+                // 将请求体内容加入请求中
+                httpPost.setEntity(requestHttpEntity);
+                // 需要客户端对象来发送请求
+                HttpClient httpClient = new DefaultHttpClient();
+                // 发送请求
+                HttpResponse response = httpClient.execute(httpPost);
+                obj = Utility.response2obj(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return obj;
+        }
+
+        protected void onPostExecute(JSONObject result){
+            super.onPostExecute(result);
+            if(result == null){
+                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
+                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                Toast.makeText(ctx, result.getString("message"), Toast.LENGTH_SHORT).show();
+                if(result.getString("error").equals("true")){
+
+                }else{
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private class AsyncGetConditionCategory extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            if(!Utility.serverTest()){
+                return null;
+            }
+            JSONObject obj = null;
+            // 使用GET方法发送请求,需要把参数加在URL后面，用？连接，参数之间用&分隔
+            String url1 = Utility.serverUrl + "/conditionAndCategory";
+            // 生成请求对象
+            HttpGet httpGet = new HttpGet(url1);
+            HttpClient httpClient = new DefaultHttpClient();
+            // 发送请求
+            try{
+                HttpResponse response = httpClient.execute(httpGet);
+                obj = Utility.response2obj(response);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return obj;
+        }
+
+        protected void onPostExecute(JSONObject result){
+            super.onPostExecute(result);
+            if(result == null){
+                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
+                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                if(result.getString("error").equals("true")){
+                    Log.i("Update Failed!!!", "cannot update condition category");
+                }else{
+                    Log.i("Update Result:", result.toString());
+                    jsonAnalysis(result);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void jsonAnalysis(JSONObject obj) throws JSONException {
+            if(!obj.isNull("condition")){
+                JSONArray conditionArray = obj.getJSONArray("condition");
+                String conditionNewArray[] = new String[conditionArray.length()];
+                for(int i = 0; i < conditionArray.length(); i++){
+                    conditionNewArray[i] = (String)((JSONObject)conditionArray.get(i)).get("condition_name");
+                    //Log.i("Important: ", conditionNewArray[i]);
+                }
+                ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,conditionNewArray);
+                condition_name.setAdapter(adapter);
+            }
+            if(!obj.isNull("category")){
+                JSONArray categoryArray = obj.getJSONArray("category");
+                String categoryNewArray[] = new String[categoryArray.length()];
+                for(int i = 0; i < categoryArray.length(); i++){
+                    categoryNewArray[i] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
+                    //Log.i("Important: ", categoryNewArray[i]);
+                }
+                ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,categoryNewArray);
+                category_name.setAdapter(adapter);
+            }
+        }
+    }
 
 
 }

@@ -89,6 +89,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="100dp"
             android:textSize="10dp" />
+
     </LinearLayout>
 
     <RelativeLayout
@@ -108,7 +109,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/no_photo" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +124,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="20dp" />
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/itemNameInput"
@@ -133,7 +135,6 @@
             android:textSize="15dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:editable="true"
             android:layout_below="@+id/iNameTag"
             android:layout_marginTop="5dp" />
 
@@ -201,7 +202,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/timeInfo"
-        android:id="@+id/descriptionField">
+        android:id="@+id/descriptionField"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -211,12 +213,24 @@
             android:textSize="10dp"
             android:layout_marginLeft="5dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/descriptionInput"
-            android:layout_margin="5dp" />
+        <EditText
+            android:id="@+id/descriptionEditContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minLines="6"
+            android:textSize="18sp"
+            android:gravity="top"/>
+
     </LinearLayout>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Confirm Post"
+        android:id="@+id/confirm_post_button"
+        android:layout_alignTop="@+id/timeInfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
