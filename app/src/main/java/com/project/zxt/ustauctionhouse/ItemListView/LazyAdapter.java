@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.ItemListView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,9 +59,9 @@ public class LazyAdapter extends BaseAdapter {
         goods = data.get(position);
 
         // 设置ListView的相关值
-        name.setText(goods.get(SearchResult.KEY_NAME));
-        seller.setText(goods.get(SearchResult.KEY_SELLER));
-        imageLoader.DisplayImage(goods.get(SearchResult.KEY_IMAGE), thumb_image);
+        name.setText(goods.get(Utility.KEY_NAME));
+        seller.setText(goods.get(Utility.KEY_SELLER));
+        imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
     }
 }

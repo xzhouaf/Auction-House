@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.PersonalInfo;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,12 +11,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.project.zxt.ustauctionhouse.LoginRelated.LogIn;
+import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
+import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -106,6 +110,24 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
                 break;
             case R.id.update:
                 updatePortrait();
+                break;
+            case R.id.myBid:
+                Intent intent1 = new Intent(ctx, TransactionInfo.class);
+                intent1.putExtra("currentTransactionInfoBut", "biddingBut");
+                intent1.putExtra("user_apiKey", ApiKey);
+                startActivity(intent1);
+                break;
+            case R.id.myAuction:
+                Intent intent2 = new Intent(ctx, TransactionInfo.class);
+                intent2.putExtra("currentTransactionInfoBut", "sellingBut");
+                intent2.putExtra("user_apiKey", ApiKey);
+                startActivity(intent2);
+                break;
+            case R.id.myHistory:
+                Intent intent3 = new Intent(ctx, TransactionInfo.class);
+                intent3.putExtra("currentTransactionInfoBut", "bidHisBut");
+                intent3.putExtra("user_apiKey", ApiKey);
+                startActivity(intent3);
                 break;
             default:
                 break;

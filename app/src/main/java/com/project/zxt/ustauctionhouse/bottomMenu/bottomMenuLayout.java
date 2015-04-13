@@ -1,19 +1,14 @@
 package com.project.zxt.ustauctionhouse.bottomMenu;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.project.zxt.ustauctionhouse.PersonalInformation;
-import com.project.zxt.ustauctionhouse.R;
-import com.project.zxt.ustauctionhouse.getScreenSize;
 
-import java.util.List;
+import com.project.zxt.ustauctionhouse.R;
 
 /**
  * Created by Xutong on 2015/4/11.

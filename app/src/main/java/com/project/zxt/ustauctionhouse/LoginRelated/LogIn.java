@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.LoginRelated;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,13 +7,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -22,6 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.project.zxt.ustauctionhouse.bottomMenu.NewItem;
+import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.GCM.RegisterApp;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -35,10 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class LogIn extends Activity implements View.OnClickListener {
 

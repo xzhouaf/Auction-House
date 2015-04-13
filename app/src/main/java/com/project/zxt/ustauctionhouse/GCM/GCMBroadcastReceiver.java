@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.GCM;
 
 /**
  * Created by Paul on 2015/4/6.

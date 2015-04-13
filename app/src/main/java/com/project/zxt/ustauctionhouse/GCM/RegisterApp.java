@@ -1,9 +1,10 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.GCM;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;

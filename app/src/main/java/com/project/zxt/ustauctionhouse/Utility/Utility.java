@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.Utility;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -27,6 +27,11 @@ public class Utility {
 
     public static final String serverUrl = "http://gaozihou.no-ip.org:8000/task_manager/v1";
     public static String DATABASE_PATH = Environment.getExternalStorageDirectory() + "/AuctionHouse";
+
+    public static final String KEY_ID = "id";
+    public static final String KEY_NAME= "name";
+    public static final String KEY_SELLER = "seller";
+    public static final String KEY_IMAGE = "image";
 
     public static JSONObject response2obj(HttpResponse response){
         String result = "";

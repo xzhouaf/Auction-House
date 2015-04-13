@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.LoginRelated;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

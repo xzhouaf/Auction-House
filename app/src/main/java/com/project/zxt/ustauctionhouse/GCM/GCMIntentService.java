@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.GCM;
 
 /**
  * Created by Paul on 2015/4/6.
@@ -18,6 +18,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.project.zxt.ustauctionhouse.LoginRelated.LogIn;
+import com.project.zxt.ustauctionhouse.R;
 
 public class GCMIntentService extends IntentService {
 
@@ -88,12 +90,12 @@ public class GCMIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, Main.class), 0);
+                new Intent(this, LogIn.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setContentTitle("Auction House")
-                        .setSmallIcon(R.drawable.hhh)
+                        .setSmallIcon(R.drawable.brownchuizi)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg)

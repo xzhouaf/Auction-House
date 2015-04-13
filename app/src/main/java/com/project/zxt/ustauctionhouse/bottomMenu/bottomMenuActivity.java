@@ -1,29 +1,21 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.bottomMenu;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuLayout;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import com.project.zxt.ustauctionhouse.PersonalInfo.PersonalInformation;
+import com.project.zxt.ustauctionhouse.PostItem.PostItem;
+import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.SearchItem.Search;
 
 /**
  * Created by Xutong on 2015/4/11.

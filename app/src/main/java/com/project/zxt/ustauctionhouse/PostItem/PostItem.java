@@ -1,28 +1,30 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.PostItem;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
+import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -34,63 +36,49 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
 /**
- * Created by Paul on 2015/4/10.
+ * Created by Paul on 2015/4/12.
  *
  */
-public class ModifyPersonalInfo extends Activity implements View.OnClickListener {
-
-    private final String TAG = "ModifyPersonalInfo";
+public class PostItem extends bottomMenuActivity implements View.OnClickListener{
+    private static final String TAG = "PostItem";
+    private String UserName, Email, ApiKey, CreatedAt;
+    private Intent intent;
     private Context ctx;
-    ImageButton portraitMod;
-    Intent intent;
-    private String ApiKey;
+    private String image_file_name;
+    private EditText name, description, time_limit,
+                    direct_buy_price, current_price;
+    private Spinner condition, category_name;
+    private ImageView itemImage;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public int getContentViewLayoutResId() { return R.layout.post_item; }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.info_modify);
-        Log.i(TAG, "Activity: onCreate()");
+    final protected void onCreatOverride(Bundle savedInstanceState) {
 
-        ctx = getApplicationContext();
-        //parent = (Intent)intent.getExtras().get("parent");
+        Log.i(TAG, "Subclass Activity: onCreate()");
+
         intent = this.getIntent();
-        ApiKey = intent.getStringExtra("api_key");
+        ctx = getApplicationContext();
+        UserName = intent.getStringExtra("user_name");
+        Email = intent.getStringExtra("user_email");
+        ApiKey = intent.getStringExtra("user_apiKey");
+        CreatedAt = intent.getStringExtra("user_createdAt");
 
-        portraitMod = (ImageButton) findViewById(R.id.portraitMod);
-        portraitMod.setOnClickListener(this);
+        Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 
-        new AsyncDownloadPortrait().execute();
+        image_file_name = "";
+        itemImage = (ImageView) findViewById(R.id.PostitemImage);
+        itemImage.setOnClickListener(this);
+
     }
 
-    public void onDestroy() {
-        Log.i(TAG, "onDestroy()");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.portraitMod:
-                modifyPortrait();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    private void modifyPortrait(){
+    private void modifyItemImage(){
         final CharSequence[] items = { "Camera", "Gallery" };
         new AlertDialog.Builder(this).setTitle("Select Source")
                 .setItems(items, new DialogInterface.OnClickListener() {
@@ -124,7 +112,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
                 break;
             case 2:
                 if(data != null){
-                    uploadPortraitToServer(data);
+                    uploadItemImageToServer(data);
                 }
                 break;
             default:
@@ -155,26 +143,26 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         startActivityForResult(intent, 2);
     }
 
-    private void uploadPortraitToServer(Intent picdata){
+    private void uploadItemImageToServer(Intent picdata){
         Bundle extras = picdata.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            portraitMod.setImageBitmap(photo);
-            new UploadPortrait().execute(photo);
+            itemImage.setImageBitmap(photo);
+            new UploadItemImage().execute(photo);
         }
     }
 
-    public class UploadPortrait extends AsyncTask<Bitmap, Void, Integer> {
+    public class UploadItemImage extends AsyncTask<Bitmap, Void, Integer> {
 
-        private String TAG = "UploadPortrait";
-        private String imageFileName = "";
+        private String TAG = "UploadItemImage";
+        private String tempImageFileName = "";
         private String currentTime = "";
 
         protected void onPreExecute(){
             super.onPreExecute();
             Calendar c = Calendar.getInstance();
             currentTime = c.getTimeInMillis()+"";
-            imageFileName = currentTime + ".bmp";
+            tempImageFileName = currentTime + ".bmp";
         }
 
         @Override
@@ -183,9 +171,6 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
             Integer receivedCode = 0;
             try {
                 receivedCode = uploadByCommonPost(imagePath);
-                if(receivedCode == 201) {
-                    createUserPortrait(ApiKey);
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -195,14 +180,13 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         protected void onPostExecute(Integer result){
             super.onPostExecute(result);
             if(result == 201){
-                Toast.makeText(ctx, "Portrait updated successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, "Item image updated successfully!", Toast.LENGTH_SHORT).show();
                 Intent intent = getIntent();
-                //intent.putExtra("fileName", imageFileName);
+                image_file_name = tempImageFileName;
                 setResult(RESULT_OK, intent);
-                //parent.putExtra("portraitFile", imageFileName);
             }else{
-                Toast.makeText(ctx,"Update failed. Please try again!", Toast.LENGTH_SHORT).show();
-                //imageFileName = "";
+                Toast.makeText(ctx,"Upload item image failed. Please try again!", Toast.LENGTH_SHORT).show();
+                image_file_name = "";
             }
         }
 
@@ -238,7 +222,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
             String end = "\r\n";
             String twoHyphens = "--";
             String boundary = "******";
-            URL url = new URL(Utility.serverUrl + "/uploadPortrait");
+            URL url = new URL(Utility.serverUrl + "/upload");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url
                     .openConnection();
             httpURLConnection.setChunkedStreamingMode(128 * 1024);// 128K
@@ -277,81 +261,25 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
             new File(path).delete();
             return response;
         }
-
-        private void createUserPortrait(String api_key){
-            NameValuePair pair2 = new BasicNameValuePair("file_name", imageFileName);
-            List<NameValuePair> pairList = new ArrayList<NameValuePair>();
-            pairList.add(pair2);
-            try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
-                // URL使用基本URL即可，其中不需要加参数
-                HttpPost httpPost = new HttpPost(Utility.serverUrl + "/userPortrait");
-                httpPost.addHeader("Authorization", api_key);
-                // 将请求体内容加入请求中
-                httpPost.setEntity(requestHttpEntity);
-                // 需要客户端对象来发送请求
-                HttpClient httpClient = new DefaultHttpClient();
-                // 发送请求
-                HttpResponse response = httpClient.execute(httpPost);
-                JSONObject obj = Utility.response2obj(response);
-                Log.i(TAG, obj.getString("message"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
-    private class AsyncDownloadPortrait extends AsyncTask<String, Void, Bitmap> {
 
-        @Override
-        protected Bitmap doInBackground(String... params) {
 
-            String url1 = Utility.serverUrl + "/getPortrait";
-            HttpGet httpGet = new HttpGet(url1);
-            HttpClient httpClient = new DefaultHttpClient();
-            httpGet.addHeader("Authorization",ApiKey);
-            JSONObject obj = null;
-            String fileName = "";
-            try{
-                HttpResponse response = httpClient.execute(httpGet);
-                StatusLine a = response.getStatusLine();
-                Log.i("IMPORTANT", "GET request: Status code = " + a.getStatusCode());
-                obj = Utility.response2obj(response);
-                if(obj.getBoolean("error") == true){
-                    return null;
-                }else{
-                    fileName = obj.getString("file_name");
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "onDestroy()");
+        super.onDestroy();
+    }
 
-            Bitmap bitmap = null;
-            try{
-                URL url = new URL(Utility.serverUrl + "/portrait/" + fileName);
-                HttpURLConnection conn  = (HttpURLConnection)url.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                InputStream inputStream=conn.getInputStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
+    public void onClick(View v) {
+        switch (v.getId()) {
 
-        protected void onPostExecute(Bitmap result){
-            super.onPostExecute(result);
-            if(result != null) {
-                portraitMod.setImageBitmap(result);
-            }else{
-                portraitMod.setImageDrawable(getResources().getDrawable(R.drawable.hhh));
-            }
+            default:
+                break;
         }
     }
+
+
 
 
 }

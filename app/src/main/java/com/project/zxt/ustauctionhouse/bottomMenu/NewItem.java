@@ -1,24 +1,27 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.bottomMenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import com.project.zxt.ustauctionhouse.R;
 
 /**
  * Created by Paul on 2015/4/12.
  *
  */
-public class PostItem extends bottomMenuActivity implements View.OnClickListener{
-    private static final String TAG = "PostItem";
+public class NewItem extends bottomMenuActivity implements View.OnClickListener{
+    private static final String TAG = "New Item";
     private String UserName, Email, ApiKey, CreatedAt;
     private Intent intent;
     private Context ctx;
+    private TextView testingText;
 
-    public int getContentViewLayoutResId() { return R.layout.post_item; }
+    public int getContentViewLayoutResId() { return R.layout.new_item; }
 
     final protected void onCreatOverride(Bundle savedInstanceState) {
 
@@ -30,6 +33,9 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         Email = intent.getStringExtra("user_email");
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
+
+        testingText = (TextView) findViewById(R.id.newItemTextview);
+        new XutongAsyncTask().execute();
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 
@@ -49,5 +55,20 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         }
     }
 
+    private class XutongAsyncTask extends AsyncTask<String, Void, String>{
 
+        @Override
+        protected String doInBackground(String... params) {
+            String tempString = null;
+            for(int i = 0; i < 1000; i++){
+                tempString += "Xutong...   ";
+            }
+            tempString += "This is the last line";
+            return tempString;
+        }
+
+        protected void onPostExecute(String result){
+            testingText.setText(result);
+        }
+    }
 }

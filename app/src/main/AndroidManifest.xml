@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LogIn"
+            android:name=".LoginRelated.LogIn"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,7 @@
             android:value="@integer/google_play_services_version" />
 
         <receiver
-            android:name=".GCMBroadcastReceiver"
+            android:name=".GCM.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -47,30 +47,32 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".GCMIntentService" />
+        <service android:name=".GCM.GCMIntentService" />
 
         <activity
-            android:name=".Register"
+            android:name=".LoginRelated.Register"
             android:label="Register New Account" />
         <activity
-            android:name=".PersonalInformation"
+            android:name=".PersonalInfo.PersonalInformation"
             android:label="Me" />
         <activity
-            android:name=".ModifyPersonalInfo"
+            android:name=".PersonalInfo.ModifyPersonalInfo"
             android:label="Modify" />
         <activity
-            android:name=".Search"
+            android:name=".SearchItem.Search"
             android:label="Search" />
         <activity
-            android:name=".NewItem"
-            android:label="Search" />
+            android:name=".bottomMenu.NewItem"
+            android:label="NewItem" />
         <activity
-            android:name=".PostItem"
-            android:label="Search" />
+            android:name=".PostItem.PostItem"
+            android:label="PostItem" />
         <activity
-            android:name=".SearchResult"
-            android:label="@string/title_activity_search_result" >
-        </activity>
+            android:name=".SearchItem.SearchResult"
+            android:label="SearchResult" />
+        <activity
+            android:name=".PersonalInfo.TransactionInfo"
+            android:label="MyBid" />
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse;
+package com.project.zxt.ustauctionhouse.bottomMenu;
 
 import android.view.Display;
 import android.view.WindowManager;
