@@ -7,6 +7,7 @@ import java.sql.Timestamp;
  * This is the class representation for single item
  */
 public class Unit {
+    public int id;
     public String name;
     public int status;
     public String createdAt;

@@ -11,10 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
+import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +37,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
     private static final int DARK_COLOR = 0xffe9e31d, BRIGHT_COLOR = 0xfffdff29;
     private TextView prev, next, blank;
     private GeneralSearch search;
+    private ArrayList<HashMap<String, String>> paramList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +87,6 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
                 break;
         }
 
-
-
        //为单一列表行添加单击事件
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -94,6 +95,10 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
 
                 //这里可以自由发挥，比如播放一首歌曲等等
                 Log.i("onClickEntry: ", "Position is " + position);
+                Log.i("onClickEntry: ", "task_ID is " + paramList.get(position).get("id"));
+                Intent intent = new Intent(ctx, ViewItem.class);
+                intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
+                startActivity(intent);
             }
         });
 
@@ -229,7 +234,8 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
     @Override
     public void update(Observable observable, Object data) {
         if(observable == search) {
-            LazyMyBidAdapter adapter = new LazyMyBidAdapter(this, (ArrayList<HashMap<String, String>>) data);
+            paramList = (ArrayList<HashMap<String, String>>) data;
+            LazyMyBidAdapter adapter = new LazyMyBidAdapter(this, paramList);
             search.deleteObserver(this);
             list.setAdapter(adapter);
             if(((ArrayList<HashMap<String, String>>)data).size() == 0){

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.project.zxt.ustauctionhouse.ItemListView.ImageLoader;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 
@@ -57,6 +58,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
     ImageButton portraitMod;
     Intent intent;
     private String ApiKey;
+    private ImageLoader imageLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -305,10 +307,10 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
 
     }
 
-    private class AsyncDownloadPortrait extends AsyncTask<String, Void, Bitmap> {
+    private class AsyncDownloadPortrait extends AsyncTask<String, Void, String> {
 
         @Override
-        protected Bitmap doInBackground(String... params) {
+        protected String doInBackground(String... params) {
 
             String url1 = Utility.serverUrl + "/getPortrait";
             HttpGet httpGet = new HttpGet(url1);
@@ -329,27 +331,15 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
             }catch (Exception e){
                 e.printStackTrace();
             }
-
-            Bitmap bitmap = null;
-            try{
-                URL url = new URL(Utility.serverUrl + "/portrait/" + fileName);
-                HttpURLConnection conn  = (HttpURLConnection)url.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                InputStream inputStream=conn.getInputStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
+            return fileName;
         }
 
-        protected void onPostExecute(Bitmap result){
+        protected void onPostExecute(String result){
             super.onPostExecute(result);
             if(result != null) {
-                portraitMod.setImageBitmap(result);
+                String imageFileURL = Utility.serverUrl + "/portrait/" + result;
+                imageLoader = new ImageLoader(ctx);
+                imageLoader.DisplayImage(imageFileURL, portraitMod);
             }else{
                 portraitMod.setImageDrawable(getResources().getDrawable(R.drawable.hhh));
             }

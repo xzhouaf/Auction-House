@@ -74,8 +74,8 @@
             android:name=".PersonalInfo.TransactionInfo"
             android:label="MyBid" />
         <activity
-            android:name=".Utility.GeneralSearch"
-            android:label="GeneralSearch" />
+            android:name=".ViewItem.ViewItem"
+            android:label="ViewItem" />
     </application>
 
 </manifest>

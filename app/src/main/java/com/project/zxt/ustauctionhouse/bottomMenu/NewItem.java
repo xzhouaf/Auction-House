@@ -14,6 +14,8 @@ import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
+import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
     private Context ctx;
     private ListView list;
     private GeneralSearch search;
+    private ArrayList<HashMap<String, String>> paramList;
 
     public int getContentViewLayoutResId() { return R.layout.new_item; }
 
@@ -51,7 +54,10 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Log.i("onClickEntry: ", "Position is " + position);
-                        Log.i("onClickEntry: ", "ID is " + id);
+                        Log.i("onClickEntry: ", "task_ID is " + paramList.get(position).get(Utility.KEY_ID));
+                        Intent intent = new Intent(ctx, ViewItem.class);
+                        intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
+                        startActivity(intent);
                     }
                 }
         );
@@ -82,7 +88,8 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
     @Override
     public void update(Observable observable, Object data) {
         if(observable == search){
-            LazyAdapter adapter = new LazyAdapter(this, (ArrayList<HashMap<String, String>>) data);
+            paramList = (ArrayList<HashMap<String, String>>) data;
+            LazyAdapter adapter = new LazyAdapter(this, paramList);
             search.deleteObserver(this);
             list.setAdapter(adapter);
         }

@@ -302,12 +302,18 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
                 modifyItemImage();
                 break;
             case R.id.confirm_post_button:
-                Log.i(TAG, condition_name.getSelectedItem().toString());
+                if(!validateInput()) return;
                 new AsyncPostItem().execute();
                 break;
             default:
                 break;
         }
+    }
+
+    private boolean validateInput(){
+        //TODO: Verify all the inputs by the user
+
+        return true;
     }
 
     private class AsyncPostItem extends AsyncTask<String, Void, JSONObject> {

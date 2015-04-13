@@ -16,6 +16,7 @@ import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Unit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
+import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
 
 import org.json.JSONException;
 
@@ -33,6 +34,7 @@ public class SearchResult extends Activity implements Observer {
     private GeneralSearch search;
     private Context ctx;
     private Intent intent;
+    private ArrayList<HashMap<String, String>> paramList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class SearchResult extends Activity implements Observer {
         search.addObserver(this);
         search.loadList();
 
+        ctx = getApplicationContext();
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -57,7 +61,10 @@ public class SearchResult extends Activity implements Observer {
 
                 //这里可以自由发挥，比如播放一首歌曲等等
                 Log.i("onClickEntry: ", "Position is " + position);
-                Log.i("onClickEntry: ", "ID is " + id);
+                Log.i("onClickEntry: ", "task_ID is " + paramList.get(position).get("id"));
+                Intent intent = new Intent(ctx, ViewItem.class);
+                intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
+                startActivity(intent);
             }
         });
     }
@@ -65,7 +72,8 @@ public class SearchResult extends Activity implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         if(observable == search) {
-            adapter = new LazyAdapter(this, (ArrayList<HashMap<String, String>>) data);
+            paramList = (ArrayList<HashMap<String, String>>) data;
+            adapter = new LazyAdapter(this, paramList);
             search.deleteObserver(this);
             list.setAdapter(adapter);
         }
