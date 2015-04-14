@@ -124,32 +124,32 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
             case R.id.search_button_again:
                 keyword = searchContainer.getText().toString();
                 category = categorySel.getSelectedItem().toString();
-                search = new GeneralSearch("",keyword.equals("All")? null:keyword, category,"","","");
+                search = new GeneralSearch("",category.equals("All")? null:category, keyword,"","","");
                 search.addObserver(this);
                 search.loadList();
                 break;
             case R.id.price_asc_touch:
                 if(currentBut.equals("priceAsc")) return;
                 currentBut = "priceAsc";
-                search = new GeneralSearch("0",category,keyword,ApiKey,"0","");
+                search = new GeneralSearch("0",category,keyword,"","0","");
                 onTabClick(priceAsc);
                 break;
             case R.id.price_desc_touch:
                 if(currentBut.equals("priceDesc")) return;
                 currentBut = "priceDesc";
-                search = new GeneralSearch("0",category,keyword,ApiKey,"1","");
+                search = new GeneralSearch("0",category,keyword,"","1","");
                 onTabClick(priceDesc);
                 break;
             case R.id.time_asc_touch:
                 if(currentBut.equals("timeAsc")) return;
                 currentBut = "timeAsc";
-                search = new GeneralSearch("0",category,keyword,ApiKey,"2","");
+                search = new GeneralSearch("0",category,keyword,"","2","");
                 onTabClick(timeAsc);
                 break;
             case R.id.time_desc_touch:
                 if(currentBut.equals("timeDesc")) return;
                 currentBut = "timeDesc";
-                search = new GeneralSearch("0",category,keyword,ApiKey,"3","");
+                search = new GeneralSearch("0",category,keyword,"","3","");
                 onTabClick(timeDesc);
                 break;
             default:
