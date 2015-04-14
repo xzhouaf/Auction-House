@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.ConditionCategoryLoader;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
@@ -23,6 +24,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.locks.Condition;
 
 /**
  * Created by Paul on 2015/4/12.
@@ -59,7 +62,7 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
 
         searchKeyword = (EditText) findViewById(R.id.searchInput);
 
-        new AsyncGetConditionCategory().execute();
+        new ConditionCategoryLoader(null, searchCategory, this).loadConditionCategory();
 
     }
 
@@ -75,79 +78,12 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
                 Intent intent = new Intent(ctx, SearchResult.class);
                 intent.putExtra("keywords", searchKeyword.getText().toString());
                 intent.putExtra("category", searchCategory.getSelectedItem().toString());
+                intent.putExtra("category_index", searchCategory.getSelectedItemPosition());
+                intent.putExtra("api", ApiKey);
                 startActivity(intent);
                 break;
             default:
                 break;
-        }
-    }
-
-    private class AsyncGetConditionCategory extends AsyncTask<String, Void, JSONObject> {
-
-        @Override
-        protected JSONObject doInBackground(String... params) {
-            if(!Utility.serverTest()){
-                return null;
-            }
-            JSONObject obj = null;
-            // 使用GET方法发送请求,需要把参数加在URL后面，用？连接，参数之间用&分隔
-            String url1 = Utility.serverUrl + "/conditionAndCategory";
-            // 生成请求对象
-            HttpGet httpGet = new HttpGet(url1);
-            HttpClient httpClient = new DefaultHttpClient();
-            // 发送请求
-            try{
-                HttpResponse response = httpClient.execute(httpGet);
-                obj = Utility.response2obj(response);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return obj;
-        }
-
-        protected void onPostExecute(JSONObject result){
-            super.onPostExecute(result);
-            if(result == null){
-                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
-                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                if(result.getString("error").equals("true")){
-                    Log.i("Update Failed!!!", "cannot update condition category");
-                }else{
-                    Log.i("Update Result:", result.toString());
-                    jsonAnalysis(result);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void jsonAnalysis(JSONObject obj) throws JSONException {
-            /*
-            if(!obj.isNull("condition")){
-                JSONArray conditionArray = obj.getJSONArray("condition");
-                String conditionNewArray[] = new String[conditionArray.length()];
-                for(int i = 0; i < conditionArray.length(); i++){
-                    conditionNewArray[i] = (String)((JSONObject)conditionArray.get(i)).get("condition_name");
-                    //Log.i("Important: ", conditionNewArray[i]);
-                }
-                ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,conditionNewArray);
-                condition_name.setAdapter(adapter);
-            }
-            */
-            if(!obj.isNull("category")){
-                JSONArray categoryArray = obj.getJSONArray("category");
-                String categoryNewArray[] = new String[categoryArray.length()+1];
-                categoryNewArray[0] = "All";
-                for(int i = 0; i < categoryArray.length(); i++){
-                    categoryNewArray[i+1] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
-                    //Log.i("Important: ", categoryNewArray[i]);
-                }
-                ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),R.layout.login_list_item,categoryNewArray);
-                searchCategory.setAdapter(adapter);
-            }
         }
     }
 
