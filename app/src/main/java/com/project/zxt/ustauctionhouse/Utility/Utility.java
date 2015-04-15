@@ -40,6 +40,8 @@ public class Utility {
     public static final String KEY_NAME= "name";
     public static final String KEY_SELLER = "seller";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_CURRENT_PRICE = "current_price";
+    public static final String KEY_TIME_LEFT = "time_left";
 
     public static List<Unit> string2unit(String result) throws JSONException {
         JSONObject obj = new JSONObject(result);

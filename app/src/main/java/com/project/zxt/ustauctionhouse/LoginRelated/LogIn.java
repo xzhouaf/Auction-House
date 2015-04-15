@@ -122,12 +122,12 @@ public class LogIn extends Activity implements View.OnClickListener {
     private void login(){
         //login
         if(!Utility.isOnline(ctx)){
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            imm.hideSoftInputFromWindow(passwordInput.getWindowToken(), 0);
             Toast.makeText(ctx,"Please check your network connection!", Toast.LENGTH_SHORT).show();
             return;
         }
         if(validateInput()) {
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            imm.hideSoftInputFromWindow(passwordInput.getWindowToken(), 0);
             new AsyncLogin().execute();
         }
     }

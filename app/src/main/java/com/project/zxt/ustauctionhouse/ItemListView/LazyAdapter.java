@@ -54,6 +54,8 @@ public class LazyAdapter extends BaseAdapter {
         TextView name = (TextView)vi.findViewById(R.id.EntryItemName); //
         TextView seller = (TextView)vi.findViewById(R.id.EntrySellerName); //
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.EntryItemImage); // 缩略图
+        TextView time_left = (TextView) vi.findViewById(R.id.entryTimeLeft);
+        TextView current_price = (TextView) vi.findViewById(R.id.searchEntryPrice);
 
         HashMap<String, String> goods = new HashMap<String, String>();
         goods = data.get(position);
@@ -61,6 +63,8 @@ public class LazyAdapter extends BaseAdapter {
         // 设置ListView的相关值
         name.setText(goods.get(Utility.KEY_NAME));
         seller.setText(goods.get(Utility.KEY_SELLER));
+        time_left.setText(goods.get(Utility.KEY_TIME_LEFT));
+        current_price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
     }
