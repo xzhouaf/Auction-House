@@ -119,19 +119,20 @@ public class GeneralSearch extends Observable {
             }
 
             ArrayList<HashMap<String, String>> goodList = new ArrayList<HashMap<String, String>>();
-
-            for(int i = 0; i < unitList.size(); i++){
-                // 新建一个 HashMap
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                //每个子节点添加到HashMap 密匙 => 值
-                map1.put(Utility.KEY_ID, unitList.get(i).id+"");
-                map1.put(Utility.KEY_NAME, unitList.get(i).name);
-                map1.put(Utility.KEY_SELLER, unitList.get(i).userName);
-                map1.put(Utility.KEY_TIME_LEFT, (unitList.get(i).timeLeft)/3600+" hr " + ((unitList.get(i).timeLeft)%3600)/60 + " min");
-                map1.put(Utility.KEY_CURRENT_PRICE, "$" + unitList.get(i).currentPrice);
-                map1.put(Utility.KEY_IMAGE, Utility.serverUrl + "/uploads/" + unitList.get(i).imageFileName);
-                // HashList添加到数组列表
-                goodList.add(map1);
+            if(unitList != null) {
+                for (int i = 0; i < unitList.size(); i++) {
+                    // 新建一个 HashMap
+                    HashMap<String, String> map1 = new HashMap<String, String>();
+                    //每个子节点添加到HashMap 密匙 => 值
+                    map1.put(Utility.KEY_ID, unitList.get(i).id + "");
+                    map1.put(Utility.KEY_NAME, unitList.get(i).name);
+                    map1.put(Utility.KEY_SELLER, unitList.get(i).userName);
+                    map1.put(Utility.KEY_TIME_LEFT, (unitList.get(i).timeLeft) / 3600 + " hr " + ((unitList.get(i).timeLeft) % 3600) / 60 + " min");
+                    map1.put(Utility.KEY_CURRENT_PRICE, "$" + unitList.get(i).currentPrice);
+                    map1.put(Utility.KEY_IMAGE, Utility.serverUrl + "/uploads/" + unitList.get(i).imageFileName);
+                    // HashList添加到数组列表
+                    goodList.add(map1);
+                }
             }
 
             setChanged();
