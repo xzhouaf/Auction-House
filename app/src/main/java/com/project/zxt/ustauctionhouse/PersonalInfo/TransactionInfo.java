@@ -98,6 +98,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
                 Log.i("onClickEntry: ", "task_ID is " + paramList.get(position).get("id"));
                 Intent intent = new Intent(ctx, ViewItem.class);
                 intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
+                intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
                 startActivity(intent);
             }
         });

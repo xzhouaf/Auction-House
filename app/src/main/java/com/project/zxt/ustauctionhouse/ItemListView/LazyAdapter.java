@@ -61,6 +61,7 @@ public class LazyAdapter extends BaseAdapter {
         goods = data.get(position);
 
         // 设置ListView的相关值
+
         name.setText(goods.get(Utility.KEY_NAME));
         seller.setText(goods.get(Utility.KEY_SELLER));
         time_left.setText(goods.get(Utility.KEY_TIME_LEFT));

@@ -134,23 +134,23 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 1:
-                if(data != null) {
-                    Uri uri = data.getData();
-                    Log.i("uri", uri.toString());
-                    imageUploader.startPhotoZoom(uri);
-                }
-                break;
-            case 2:
-                if(data != null){
-                    imageUploader.uploadItemImageToServer(data);
-                }
-                break;
-            default:
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+            switch (requestCode) {
+                case 1:
+                    if(data != null) {
+                        Uri uri = data.getData();
+                        Log.i("uri", uri.toString());
+                        imageUploader.startPhotoZoom(uri);
+                    }
+                    break;
+                case 2:
+                    if(data != null){
+                        imageUploader.uploadItemImageToServer(data);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -186,6 +186,35 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
 
     private boolean validateInput(){
         //TODO: Verify all the inputs by the user
+        if (name.getText().toString().equals("")) {
+            name.requestFocus();
+            name.setError("You should input an item Name");
+            return false;
+        }
+        if (description.getText().toString().equals("")) {
+            description.requestFocus();
+            description.setError("You should at least input one word of description!");
+            return false;
+        }
+
+        if(time_limit.getText().toString().equals("")){
+            time_limit.requestFocus();
+            time_limit.setError("You should specify the time limit");
+            return false;
+
+        }
+
+        if(current_price.getText().toString().equals("")){
+            current_price.requestFocus();
+            current_price.setError("An initial price should be specified!");
+            return false;
+        }
+        if(image_file_name.toString().equals("")){
+            Toast.makeText(this, "Upload image for your item!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
 
         return true;
     }

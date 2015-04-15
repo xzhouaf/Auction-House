@@ -44,6 +44,7 @@ public class Utility {
     public static final String KEY_TIME_LEFT = "time_left";
 
     public static List<Unit> string2unit(String result) throws JSONException {
+        Log.i("Important::::: ", result);
         JSONObject obj = new JSONObject(result);
         String error = obj.getString("error");
         if(error.equals("true")){
@@ -147,6 +148,17 @@ public class Utility {
             e.printStackTrace();
         }
         return (code==200);
+    }
+
+    public static String secondsToTime(int s){
+        int day = s/(3600*24);
+        int hour = (s%(3600*24))/3600;
+        int minute = ((s%(3600*24))%3600)/60;
+        int second = ((s%(3600*24))%3600)%60;
+
+        String convert =  day + "d " + hour +"h "+minute+"m "+second+"s";
+        return convert;
+
     }
 }
 

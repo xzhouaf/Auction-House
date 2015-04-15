@@ -28,6 +28,7 @@ import com.project.zxt.ustauctionhouse.GCM.RegisterApp;
 import com.project.zxt.ustauctionhouse.ItemListView.ImageLoader;
 import com.project.zxt.ustauctionhouse.LoginRelated.Register;
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.Unit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.bottomMenu.NewItem;
 
@@ -43,12 +44,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+
+import static com.project.zxt.ustauctionhouse.Utility.Utility.secondsToTime;
 
 /**
  * Created by Paul on 2015/4/14.
@@ -62,9 +70,12 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private ImageView image, bidNow;
     private ImageLoader imageLoader;
     private TextView timeLeft, viewSeller;
+    private TextView Description, ItemName, Price ,Category, Condition;
     private UpdateTimeLeft timeUpdater;
     private boolean continueUpdate = true;
     private InputMethodManager imm;
+    private String item_id,user_id;
+    private int intTimeLeft = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +90,24 @@ public class ViewItem extends Activity implements View.OnClickListener {
         timeLeft = (TextView) findViewById(R.id.ViewTimeLeft);
         viewSeller = (TextView) findViewById(R.id.ViewSeller);
         viewSeller.setOnClickListener(this);
+        Description = (TextView) findViewById(R.id.ViewDescription);
+        ItemName = (TextView) findViewById(R.id.ViewItemName);
+        Price = (TextView) findViewById(R.id.ViewPrice);
+        Category = (TextView) findViewById(R.id.ViewCategory);
+        Condition = (TextView) findViewById(R.id.ViewCondition);
         bidNow = (ImageView) findViewById(R.id.bidNow);
         bidNow.setOnClickListener(this);
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         String imageFileURL = intent.getStringExtra(Utility.KEY_IMAGE);
+        item_id = intent.getStringExtra((Utility.KEY_ID));
         imageLoader = new ImageLoader(ctx);
         imageLoader.DisplayImage(imageFileURL, image);
 
+        new AsyncGetSingleItem().execute();
+
         timeUpdater = new UpdateTimeLeft();
-        timeUpdater.execute();
+        timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
 
     }
 
@@ -108,6 +127,8 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 break;
             case R.id.ViewSeller:
                 Intent intent = new Intent(ctx, ViewSeller.class);
+                intent.putExtra("USER_KEY",user_id);
+                intent.putExtra("SELLER_NAME",viewSeller.getText());
                 startActivity(intent);
             default:
                 break;
@@ -175,7 +196,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            timeLeft.setText(counter+"");
+            timeLeft.setText(secondsToTime(intTimeLeft - counter));
         }
 
         @Override
@@ -193,5 +214,71 @@ public class ViewItem extends Activity implements View.OnClickListener {
             return null;
         }
     }
+
+    private class AsyncGetSingleItem extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String result = "";
+
+            NameValuePair pair1 = new BasicNameValuePair("task_id", item_id);
+
+            List<NameValuePair> pairList = new ArrayList<>();
+            pairList.add(pair1);
+
+            try {
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                // URL使用基本URL即可，其中不需要加参数
+                HttpPost httpPost = null;
+
+                    httpPost = new HttpPost(Utility.serverUrl + "/getSingleItem");
+
+
+                // 将请求体内容加入请求中
+                httpPost.setEntity(requestHttpEntity);
+                // 需要客户端对象来发送请求
+                HttpClient httpClient = new DefaultHttpClient();
+                // 发送请求
+                HttpResponse response = httpClient.execute(httpPost);
+
+                String line = "";
+                HttpEntity receivedEntity = response.getEntity();
+                InputStream receivedStream = receivedEntity.getContent();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        receivedStream));
+                while (null != (line = reader.readLine())) {
+                    result += line;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        protected void onPostExecute(String result){
+            List<Unit> unitList = null;
+            try {
+                unitList = Utility.string2unit(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            ItemName.setText(unitList.get(0).name);
+            Condition.setText(unitList.get(0).conditionName);
+            Description.setText(unitList.get(0).description);
+            viewSeller.setText(unitList.get(0).userName);
+            Price.setText("$ "+unitList.get(0).currentPrice);
+            Category.setText(unitList.get(0).categoryName);
+            intTimeLeft = Integer.valueOf(unitList.get(0).timeLeft);
+            user_id =unitList.get(0).userID+"";
+
+
+
+
+
+        }
+    }
+
 
 }
