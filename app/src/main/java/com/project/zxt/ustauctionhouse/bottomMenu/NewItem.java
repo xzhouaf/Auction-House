@@ -2,26 +2,20 @@ package com.project.zxt.ustauctionhouse.bottomMenu;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
-import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
 import com.project.zxt.ustauctionhouse.R;
-import com.project.zxt.ustauctionhouse.RefreshListView;
+import com.project.zxt.ustauctionhouse.ItemListView.RefreshListView;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;

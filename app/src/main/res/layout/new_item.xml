@@ -20,7 +20,7 @@
             android:id="@+id/textView3" />
     </LinearLayout>
 
-    <com.project.zxt.ustauctionhouse.RefreshListView
+    <com.project.zxt.ustauctionhouse.ItemListView.RefreshListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/new_item_listview" />

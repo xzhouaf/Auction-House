@@ -5,35 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.R;
-import com.project.zxt.ustauctionhouse.RefreshListView;
+import com.project.zxt.ustauctionhouse.ItemListView.RefreshListView;
 import com.project.zxt.ustauctionhouse.Utility.ConditionCategoryLoader;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
-import com.project.zxt.ustauctionhouse.Utility.Unit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.locks.Condition;
 
 
 public class SearchResult extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener {
