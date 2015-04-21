@@ -31,7 +31,7 @@
         android:layout_toRightOf="@+id/sHistoryItemImage"
         android:layout_marginLeft="5dp" />
     <TextView
-        android:id="@+id/sHistorySellerName"
+        android:id="@+id/sHistoryBuyerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GAO Zihou"

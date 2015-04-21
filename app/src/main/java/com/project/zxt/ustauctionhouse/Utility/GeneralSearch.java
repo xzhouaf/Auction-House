@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -130,6 +131,9 @@ public class GeneralSearch extends Observable {
                     map1.put(Utility.KEY_TIME_LEFT, (unitList.get(i).timeLeft) / 3600 + " hr " + ((unitList.get(i).timeLeft) % 3600) / 60 + " min");
                     map1.put(Utility.KEY_CURRENT_PRICE, "$" + unitList.get(i).currentPrice);
                     map1.put(Utility.KEY_IMAGE, Utility.serverUrl + "/uploads/" + unitList.get(i).imageFileName);
+                    map1.put(Utility.KEY_HIGHEST_BIDDER, (unitList.get(i).buyerName == null)? "No bidder yet" : unitList.get(i).buyerName);
+                    map1.put(Utility.KEY_HIGHEST_BIDDER_ID, unitList.get(i).buyerID+"");
+
                     // HashList添加到数组列表
                     goodList.add(map1);
                 }

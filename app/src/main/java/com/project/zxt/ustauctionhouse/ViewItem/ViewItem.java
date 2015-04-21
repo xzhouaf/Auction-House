@@ -74,7 +74,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private UpdateTimeLeft timeUpdater;
     private boolean continueUpdate = true;
     private InputMethodManager imm;
-    private String item_id,user_id;
+    private String item_id,item_user_id, UserID;
     private int intTimeLeft = 10000;
 
     @Override
@@ -104,6 +104,8 @@ public class ViewItem extends Activity implements View.OnClickListener {
         imageLoader = new ImageLoader(ctx);
         imageLoader.DisplayImage(imageFileURL, image);
 
+        UserID = intent.getStringExtra("user_ID");
+
         new AsyncGetSingleItem().execute();
 
         timeUpdater = new UpdateTimeLeft();
@@ -127,7 +129,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 break;
             case R.id.ViewSeller:
                 Intent intent = new Intent(ctx, ViewSeller.class);
-                intent.putExtra("USER_KEY",user_id);
+                intent.putExtra("USER_KEY",item_user_id);
                 intent.putExtra("SELLER_NAME",viewSeller.getText());
                 startActivity(intent);
             default:
@@ -271,7 +273,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
             Price.setText("$ "+unitList.get(0).currentPrice);
             Category.setText(unitList.get(0).categoryName);
             intTimeLeft = Integer.valueOf(unitList.get(0).timeLeft);
-            user_id =unitList.get(0).userID+"";
+            item_user_id =unitList.get(0).userID+"";
 
 
 
