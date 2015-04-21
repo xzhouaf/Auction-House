@@ -75,7 +75,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private UpdateTimeLeft timeUpdater;
     private boolean continueUpdate = true;
     private InputMethodManager imm;
-    private String item_id,user_id;
+    private String item_id,user_id, UserID;
     private int intTimeLeft = 10000;
 
     @Override
@@ -104,6 +104,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
         item_id = intent.getStringExtra((Utility.KEY_ID));
         imageLoader = new ImageLoader(ctx);
         imageLoader.DisplayImage(imageFileURL, image);
+        UserID = intent.getStringExtra("user_ID");
 
         new AsyncGetSingleItem().execute();
 
