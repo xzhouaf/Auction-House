@@ -63,7 +63,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
                 }
         );
 
-        search = new GeneralSearch("","","","","","");
+        search = new GeneralSearch("0","","","","","");
         search.addObserver(this);
         search.loadList();
 

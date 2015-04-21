@@ -126,7 +126,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
             case R.id.search_button_again:
                 keyword = searchContainer.getText().toString();
                 category = categorySel.getSelectedItem().toString();
-                search = new GeneralSearch("",category.equals("All")? null:category, keyword,"","","");
+                search = new GeneralSearch("0",category.equals("All")? null:category, keyword,"","","");
                 search.addObserver(this);
                 search.loadList();
                 break;

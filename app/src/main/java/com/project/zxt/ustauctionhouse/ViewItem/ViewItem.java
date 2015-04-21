@@ -137,7 +137,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
 
     private void onBidNowClick(){
         final EditText userInputPrice = new EditText(this);
-        userInputPrice.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        userInputPrice.setInputType(EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         AlertDialog a = new AlertDialog.Builder(this)
                 .setTitle("Input your bid price here")
                 .setIcon(android.R.drawable.ic_dialog_info)

@@ -23,7 +23,7 @@ import com.project.zxt.ustauctionhouse.R;
 
 public class GCMIntentService extends IntentService {
 
-    public static final int NOTIFICATION_ID = 1;
+    public static int NOTIFICATION_ID = 1;
     private static final String TAG = "GCMIntentService";
     //NotificationCompat.Builder builder;
 
@@ -104,6 +104,7 @@ public class GCMIntentService extends IntentService {
         mBuilder.setContentIntent(contentIntent);
 
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        NOTIFICATION_ID++;
     }
 
     public class AsyncVibration extends AsyncTask<String, Void, Integer> {
