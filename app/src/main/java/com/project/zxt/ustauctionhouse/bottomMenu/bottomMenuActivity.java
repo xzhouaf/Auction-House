@@ -27,7 +27,7 @@ public abstract class bottomMenuActivity extends Activity{
     protected bottomMenuLayout bottomMenuLayout;   //底部菜单UI部分
     protected View contentView;                    //页面中间UI部分
     private String current_tab;
-    private String UserName, Email, ApiKey, CreatedAt;
+    private String UserName, Email, ApiKey, CreatedAt, UserID;
     Intent intent;
     Context ctx;
     //private GestureDetector mDetector;
@@ -66,6 +66,7 @@ public abstract class bottomMenuActivity extends Activity{
         Email = intent.getStringExtra("user_email");
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
+        UserID = intent.getStringExtra("user_ID");
 
         Log.i("Current Tab: ", current_tab);
 
@@ -125,6 +126,7 @@ public abstract class bottomMenuActivity extends Activity{
                 i1.putExtra("user_email", Email);
                 i1.putExtra("user_apiKey", ApiKey);
                 i1.putExtra("user_createdAt", CreatedAt);
+                i1.putExtra("user_ID", UserID);
                 i1.putExtra("current_tab", "New Item");
                 startActivity(i1);
                 overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);
@@ -138,6 +140,7 @@ public abstract class bottomMenuActivity extends Activity{
                 i2.putExtra("user_email", Email);
                 i2.putExtra("user_apiKey", ApiKey);
                 i2.putExtra("user_createdAt", CreatedAt);
+                i2.putExtra("user_ID", UserID);
                 i2.putExtra("current_tab", "Post Item");
                 startActivity(i2);
                 overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);
@@ -151,6 +154,7 @@ public abstract class bottomMenuActivity extends Activity{
                 i3.putExtra("user_email", Email);
                 i3.putExtra("user_apiKey", ApiKey);
                 i3.putExtra("user_createdAt", CreatedAt);
+                i3.putExtra("user_ID", UserID);
                 i3.putExtra("current_tab", "Search");
                 startActivity(i3);
                 overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);
@@ -164,6 +168,7 @@ public abstract class bottomMenuActivity extends Activity{
                 i4.putExtra("user_email", Email);
                 i4.putExtra("user_apiKey", ApiKey);
                 i4.putExtra("user_createdAt", CreatedAt);
+                i4.putExtra("user_ID", UserID);
                 i4.putExtra("current_tab", "Me");
                 startActivity(i4);
                 overridePendingTransition(R.anim.out_alpha, R.anim.enter_alpha);

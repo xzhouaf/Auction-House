@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,13 +28,12 @@ import java.util.Observer;
  */
 public class NewItem extends bottomMenuActivity implements View.OnClickListener, Observer{
     private static final String TAG = "New Item";
-    private String UserName, Email, ApiKey, CreatedAt;
+    private String UserName, Email, ApiKey, CreatedAt, UserID;
     private Intent intent;
     private Context ctx;
     private ListView list;
     private GeneralSearch search;
     private ArrayList<HashMap<String, String>> paramList;
-    private GestureDetector mDetector;
 
     public int getContentViewLayoutResId() { return R.layout.new_item; }
 
@@ -49,7 +47,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
         Email = intent.getStringExtra("user_email");
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
-        //mDetector =  new GestureDetector(this, new MyGestureListener());
+        UserID = intent.getStringExtra("user_ID");
 
         list = (ListView) findViewById(R.id.new_item_listview);
         list.setOnItemClickListener(
@@ -61,7 +59,8 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
                         Intent intent = new Intent(ctx, ViewItem.class);
                         intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
                         intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
-                        intent.putExtra("API_key",ApiKey);
+                        intent.putExtra("user_ID", UserID);
+                        intent.putExtra("API_key", ApiKey);
                         startActivity(intent);
                     }
                 }

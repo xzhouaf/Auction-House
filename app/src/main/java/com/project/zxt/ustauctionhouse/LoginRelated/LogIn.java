@@ -168,13 +168,14 @@ public class LogIn extends Activity implements View.OnClickListener {
         return result;
     }
 
-    private void saveLoggedInUser(String a, String b, String c, String d){
+    private void saveLoggedInUser(String a, String b, String c, String d, String e){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor prefed = prefs.edit();
         prefed.putString("loggedInA", a);
         prefed.putString("loggedInB", b);
         prefed.putString("loggedInC", c);
         prefed.putString("loggedInD", d);
+        prefed.putString("loggedInE", e);
         prefed.apply();
     }
 
@@ -184,10 +185,11 @@ public class LogIn extends Activity implements View.OnClickListener {
         String b = prefs.getString("loggedInB", null);
         String c = prefs.getString("loggedInC", null);
         String d = prefs.getString("loggedInD", null);
+        String e = prefs.getString("loggedInE", null);
         if(a == null){
             return;
         }else{
-            jumpToMainActivity(a,b,c,d);
+            jumpToMainActivity(a,b,c,d,e);
         }
     }
 
@@ -239,11 +241,12 @@ public class LogIn extends Activity implements View.OnClickListener {
                         String fetchedEmail = result.getString("email");
                         String fetchedApiKey = result.getString("apiKey");
                         String fetchedCreatedAt = result.getString("createdAt");
+                        String fetchedUserID = result.getString("user_id");
                         new RegisterApp(fetchedApiKey ,ctx, GoogleCloudMessaging.getInstance(ctx), Utility.getAppVersion(ctx)).execute();
 
                         saveLoginEmail(userNameInput.getText().toString());
-                        saveLoggedInUser(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt);
-                        jumpToMainActivity(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt);
+                        saveLoggedInUser(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt, fetchedUserID);
+                        jumpToMainActivity(fetchedUserName, fetchedEmail, fetchedApiKey, fetchedCreatedAt, fetchedUserID);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -251,12 +254,13 @@ public class LogIn extends Activity implements View.OnClickListener {
         }
     }
 
-    private void jumpToMainActivity(String a, String b, String c, String d){
+    private void jumpToMainActivity(String a, String b, String c, String d, String e){
         Intent i = new Intent(ctx, NewItem.class);
         i.putExtra("user_name", a);
         i.putExtra("user_email", b);
         i.putExtra("user_apiKey", c);
         i.putExtra("user_createdAt", d);
+        i.putExtra("user_ID", e);
         i.putExtra("current_tab", "New Item");
         startActivity(i);
         Toast.makeText(ctx, "Welcome, " + a, Toast.LENGTH_SHORT).show();

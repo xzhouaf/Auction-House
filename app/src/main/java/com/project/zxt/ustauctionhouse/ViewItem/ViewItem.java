@@ -76,9 +76,8 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private UpdateTimeLeft timeUpdater;
     private boolean continueUpdate = true;
     private InputMethodManager imm;
-    private String item_id,user_id, priceInput, ApiKey;
+    private String item_id, user_id, priceInput, ApiKey, UserID;
     private int intTimeLeft = 10000;
-    //push
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +101,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
         bidNow.setOnClickListener(this);
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         ApiKey = intent.getStringExtra("API_key");
+        UserID = intent.getStringExtra("user_ID");
 
         String imageFileURL = intent.getStringExtra(Utility.KEY_IMAGE);
         item_id = intent.getStringExtra((Utility.KEY_ID));
@@ -140,9 +140,10 @@ public class ViewItem extends Activity implements View.OnClickListener {
     }
 
     private void onBidNowClick(){
+        Log.i("Debugggg ", "user_id" + user_id + "UserID" + UserID);
         final EditText userInputPrice = new EditText(this);
         userInputPrice.setInputType(EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        if (user_id.equals("123")){
+        if (user_id.equals(UserID)){
             new AlertDialog.Builder(this)
                     .setTitle("Information")
                     .setMessage("You can't buy your own item!")

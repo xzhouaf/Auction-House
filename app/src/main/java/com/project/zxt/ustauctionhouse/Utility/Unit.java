@@ -20,6 +20,8 @@ public class Unit {
     public  String imageFileName;
     public String userName;
     public int userID;
+    public String buyerName;
+    public int buyerID;
     public int timeLeft;
 }
 

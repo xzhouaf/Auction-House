@@ -47,7 +47,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
     private Spinner categorySel;
     private TextView searchBut;
     private EditText searchContainer;
-    private String currentBut = "priceAsc", ApiKey;
+    private String currentBut = "priceAsc", ApiKey, UserID;
     private static final int DARK_COLOR = 0xffe9e31d, BRIGHT_COLOR = 0xfffdff29;
     private String keyword, category;
 
@@ -74,6 +74,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
 
         keyword = intent.getStringExtra("keywords");
         category = intent.getStringExtra("category");
+        UserID = intent.getStringExtra("user_ID");
         if(category.equals("All")) category = "";
         ApiKey = intent.getStringExtra("api");
 
@@ -95,8 +96,8 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
                 Intent intent = new Intent(ctx, ViewItem.class);
                 intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
                 intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
+                intent.putExtra("user_ID", UserID);
                 intent.putExtra("API_key", ApiKey);
-
                 startActivity(intent);
             }
         });
