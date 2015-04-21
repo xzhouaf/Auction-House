@@ -56,6 +56,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+import static com.project.zxt.ustauctionhouse.Utility.Utility.formatDouble;
 import static com.project.zxt.ustauctionhouse.Utility.Utility.secondsToTime;
 
 /**
@@ -71,10 +72,11 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private ImageLoader imageLoader;
     private TextView timeLeft, viewSeller;
     private TextView Description, ItemName, Price ,Category, Condition;
+    private double cPrice;
     private UpdateTimeLeft timeUpdater;
     private boolean continueUpdate = true;
     private InputMethodManager imm;
-    private String item_id,user_id;
+    private String item_id,user_id, priceInput, ApiKey;
     private int intTimeLeft = 10000;
 
     @Override
@@ -98,6 +100,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
         bidNow = (ImageView) findViewById(R.id.bidNow);
         bidNow.setOnClickListener(this);
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+        ApiKey = intent.getStringExtra("API_key");
 
         String imageFileURL = intent.getStringExtra(Utility.KEY_IMAGE);
         item_id = intent.getStringExtra((Utility.KEY_ID));
@@ -138,6 +141,20 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private void onBidNowClick(){
         final EditText userInputPrice = new EditText(this);
         userInputPrice.setInputType(EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        if (user_id.equals("123")){
+            new AlertDialog.Builder(this)
+                    .setTitle("Information")
+                    .setMessage("You can't buy your own item!")
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            imm.hideSoftInputFromWindow(userInputPrice.getWindowToken(), 0);
+                        }
+                    })
+                    .show();
+            return;
+
+        }
         AlertDialog a = new AlertDialog.Builder(this)
                 .setTitle("Input your bid price here")
                 .setIcon(android.R.drawable.ic_dialog_info)
@@ -146,7 +163,15 @@ public class ViewItem extends Activity implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         imm.hideSoftInputFromWindow(userInputPrice.getWindowToken(), 0);
-                        confirmBid(userInputPrice.getText().toString());
+                        if(confirmBid(userInputPrice.getText().toString())){
+                            priceInput = userInputPrice.getText().toString();
+                            new AsyncPlaceBid().execute();
+                            new AsyncGetSingleItem().execute();
+
+
+
+
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -168,7 +193,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 }, 50);
     }
 
-    private void confirmBid(String input){
+    private boolean confirmBid(String input){
         if(!validateInputPrice(input)){
             new AlertDialog.Builder(this)
                     .setTitle("Information")
@@ -180,8 +205,34 @@ public class ViewItem extends Activity implements View.OnClickListener {
                         }
                     })
                     .show();
-            return;
+            return false;
         }
+
+        if(Double.valueOf(input)<findMinBidPrice()){
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("You must input a price larger than"+findMinBidPrice())
+                    .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onBidNowClick();
+                        }
+                    })
+                    .show();
+            return false;
+
+        }
+        return true;
+    }
+
+    private double findMinBidPrice(){
+
+
+        if (cPrice/20>1){
+            return formatDouble((int)cPrice/20+cPrice);
+        }
+        return formatDouble(cPrice+1);
     }
 
     private boolean validateInputPrice(String in){
@@ -269,6 +320,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
             Description.setText(unitList.get(0).description);
             viewSeller.setText(unitList.get(0).userName);
             Price.setText("$ "+unitList.get(0).currentPrice);
+            cPrice = unitList.get(0).currentPrice;
             Category.setText(unitList.get(0).categoryName);
             intTimeLeft = Integer.valueOf(unitList.get(0).timeLeft);
             user_id =unitList.get(0).userID+"";
@@ -277,8 +329,114 @@ public class ViewItem extends Activity implements View.OnClickListener {
 
 
 
+
         }
     }
 
+    private class AsyncPlaceBid extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+
+
+            JSONObject obj = null;
+            NameValuePair pair1 = new BasicNameValuePair("item_id", item_id);
+            NameValuePair pair2 = new BasicNameValuePair("bid_price", priceInput);
+
+
+            List<NameValuePair> pairList = new ArrayList<>();
+            pairList.add(pair1);
+            pairList.add(pair2);
+
+            try {
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                // URL使用基本URL即可，其中不需要加参数
+                HttpPost httpPost = new HttpPost(Utility.serverUrl + "/placeBid");
+                httpPost.addHeader("Authorization", ApiKey);
+                // 将请求体内容加入请求中
+                httpPost.setEntity(requestHttpEntity);
+                // 需要客户端对象来发送请求
+                HttpClient httpClient = new DefaultHttpClient();
+                // 发送请求
+                HttpResponse response = httpClient.execute(httpPost);
+                obj = Utility.response2obj(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return obj;
+        }
+
+        protected void onPostExecute(JSONObject result){
+            super.onPostExecute(result);
+            if(result == null){
+                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
+                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                Toast.makeText(ctx, result.getString("message"), Toast.LENGTH_SHORT).show();
+                if(result.getString("error").equals("true")){
+
+                }else{
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class AsyncDirectBuy extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+
+
+            JSONObject obj = null;
+            NameValuePair pair1 = new BasicNameValuePair("item_id", item_id);
+            NameValuePair pair2 = new BasicNameValuePair("buy_price", priceInput);
+
+
+            List<NameValuePair> pairList = new ArrayList<>();
+            pairList.add(pair1);
+            pairList.add(pair2);
+
+            try {
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                // URL使用基本URL即可，其中不需要加参数
+                HttpPost httpPost = new HttpPost(Utility.serverUrl + "/directBuy");
+                httpPost.addHeader("Authorization", ApiKey);
+                // 将请求体内容加入请求中
+                httpPost.setEntity(requestHttpEntity);
+                // 需要客户端对象来发送请求
+                HttpClient httpClient = new DefaultHttpClient();
+                // 发送请求
+                HttpResponse response = httpClient.execute(httpPost);
+                obj = Utility.response2obj(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return obj;
+        }
+
+        protected void onPostExecute(JSONObject result){
+            super.onPostExecute(result);
+            if(result == null){
+                Toast.makeText(ctx, "Cannot connect to server now. Make sure you connect to " +
+                        "SMobileNet and the server is turned on!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                Toast.makeText(ctx, result.getString("message"), Toast.LENGTH_SHORT).show();
+                if(result.getString("error").equals("true")){
+
+                }else{
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

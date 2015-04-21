@@ -84,6 +84,10 @@ public class Utility {
         return obj;
     }
 
+    public static double formatDouble(double d) {
+        return (double)Math.round(d*100)/100;
+    }
+
     public static boolean initializeDirectory(){
         File dir = new File(DATABASE_PATH);
         if (!dir.exists()) {
