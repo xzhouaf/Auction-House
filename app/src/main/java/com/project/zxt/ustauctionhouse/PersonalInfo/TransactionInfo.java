@@ -18,7 +18,7 @@ import com.project.zxt.ustauctionhouse.ItemListView.MyAuctionAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.MyBidHistoryAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.MySellHistoryAdapter;
 import com.project.zxt.ustauctionhouse.R;
-import com.project.zxt.ustauctionhouse.SelfDefineListView.RefreshListView;
+import com.project.zxt.ustauctionhouse.RefreshListView;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;

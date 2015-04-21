@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
 import com.project.zxt.ustauctionhouse.R;
-import com.project.zxt.ustauctionhouse.SelfDefineListView.RefreshListView;
+import com.project.zxt.ustauctionhouse.RefreshListView;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
