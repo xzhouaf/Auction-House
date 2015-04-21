@@ -45,7 +45,7 @@ import java.net.URL;
 public class PersonalInformation extends bottomMenuActivity implements View.OnClickListener{
     private static final String TAG = "Personal Information";
     private LinearLayout personalInfo, myAuction, myBid, myHistory;
-    private String UserName, Email, ApiKey, CreatedAt, UserID;
+    private String UserName, Email, ApiKey, CreatedAt;
     private Intent intent;
     private Context ctx;
     private ImageView portrait;
@@ -85,7 +85,6 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
         Email = intent.getStringExtra("user_email");
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
-        UserID = intent.getStringExtra("user_ID");
 
         name = (TextView) findViewById(R.id.me_UserName);
         name.setText(UserName);
@@ -112,7 +111,6 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
             case R.id.personal_info:
                 Intent i = new Intent(getBaseContext(), ModifyPersonalInfo.class);
                 i.putExtra("api_key", ApiKey);
-                i.putExtra("user_ID", UserID);
                 startActivityForResult(i, 1);
                 break;
             case R.id.update:
@@ -122,21 +120,18 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
                 Intent intent1 = new Intent(ctx, TransactionInfo.class);
                 intent1.putExtra("currentTransactionInfoBut", "biddingBut");
                 intent1.putExtra("user_apiKey", ApiKey);
-                intent1.putExtra("user_ID", UserID);
                 startActivity(intent1);
                 break;
             case R.id.myAuction:
                 Intent intent2 = new Intent(ctx, TransactionInfo.class);
                 intent2.putExtra("currentTransactionInfoBut", "sellingBut");
                 intent2.putExtra("user_apiKey", ApiKey);
-                intent2.putExtra("user_ID", UserID);
                 startActivity(intent2);
                 break;
             case R.id.myHistory:
                 Intent intent3 = new Intent(ctx, TransactionInfo.class);
                 intent3.putExtra("currentTransactionInfoBut", "bidHisBut");
                 intent3.putExtra("user_apiKey", ApiKey);
-                intent3.putExtra("user_ID", UserID);
                 startActivity(intent3);
                 break;
             default:

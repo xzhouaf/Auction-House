@@ -49,7 +49,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
     private EditText searchContainer;
     private String currentBut = "priceAsc", ApiKey;
     private static final int DARK_COLOR = 0xffe9e31d, BRIGHT_COLOR = 0xfffdff29;
-    private String keyword, category, UserID;
+    private String keyword, category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,6 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
         category = intent.getStringExtra("category");
         if(category.equals("All")) category = "";
         ApiKey = intent.getStringExtra("api");
-        UserID = intent.getStringExtra("user_ID");
 
         list=(ListView)findViewById(R.id.search_result_frame_list);
         search = new GeneralSearch("0",category,keyword,"","","");
@@ -96,7 +95,8 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
                 Intent intent = new Intent(ctx, ViewItem.class);
                 intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
                 intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
-                intent.putExtra("user_ID", UserID);
+                intent.putExtra("API_key", ApiKey);
+
                 startActivity(intent);
             }
         });

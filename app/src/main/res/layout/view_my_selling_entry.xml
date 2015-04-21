@@ -31,9 +31,10 @@
         android:layout_toRightOf="@+id/sellEntryItemImage"
         android:layout_marginLeft="5dp" />
     <TextView
-        android:id="@+id/sellEntryHighestBidderName"
+        android:id="@+id/sellEntrySellerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="GAO Zihou"
         android:textSize="12sp"
         android:textColor="#ff6964ff"
         android:layout_above="@+id/linearLayout"

@@ -63,7 +63,7 @@ import java.util.Observer;
  */
 public class PostItem extends bottomMenuActivity implements View.OnClickListener, Observer{
     private static final String TAG = "PostItem";
-    private String UserName, Email, ApiKey, CreatedAt, UserID;
+    private String UserName, Email, ApiKey, CreatedAt;
     private Intent intent;
     private Context ctx;
     private String image_file_name;
@@ -86,7 +86,6 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         Email = intent.getStringExtra("user_email");
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
-        UserID = intent.getStringExtra("user_ID");
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 

@@ -34,7 +34,7 @@ import java.util.concurrent.locks.Condition;
 
 public class Search extends bottomMenuActivity implements View.OnClickListener{
     private static final String TAG = "Search";
-    private String UserName, Email, ApiKey, CreatedAt, UserID;
+    private String UserName, Email, ApiKey, CreatedAt;
     private Intent intent;
     private Context ctx;
     private Spinner searchCategory;
@@ -52,7 +52,6 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
         Email = intent.getStringExtra("user_email");
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
-        UserID = intent.getStringExtra("user_ID");
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 
@@ -81,7 +80,6 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
                 intent.putExtra("category", searchCategory.getSelectedItem().toString());
                 intent.putExtra("category_index", searchCategory.getSelectedItemPosition());
                 intent.putExtra("api", ApiKey);
-                intent.putExtra("user_ID", UserID);
                 startActivity(intent);
                 break;
             default:

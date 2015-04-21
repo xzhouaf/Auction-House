@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
-import com.project.zxt.ustauctionhouse.ItemListView.MyAuctionAdapter;
-import com.project.zxt.ustauctionhouse.ItemListView.MyBidHistoryAdapter;
-import com.project.zxt.ustauctionhouse.ItemListView.MySellHistoryAdapter;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
@@ -34,12 +31,12 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
 
     private ListView list;
     private LinearLayout sellingBut, biddingBut, sellHisBut, bidHisBut;
-    private String currentBut, ApiKey, UserID;
+    private String currentBut, ApiKey;
     private Context ctx;
     private Intent intent;
     private static final int DARK_COLOR = 0xffe9e31d, BRIGHT_COLOR = 0xfffdff29;
     private TextView prev, next, blank;
-    private GeneralSearch biddingSearch, sellingSearch, bidHisSearch, sellHisSearch;
+    private GeneralSearch search;
     private ArrayList<HashMap<String, String>> paramList;
 
     @Override
@@ -72,7 +69,6 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         currentBut = intent.getStringExtra("currentTransactionInfoBut");
         if(currentBut == null) currentBut = "biddingBut";
         ApiKey = intent.getStringExtra("user_apiKey");
-        UserID = intent.getStringExtra("user_ID");
 
         switch(currentBut){
             case "biddingBut":
@@ -103,7 +99,6 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
                 Intent intent = new Intent(ctx, ViewItem.class);
                 intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
                 intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
-                intent.putExtra("user_ID", UserID);
                 startActivity(intent);
             }
         });
@@ -144,9 +139,9 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         bidHisBut.setBackgroundColor(DARK_COLOR);
         biddingBut.setBackgroundColor(BRIGHT_COLOR);
 
-        biddingSearch = new GeneralSearch("0","","",ApiKey,"","1");
-        biddingSearch.addObserver(this);
-        biddingSearch.loadList();
+        search = new GeneralSearch("0","","",ApiKey,"","1");
+        search.addObserver(this);
+        search.loadList();
     }
 
     private void onSellingButClick(){
@@ -155,9 +150,9 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         bidHisBut.setBackgroundColor(DARK_COLOR);
         biddingBut.setBackgroundColor(DARK_COLOR);
 
-        sellingSearch = new GeneralSearch("0","","",ApiKey,"","0");
-        sellingSearch.addObserver(this);
-        sellingSearch.loadList();
+        search = new GeneralSearch("0","","",ApiKey,"","0");
+        search.addObserver(this);
+        search.loadList();
     }
 
     private void onBidHisButClick(){
@@ -166,9 +161,9 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         bidHisBut.setBackgroundColor(BRIGHT_COLOR);
         biddingBut.setBackgroundColor(DARK_COLOR);
 
-        bidHisSearch = new GeneralSearch("1","","",ApiKey,"","1");
-        bidHisSearch.addObserver(this);
-        bidHisSearch.loadList();
+        search = new GeneralSearch("1","","",ApiKey,"","1");
+        search.addObserver(this);
+        search.loadList();
     }
 
     private void onSellHisButClick(){
@@ -177,49 +172,78 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         bidHisBut.setBackgroundColor(DARK_COLOR);
         biddingBut.setBackgroundColor(DARK_COLOR);
 
-        sellHisSearch = new GeneralSearch("1","","",ApiKey,"","0");
-        sellHisSearch.addObserver(this);
-        sellHisSearch.loadList();
+        search = new GeneralSearch("1","","",ApiKey,"","0");
+        search.addObserver(this);
+        search.loadList();
     }
 
+/*
+    private ArrayList<HashMap<String, String>> testBlankInfoGenerator(){
 
+
+        return new ArrayList<HashMap<String, String>>();
+    }
+
+    private ArrayList<HashMap<String, String>> testInfoGenerator(){
+        ArrayList<HashMap<String, String>> goodList = new ArrayList<HashMap<String, String>>();
+
+        // 新建一个 HashMap
+        HashMap<String, String> map1 = new HashMap<String, String>();
+        //每个子节点添加到HashMap关键= >值
+        map1.put(Utility.KEY_ID, "0");
+        map1.put(Utility.KEY_NAME, "德国熊啤酒");
+        map1.put(Utility.KEY_SELLER, "Paul");
+        map1.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428604005173.bmp");
+        // HashList添加到数组列表
+        goodList.add(map1);
+
+        HashMap<String, String> map2 = new HashMap<String, String>();
+        //每个子节点添加到HashMap关键= >值
+        map2.put(Utility.KEY_ID, "1");
+        map2.put(Utility.KEY_NAME, "SONY PS4");
+        map2.put(Utility.KEY_SELLER, "Tony");
+        map2.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428610080251.bmp");
+        // HashList添加到数组列表
+        goodList.add(map2);
+
+        HashMap<String, String> map3 = new HashMap<String, String>();
+        //每个子节点添加到HashMap关键= >值
+        map3.put(Utility.KEY_ID, "2");
+        map3.put(Utility.KEY_NAME, "LG G3 Phone");
+        map3.put(Utility.KEY_SELLER, "Big Brother");
+        map3.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428613508787.bmp");
+        // HashList添加到数组列表
+        goodList.add(map3);
+
+        HashMap<String, String> map4 = new HashMap<String, String>();
+        //每个子节点添加到HashMap关键= >值
+        map4.put(Utility.KEY_ID, "3");
+        map4.put(Utility.KEY_NAME, "Thinkpad T430");
+        map4.put(Utility.KEY_SELLER, "Paul");
+        map4.put(Utility.KEY_IMAGE, Utility.serverUrl + "/portrait/" + "1428614319776.bmp");
+        // HashList添加到数组列表
+        goodList.add(map4);
+
+        blank.setText("");
+        prev.setText("Previous");
+        next.setText("Next");
+
+        return goodList;
+    }
+
+*/
     @Override
     public void update(Observable observable, Object data) {
-        boolean ok = false;
-        if(observable == biddingSearch) {
+        if(observable == search) {
             paramList = (ArrayList<HashMap<String, String>>) data;
-            LazyMyBidAdapter adapter = new LazyMyBidAdapter(this, paramList, UserID);
-            biddingSearch.deleteObserver(this);
+            LazyMyBidAdapter adapter = new LazyMyBidAdapter(this, paramList);
+            search.deleteObserver(this);
             list.setAdapter(adapter);
-            ok = true;
-        }
-        else if(observable == sellingSearch) {
-            paramList = (ArrayList<HashMap<String, String>>) data;
-            MyAuctionAdapter adapter = new MyAuctionAdapter(this, paramList);
-            sellingSearch.deleteObserver(this);
-            list.setAdapter(adapter);
-            ok = true;
-        }
-        else if(observable == bidHisSearch) {
-            paramList = (ArrayList<HashMap<String, String>>) data;
-            MyBidHistoryAdapter adapter = new MyBidHistoryAdapter(this, paramList);
-            bidHisSearch.deleteObserver(this);
-            list.setAdapter(adapter);
-            ok = true;
-        }
-        else if(observable == sellHisSearch) {
-            paramList = (ArrayList<HashMap<String, String>>) data;
-            MySellHistoryAdapter adapter = new MySellHistoryAdapter(this, paramList);
-            sellHisSearch.deleteObserver(this);
-            list.setAdapter(adapter);
-            ok = true;
-        }
-        if(ok) {
-            if ((paramList).size() == 0) {
+            if(((ArrayList<HashMap<String, String>>)data).size() == 0){
                 blank.setText("Sorry, no item found");
                 prev.setText("");
                 next.setText("");
-            } else {
+            }else{
                 blank.setText("");
                 prev.setText("Previous");
                 next.setText("Next");
