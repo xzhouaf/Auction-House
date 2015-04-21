@@ -74,7 +74,6 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
 
         keyword = intent.getStringExtra("keywords");
         category = intent.getStringExtra("category");
-        UserID = intent.getStringExtra("user_ID");
         if(category.equals("All")) category = "";
         ApiKey = intent.getStringExtra("api");
 
@@ -96,7 +95,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
                 Intent intent = new Intent(ctx, ViewItem.class);
                 intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
                 intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
-                intent.putExtra("user_ID", UserID);
+
                 startActivity(intent);
             }
         });
