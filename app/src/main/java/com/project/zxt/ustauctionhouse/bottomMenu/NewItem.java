@@ -29,12 +29,13 @@ import java.util.Observer;
  */
 public class NewItem extends bottomMenuActivity implements View.OnClickListener, Observer{
     private static final String TAG = "New Item";
-    private String UserName, Email, ApiKey, CreatedAt, UserID;
+    private String UserName, Email, ApiKey, CreatedAt;
     private Intent intent;
     private Context ctx;
     private ListView list;
     private GeneralSearch search;
     private ArrayList<HashMap<String, String>> paramList;
+    private GestureDetector mDetector;
 
     public int getContentViewLayoutResId() { return R.layout.new_item; }
 
@@ -48,7 +49,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
         Email = intent.getStringExtra("user_email");
         ApiKey = intent.getStringExtra("user_apiKey");
         CreatedAt = intent.getStringExtra("user_createdAt");
-        UserID = intent.getStringExtra("user_ID");
+        //mDetector =  new GestureDetector(this, new MyGestureListener());
 
         list = (ListView) findViewById(R.id.new_item_listview);
         list.setOnItemClickListener(
@@ -60,7 +61,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
                         Intent intent = new Intent(ctx, ViewItem.class);
                         intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
                         intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
-                        intent.putExtra("user_ID", UserID);
+                        intent.putExtra("API_key",ApiKey);
                         startActivity(intent);
                     }
                 }

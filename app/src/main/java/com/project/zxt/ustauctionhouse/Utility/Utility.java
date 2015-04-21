@@ -42,8 +42,6 @@ public class Utility {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_CURRENT_PRICE = "current_price";
     public static final String KEY_TIME_LEFT = "time_left";
-    public static final String KEY_HIGHEST_BIDDER = "highest_bidder";
-    public static final String KEY_HIGHEST_BIDDER_ID = "highest_bidder_ID";
 
     public static List<Unit> string2unit(String result) throws JSONException {
         Log.i("Important::::: ", result);

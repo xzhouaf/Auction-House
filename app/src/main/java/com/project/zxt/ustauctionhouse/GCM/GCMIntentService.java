@@ -89,12 +89,8 @@ public class GCMIntentService extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        //PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-               // new Intent(this, LogIn.class), 0);
-
-        Intent appIntent = new Intent(getApplicationContext(),LogIn.class);
-        appIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);//关键的一步，设置启动模式
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, LogIn.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -105,7 +101,6 @@ public class GCMIntentService extends IntentService {
                         .setContentText(msg)
                         .setAutoCancel(true);
 
-        PendingIntent contentIntent =PendingIntent.getActivity(this, 0,appIntent,0);
         mBuilder.setContentIntent(contentIntent);
 
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
