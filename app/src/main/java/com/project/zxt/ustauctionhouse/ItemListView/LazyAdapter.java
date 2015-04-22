@@ -14,6 +14,7 @@ import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Paul on 2015/4/12.
@@ -68,5 +69,10 @@ public class LazyAdapter extends BaseAdapter {
         current_price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
+    }
+
+    public void updateView( ArrayList<HashMap<String, String>> datas ){
+        this.data = datas;
+        this.notifyDataSetChanged();
     }
 }

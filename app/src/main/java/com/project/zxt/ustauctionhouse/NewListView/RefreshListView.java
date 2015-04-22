@@ -34,7 +34,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
     // listview 当前滚动状态；
     int scrollState;
     // 标记，当前是在listview最顶端摁下的；
-    boolean isRefresh;
+    boolean isRefresh = false;
     // 摁下时的Y值；
     int startY;
     //控制下拉的速度
@@ -47,6 +47,20 @@ public class RefreshListView extends ListView implements OnScrollListener{
     final int PULL = 1;// 提示下拉状态；
     final int RELESE = 2;// 提示释放状态；
     final int REFLASHING = 3;// 刷新状态；
+
+    /* For pagination feature */
+    //底部View
+    private View footerView;
+    //ListView item个数
+    int totalItemCount = 0;
+    //最后可见的Item
+    int lastVisibleItem = 0;
+    //是否加载标示
+    boolean isLoading = false;
+    /* Pagination end */
+
+    private TextView footer_text;
+    private ProgressBar footer_progress;
 
     public RefreshListView(Context context) {
         super(context);
@@ -69,21 +83,44 @@ public class RefreshListView extends ListView implements OnScrollListener{
      */
     private void initView(Context context){
         LayoutInflater mInflater = LayoutInflater.from(context);
-        topView = mInflater.inflate(R.layout.top, null);
 
+        topView = mInflater.inflate(R.layout.top, null);
         measureView(topView);
         headerHeight = topView.getMeasuredHeight();
         //初始状态设置隐藏
         topPadding(-headerHeight);
-
         this.setOnScrollListener(this);
         this.addHeaderView(topView);
+
+        footerView = mInflater.inflate(R.layout.footer, null);
+        footerView.setVisibility(View.GONE);
+        //this.setOnScrollListener(this);
+        //添加底部View
+        this.addFooterView(footerView);
+
+
+        footer_text = (TextView)findViewById(R.id.tv_footer);
+        footer_progress = (ProgressBar)findViewById(R.id.progress_footer);
+
     }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         //当滑动到底端，并滑动状态为 not scrolling
         this.scrollState = scrollState;
+
+        //当滑动到底端，并滑动状态为 not scrolling
+        if(lastVisibleItem == totalItemCount && scrollState == SCROLL_STATE_IDLE && state != REFLASHING){
+            if(!isLoading){
+                isLoading = true;
+                //设置可见
+                footerView.setVisibility(View.VISIBLE);
+                footer_text.setText("Rendering...");
+                footer_progress.setVisibility(View.VISIBLE);
+                //加载数据
+                onLoadListener.onLoad();
+            }
+        }
     }
 
     /**
@@ -124,6 +161,22 @@ public class RefreshListView extends ListView implements OnScrollListener{
     public void onScroll(AbsListView view, int firstVisibleItem,
                          int visibleItemCount, int totalItemCount) {
         this.firstVisibleItem = firstVisibleItem ;
+        this.lastVisibleItem = firstVisibleItem + visibleItemCount;
+        this.totalItemCount = totalItemCount;
+    }
+
+    private OnLoadListener onLoadListener;
+    public void setOnLoadListener(OnLoadListener onLoadListener){
+        this.onLoadListener = onLoadListener;
+    }
+
+    /**
+     * 加载数据接口
+     * @author Administrator
+     *
+     */
+    public interface OnLoadListener{
+        void onLoad();
     }
 
     @Override
@@ -274,6 +327,20 @@ public class RefreshListView extends ListView implements OnScrollListener{
         Date date = new Date(System.currentTimeMillis());
         String time = format.format(date);
         lastupdatetime.setText("last update: "+ time);
+    }
+
+    /**
+     * 数据加载完成
+     */
+    public void loadComplete(boolean isEnd){
+        if(!isEnd) {
+            footerView.setVisibility(View.GONE);
+        }else{
+            footer_text.setText("No More");
+            footer_progress.setVisibility(View.GONE);
+        }
+        isLoading = false;
+        this.invalidate();
     }
 
 }
