@@ -64,4 +64,9 @@ public class MySellHistoryAdapter extends BaseAdapter {
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
     }
+    public void updateView( ArrayList<HashMap<String, String>> datas ){
+        this.data = datas;
+        this.notifyDataSetChanged();
+    }
+
 }
