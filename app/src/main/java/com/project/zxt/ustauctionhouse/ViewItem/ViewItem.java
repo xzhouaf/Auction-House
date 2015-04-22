@@ -68,7 +68,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private static final String TAG = "View Item";
     private Intent intent;
     private Context ctx;
-    private ImageView image, bidNow;
+    private ImageView image, bidNow, buyNow;
     private ImageLoader imageLoader;
     private TextView timeLeft, viewSeller;
     private TextView Description, ItemName, Price ,Category, Condition;
@@ -99,6 +99,8 @@ public class ViewItem extends Activity implements View.OnClickListener {
         Condition = (TextView) findViewById(R.id.ViewCondition);
         bidNow = (ImageView) findViewById(R.id.bidNow);
         bidNow.setOnClickListener(this);
+        buyNow = (ImageView) findViewById(R.id.buyNow);
+        buyNow.setOnClickListener(this);
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         ApiKey = intent.getStringExtra("API_key");
         UserID = intent.getStringExtra("user_ID");
@@ -134,9 +136,40 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 intent.putExtra("USER_KEY",user_id);
                 intent.putExtra("SELLER_NAME",viewSeller.getText());
                 startActivity(intent);
+                break;
+            case R.id.buyNow:
+                onBuyNowClick();
+                break;
             default:
                 break;
         }
+    }
+
+    private void onBuyNowClick(){
+
+        if (user_id.equals(UserID)){
+            AlertDialog a = new AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("You can't buy your own item!")
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            try {
+                               java.lang.reflect.Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                               field.setAccessible(true);
+                               field.set(dialog,true);
+                               } catch (Exception e) {
+                                e.printStackTrace();
+                               }
+
+                        }
+                    })
+                    .show();
+            return;
+
+        }
+
     }
 
     private void onBidNowClick(){
