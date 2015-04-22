@@ -68,7 +68,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Log.i("See why bug: ", position+"");
-                        if(position >= paramList.size() || position <= 0) return;
+                        if(position > paramList.size() || position <= 0) return;
                         Intent intent = new Intent(ctx, ViewItem.class);
                         intent.putExtra(Utility.KEY_IMAGE, paramList.get(position - 1).get(Utility.KEY_IMAGE));
                         intent.putExtra(Utility.KEY_ID, paramList.get(position - 1).get(Utility.KEY_ID));

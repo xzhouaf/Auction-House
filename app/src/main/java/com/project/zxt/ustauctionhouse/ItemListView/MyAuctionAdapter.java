@@ -62,6 +62,11 @@ public class MyAuctionAdapter extends BaseAdapter {
         current_price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
         time_left.setText(goods.get(Utility.KEY_TIME_LEFT));
         highest_bidder.setText(goods.get(Utility.KEY_HIGHEST_BIDDER));
+        if(goods.get(Utility.KEY_HIGHEST_BIDDER).equals("No bidder yet")){
+            vi.setBackgroundColor(0xffffe9d9);
+        }else{
+            vi.setBackgroundColor(0xffcbffa1);
+        }
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
     }
