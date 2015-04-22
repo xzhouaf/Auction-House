@@ -38,9 +38,9 @@ public class RefreshListView extends ListView implements OnScrollListener{
     // 摁下时的Y值；
     int startY;
     //控制下拉的速度
-    double speed = 0.5;
+    private final double SPEED = 0.5;
     //控制下拉的距离
-    int distance = 50;
+    private final int DISTANCE = 50;
 
     int state;// 当前的状态；
     final int NONE = 0;// 正常状态；
@@ -167,8 +167,8 @@ public class RefreshListView extends ListView implements OnScrollListener{
         if (!isRefresh) {
             return;
         }
-        int tempY = (int)(speed * ev.getY());
-        int space = tempY - (int)(speed * startY);
+        int tempY = (int)(SPEED * ev.getY());
+        int space = tempY - (int)(SPEED * startY);
         int topPadding = (space - headerHeight);
         switch (state) {
             case NONE:
@@ -179,7 +179,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
                 break;
             case PULL:
                 topPadding(topPadding);
-                if (space > headerHeight + distance
+                if (space > headerHeight + DISTANCE
                         && scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     state = RELESE;
                     reflashViewByState();
@@ -187,7 +187,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
                 break;
             case RELESE:
                 topPadding(topPadding);
-                if (space < headerHeight + distance) {
+                if (space < headerHeight + DISTANCE) {
                     state = PULL;
                     reflashViewByState();
                 } else if (space <= 0) {
