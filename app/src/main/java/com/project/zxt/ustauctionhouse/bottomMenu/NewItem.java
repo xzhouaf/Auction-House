@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.R;
@@ -14,6 +18,8 @@ import com.project.zxt.ustauctionhouse.NewListView.RefreshListView;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +30,7 @@ import java.util.Observer;
  * Created by Paul on 2015/4/12.
  *
  */
-public class NewItem extends bottomMenuActivity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener{
+public class NewItem extends bottomMenuActivity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener, RefreshListView.OnLoadListener {
     private static final String TAG = "New Item";
     private String UserName, Email, ApiKey, CreatedAt, UserID;
     private Intent intent;
@@ -32,8 +38,12 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
     private RefreshListView refreshLv;
     private GeneralSearch search;
     private ArrayList<HashMap<String, String>> paramList;
+    private TextView goBackToTop;
+    private long mBackToTopTime;
 
-    public int getContentViewLayoutResId() { return R.layout.new_item; }
+    public int getContentViewLayoutResId() {
+        return R.layout.new_item;
+    }
 
     final protected void onCreatOverride(Bundle savedInstanceState) {
 
@@ -47,15 +57,19 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
         CreatedAt = intent.getStringExtra("user_createdAt");
         UserID = intent.getStringExtra("user_ID");
 
+        goBackToTop = (TextView) findViewById(R.id.new_item_frame_title);
+        goBackToTop.setOnClickListener(this);
+
         refreshLv = (RefreshListView) findViewById(R.id.new_item_listview);
         refreshLv.setOnRefreshListener(this);
+        refreshLv.setOnLoadListener(this);
         refreshLv.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(ctx, ViewItem.class);
-                        intent.putExtra(Utility.KEY_IMAGE, paramList.get(position-1).get(Utility.KEY_IMAGE));
-                        intent.putExtra(Utility.KEY_ID, paramList.get(position-1).get(Utility.KEY_ID));
+                        intent.putExtra(Utility.KEY_IMAGE, paramList.get(position - 1).get(Utility.KEY_IMAGE));
+                        intent.putExtra(Utility.KEY_ID, paramList.get(position - 1).get(Utility.KEY_ID));
                         intent.putExtra("user_ID", UserID);
                         intent.putExtra("API_key", ApiKey);
                         startActivity(intent);
@@ -63,7 +77,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
                 }
         );
 
-        search = new GeneralSearch("0","","","","","");
+        search = new GeneralSearch("0", "", "", "", "", "");
         search.addObserver(this);
         search.loadList();
 
@@ -77,33 +91,82 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
         super.onDestroy();
     }
 
+    private Toast goBackTopToast = null;
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.new_item_frame_title:
+                if((System.currentTimeMillis() - mBackToTopTime)>500){
+                    goBackTopToast = Toast.makeText(ctx, "Double click back to top", Toast.LENGTH_SHORT);
+                    goBackTopToast.setGravity(Gravity.TOP, 0, 150);
+                    goBackTopToast.show();
+                    mBackToTopTime = System.currentTimeMillis();
+                }else{
+                    goBackTopToast.cancel();
+                    refreshLv.smoothScrollToPosition(0);
+                }
+                break;
             default:
                 break;
         }
     }
 
 
+    private LazyAdapter adapter;
 
     @Override
     public void update(Observable observable, Object data) {
-        if(observable == search){
+        if (observable == search) {
             paramList = (ArrayList<HashMap<String, String>>) data;
-            LazyAdapter adapter = new LazyAdapter(this, paramList);
+            prepareDataForDisplay(true);
+            adapter = new LazyAdapter(this, dataToDisplay);
             search.deleteObserver(this);
             refreshLv.setAdapter(adapter);
-            refreshLv.refreshComplete();
+            if (isRefreshing) {
+                isRefreshing = false;
+                refreshLv.refreshComplete();
+            }
         }
     }
 
-    private void initLoadData() {
-        search = new GeneralSearch("0","","","","","");
-        search.addObserver(this);
-        search.loadList();
+    private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
+    private int lastLoad = 0;
+    private boolean isToEnd = false;
+
+    private boolean prepareDataForDisplay(boolean isRefresh) {
+        if (isRefresh) {
+            dataToDisplay.clear();
+            lastLoad = 0;
+            isToEnd = false;
+        }
+        for (int i = 0; i < 5; i++) {
+            if (lastLoad + 1 > paramList.size()) {
+                isToEnd = true;
+                return false;
+            }
+            dataToDisplay.add(paramList.get(lastLoad));
+            lastLoad++;
+        }
+        return true;
     }
 
+    private void refreshLoadData() {
+        search = new GeneralSearch("0", "", "", "", "", "");
+        search.addObserver(this);
+        search.loadList();
+        refreshLv.loadComplete(false);
+    }
+
+    private void augmentLoadData() {
+        if (isToEnd) {
+            refreshLv.loadComplete(true);
+            return;
+        }
+        prepareDataForDisplay(false);
+        adapter.updateView(dataToDisplay);
+        refreshLv.loadComplete(false);
+    }
+
+    boolean isRefreshing = false;
 
     @Override
     public void onRefresh() {
@@ -111,9 +174,29 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
 
             @Override
             public void run() {
-                initLoadData();
+                isRefreshing = true;
+                refreshLoadData();
 
             }
-        }, 10);
+        }, 1000);
     }
+
+    @Override
+    public void onLoad() {
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                augmentLoadData();
+            }
+        }, 500);
+    }
+
+
+
+
+
+
+
+
 }
