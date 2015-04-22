@@ -28,11 +28,13 @@ public class ConditionCategoryLoader extends Observable {
     private Spinner condition = null;
     private Spinner category = null;
     private Activity parent;
+    private boolean isPost;
 
-    public ConditionCategoryLoader(Spinner con, Spinner cat, Activity pa){
+    public ConditionCategoryLoader(Spinner con, Spinner cat, Activity pa, boolean isPostItem){
         condition = con;
         category = cat;
         parent = pa;
+        isPost = isPostItem;
     }
 
     public void loadConditionCategory(){
@@ -96,11 +98,18 @@ public class ConditionCategoryLoader extends Observable {
 
             if(!obj.isNull("category") && !(category == null)){
                 JSONArray categoryArray = obj.getJSONArray("category");
-                String categoryNewArray[] = new String[categoryArray.length()+1];
-                categoryNewArray[0] = "All";
-                for(int i = 0; i < categoryArray.length(); i++){
-                    categoryNewArray[i+1] = (String)((JSONObject)categoryArray.get(i)).get("category_name");
-                    //Log.i("Important: ", categoryNewArray[i]);
+                String categoryNewArray[];
+                if(isPost) {
+                    categoryNewArray = new String[categoryArray.length()];
+                    for (int i = 0; i < categoryArray.length(); i++) {
+                        categoryNewArray[i] = (String) ((JSONObject) categoryArray.get(i)).get("category_name");
+                    }
+                }else{
+                    categoryNewArray = new String[categoryArray.length()+1];
+                    categoryNewArray[0] = "All";
+                    for (int i = 0; i < categoryArray.length(); i++) {
+                        categoryNewArray[i + 1] = (String) ((JSONObject) categoryArray.get(i)).get("category_name");
+                    }
                 }
                 ArrayAdapter adapter=new ArrayAdapter(parent.getApplicationContext(), R.layout.login_list_item,categoryNewArray);
                 category.setAdapter(adapter);
