@@ -71,13 +71,14 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private ImageView image, bidNow, buyNow;
     private ImageLoader imageLoader;
     private TextView timeLeft, viewSeller;
-    private TextView Description, ItemName, Price ,Category, Condition;
+    private TextView Description, ItemName, Price ,Category, Condition, DBPrice;
     private double cPrice;
     private UpdateTimeLeft timeUpdater;
     private boolean continueUpdate = true;
     private InputMethodManager imm;
-    private String item_id, user_id, priceInput, ApiKey, UserID;
+    private String item_id, user_id, priceInput, ApiKey, UserID, dBuyPrice;
     private int intTimeLeft = 10000;
+    private int status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
         Description = (TextView) findViewById(R.id.ViewDescription);
         ItemName = (TextView) findViewById(R.id.ViewItemName);
         Price = (TextView) findViewById(R.id.ViewPrice);
+        DBPrice = (TextView) findViewById(R.id.ViewDBPrice);
         Category = (TextView) findViewById(R.id.ViewCategory);
         Condition = (TextView) findViewById(R.id.ViewCondition);
         bidNow = (ImageView) findViewById(R.id.bidNow);
@@ -148,7 +150,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private void onBuyNowClick(){
 
         if (user_id.equals(UserID)){
-            AlertDialog a = new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this)
                     .setTitle("Warning")
                     .setMessage("You can't buy your own item!")
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -169,6 +171,46 @@ public class ViewItem extends Activity implements View.OnClickListener {
             return;
 
         }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm")
+                .setMessage("You would like to pay $"+dBuyPrice+" to buy this item ?")
+                .setPositiveButton("Buy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        new AsyncDirectBuy().execute();
+                        try {
+                            java.lang.reflect.Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        finish();
+
+                    }
+                })
+                .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            java.lang.reflect.Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(dialog, true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                })
+                .show();
+
+
+
+
 
     }
 
@@ -247,7 +289,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
 
             new AlertDialog.Builder(this)
                     .setTitle("Warning")
-                    .setMessage("You must input a price larger than"+findMinBidPrice())
+                    .setMessage("You must input a price larger than $"+findMinBidPrice())
                     .setNegativeButton("Back", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -356,9 +398,40 @@ public class ViewItem extends Activity implements View.OnClickListener {
             viewSeller.setText(unitList.get(0).userName);
             Price.setText("$ "+unitList.get(0).currentPrice);
             cPrice = unitList.get(0).currentPrice;
+            dBuyPrice = unitList.get(0).directBuyPrice+"";
+            if (Double.valueOf(dBuyPrice)>0.001){
+                DBPrice.setText("$ "+unitList.get(0).directBuyPrice);
+            }
+            else{
+                DBPrice.setText("N/A");
+
+            }
             Category.setText(unitList.get(0).categoryName);
             intTimeLeft = Integer.valueOf(unitList.get(0).timeLeft);
             user_id =unitList.get(0).userID+"";
+            status = unitList.get(0).status;
+            if (status == 1){
+                bidNow.setOnClickListener(null);
+                buyNow.setOnClickListener(null);
+                bidNow.setImageResource(R.drawable.bid_now_grey);
+                buyNow.setImageResource(R.drawable.buy_now_grey);
+
+            }
+
+            else{
+                bidNow.setImageResource(R.drawable.bid_now);
+                if (Double.valueOf(dBuyPrice)<0.001){
+                    buyNow.setImageResource(R.drawable.buy_now_grey);
+                    buyNow.setOnClickListener(null);
+
+                }
+                else{
+                    buyNow.setImageResource(R.drawable.buy_now);
+                }
+
+            }
+
+
 
 
 
@@ -429,7 +502,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
 
             JSONObject obj = null;
             NameValuePair pair1 = new BasicNameValuePair("item_id", item_id);
-            NameValuePair pair2 = new BasicNameValuePair("buy_price", priceInput);
+            NameValuePair pair2 = new BasicNameValuePair("buy_price", dBuyPrice);
 
 
             List<NameValuePair> pairList = new ArrayList<>();

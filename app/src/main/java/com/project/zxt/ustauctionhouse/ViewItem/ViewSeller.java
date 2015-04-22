@@ -149,7 +149,13 @@ public class ViewSeller extends Activity implements View.OnClickListener {
             try {
                 if(obj.getString("error").equals("false")) {
 
-                    phoneNumber.setText(obj.getString("phoneNumber"));
+                    if(obj.getString("phoneNumber").equals("null")){
+                        phoneNumber.setText("Not available!");
+
+                    }
+                    else{
+                        phoneNumber.setText(obj.getString("phoneNumber"));
+                    }
                     Email.setText(obj.getString("email"));
                     String imageFileName = obj.getString("portrait");
 
