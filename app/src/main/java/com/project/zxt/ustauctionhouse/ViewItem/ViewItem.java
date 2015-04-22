@@ -432,12 +432,6 @@ public class ViewItem extends Activity implements View.OnClickListener {
             }
 
 
-
-
-
-
-
-
         }
     }
 

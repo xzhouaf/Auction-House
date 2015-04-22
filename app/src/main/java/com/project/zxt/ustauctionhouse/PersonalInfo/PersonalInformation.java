@@ -36,13 +36,15 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Xutong on 2015/4/6.
  * To be finished by Xutong
  */
 
-public class PersonalInformation extends bottomMenuActivity implements View.OnClickListener{
+public class PersonalInformation extends bottomMenuActivity implements View.OnClickListener, Observer{
     private static final String TAG = "Personal Information";
     private LinearLayout personalInfo, myAuction, myBid, myHistory;
     private String UserName, Email, ApiKey, CreatedAt, UserID;
@@ -92,6 +94,11 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
         updatePortrait();
+
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
 
     }
 

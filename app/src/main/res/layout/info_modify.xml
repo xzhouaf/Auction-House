@@ -2,34 +2,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
         android:id="@+id/headZone"
         android:weightSum="1"
-        android:background="#ffcbffa1">
+        android:background="#ffcbffa1"
+        android:layout_below="@+id/header"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp">
 
-        <ImageButton
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/portraitMod"
-            android:layout_alignTop="@+id/headZone"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="5dp" />
 
         <EditText
-            android:layout_width="158dp"
+            android:layout_width="258dp"
             android:layout_height="wrap_content"
             android:id="@+id/userNameMod"
+            android:layout_toRightOf="@+id/portraitMod"
             android:layout_marginTop="50dp"
-            android:layout_weight="0.80" />
-    </LinearLayout>
+            android:layout_weight="1.13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:text="New  user name:"
+            android:layout_alignTop="@+id/portraitMod"
+            android:layout_alignLeft="@+id/userNameMod"
+            android:layout_alignStart="@+id/userNameMod"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -39,7 +52,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/phoneZone"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:background="#fffbffb4">
@@ -52,7 +65,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/headZone"
-            android:layout_marginTop="15dp"
             android:textSize="20dp"
             android:layout_marginLeft="10dp" />
 
@@ -75,7 +87,7 @@
         android:layout_below="@+id/phoneZone"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/passwordZone"
         android:background="#ffffe9d9">
 
@@ -108,7 +120,6 @@
             android:layout_below="@+id/passwordZone"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:textSize="20dp" />
 
@@ -147,6 +158,54 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/buttons"
+        android:layout_below="@+id/passwordZone">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:id="@+id/InfoModCancel"
+            android:layout_alignTop="@+id/InfoModUpdate"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="26dp"
+            android:layout_marginEnd="26dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:id="@+id/InfoModUpdate"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffc834">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change My Profile"
+            android:id="@+id/textView4"
+            android:textSize="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
     </LinearLayout>
 
 </RelativeLayout>
