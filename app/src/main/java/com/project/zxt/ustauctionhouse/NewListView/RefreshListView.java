@@ -336,6 +336,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
         if(!isEnd) {
             footerView.setVisibility(View.GONE);
         }else{
+            footerView.setVisibility(View.VISIBLE);
             footer_text.setText("No More");
             footer_progress.setVisibility(View.GONE);
         }

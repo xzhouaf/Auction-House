@@ -77,6 +77,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
                 }
         );
 
+        isRefreshing = true;
         search = new GeneralSearch("0", "", "", "", "", "");
         search.addObserver(this);
         search.loadList();
@@ -124,6 +125,11 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
             if (isRefreshing) {
                 isRefreshing = false;
                 refreshLv.refreshComplete();
+                if(dataToDisplay.size() < 5){
+                    refreshLv.loadComplete(true);
+                }else{
+                    refreshLv.loadComplete(false);
+                }
             }
         }
     }
@@ -138,6 +144,8 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
             lastLoad = 0;
             isToEnd = false;
         }
+        if(isToEnd) return false;
+
         for (int i = 0; i < 5; i++) {
             if (lastLoad + 1 > paramList.size()) {
                 isToEnd = true;
@@ -157,13 +165,16 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
     }
 
     private void augmentLoadData() {
+        prepareDataForDisplay(false);
         if (isToEnd) {
             refreshLv.loadComplete(true);
             return;
         }
-        prepareDataForDisplay(false);
+
         adapter.updateView(dataToDisplay);
-        refreshLv.loadComplete(false);
+        if(dataToDisplay.size() == paramList.size())
+            refreshLv.loadComplete(true);
+        else refreshLv.loadComplete(false);
     }
 
     boolean isRefreshing = false;

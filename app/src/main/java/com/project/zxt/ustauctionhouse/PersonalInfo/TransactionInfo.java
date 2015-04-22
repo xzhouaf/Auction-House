@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -29,7 +30,7 @@ import java.util.Observer;
  * Created by Paul on 2015/4/13.
  *
  */
-public class TransactionInfo extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener {
+public class TransactionInfo extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener, RefreshListView.OnLoadListener {
 
     private RefreshListView refreshLv;
     private LinearLayout sellingBut, biddingBut, sellHisBut, bidHisBut;
@@ -37,7 +38,6 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
     private Context ctx;
     private Intent intent;
     private static final int DARK_COLOR = 0xffe9e31d, BRIGHT_COLOR = 0xfffdff29;
-    private TextView prev, next, blank;
     private GeneralSearch biddingSearch, sellingSearch, bidHisSearch, sellHisSearch;
     private ArrayList<HashMap<String, String>> paramList;
 
@@ -48,7 +48,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         setContentView(R.layout.transaction_info_frame);
         refreshLv=(RefreshListView)findViewById(R.id.transaction_info_frame_list);
         refreshLv.setOnRefreshListener(this);
-
+        refreshLv.setOnLoadListener(this);
 
         sellingBut = (LinearLayout)findViewById(R.id.selling_touch);
         sellingBut.setOnClickListener(this);
@@ -58,12 +58,6 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         sellHisBut.setOnClickListener(this);
         bidHisBut = (LinearLayout)findViewById(R.id.bid_history_touch);
         bidHisBut.setOnClickListener(this);
-
-        prev = (TextView) findViewById(R.id.previous_transaction_page);
-        prev.setOnClickListener(this);
-        next = (TextView) findViewById(R.id.next_transaction_page);
-        next.setOnClickListener(this);
-        blank = (TextView) findViewById(R.id.blank_text_transaction_page);
 
         ctx = getApplicationContext();
         intent = getIntent();
@@ -136,6 +130,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
     }
 
     private void onBiddingButClick(){
+        isRefreshing = true;
         sellingBut.setBackgroundColor(DARK_COLOR);
         sellHisBut.setBackgroundColor(DARK_COLOR);
         bidHisBut.setBackgroundColor(DARK_COLOR);
@@ -147,6 +142,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
     }
 
     private void onSellingButClick(){
+        isRefreshing = true;
         sellingBut.setBackgroundColor(BRIGHT_COLOR);
         sellHisBut.setBackgroundColor(DARK_COLOR);
         bidHisBut.setBackgroundColor(DARK_COLOR);
@@ -158,6 +154,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
     }
 
     private void onBidHisButClick(){
+        isRefreshing = true;
         sellingBut.setBackgroundColor(DARK_COLOR);
         sellHisBut.setBackgroundColor(DARK_COLOR);
         bidHisBut.setBackgroundColor(BRIGHT_COLOR);
@@ -169,6 +166,7 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
     }
 
     private void onSellHisButClick(){
+        isRefreshing = true;
         sellingBut.setBackgroundColor(DARK_COLOR);
         sellHisBut.setBackgroundColor(BRIGHT_COLOR);
         bidHisBut.setBackgroundColor(DARK_COLOR);
@@ -179,49 +177,57 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         sellHisSearch.loadList();
     }
 
-
+    private LazyMyBidAdapter adapter1;
+    private MyAuctionAdapter adapter2;
+    private MyBidHistoryAdapter adapter3;
+    private MySellHistoryAdapter adapter4;
     @Override
     public void update(Observable observable, Object data) {
         boolean ok = false;
         if(observable == biddingSearch) {
             paramList = (ArrayList<HashMap<String, String>>) data;
-            LazyMyBidAdapter adapter = new LazyMyBidAdapter(this, paramList, UserID);
+            prepareDataForDisplay(true);
+            adapter1 = new LazyMyBidAdapter(this, dataToDisplay, UserID);
             biddingSearch.deleteObserver(this);
-            refreshLv.setAdapter(adapter);
+            refreshLv.setAdapter(adapter1);
             ok = true;
         }
         else if(observable == sellingSearch) {
             paramList = (ArrayList<HashMap<String, String>>) data;
-            MyAuctionAdapter adapter = new MyAuctionAdapter(this, paramList);
+            prepareDataForDisplay(true);
+            adapter2 = new MyAuctionAdapter(this, dataToDisplay);
             sellingSearch.deleteObserver(this);
-            refreshLv.setAdapter(adapter);
+            refreshLv.setAdapter(adapter2);
             ok = true;
         }
         else if(observable == bidHisSearch) {
             paramList = (ArrayList<HashMap<String, String>>) data;
-            MyBidHistoryAdapter adapter = new MyBidHistoryAdapter(this, paramList);
+            prepareDataForDisplay(true);
+            adapter3 = new MyBidHistoryAdapter(this, dataToDisplay);
             bidHisSearch.deleteObserver(this);
-            refreshLv.setAdapter(adapter);
+            refreshLv.setAdapter(adapter3);
             ok = true;
         }
         else if(observable == sellHisSearch) {
             paramList = (ArrayList<HashMap<String, String>>) data;
-            MySellHistoryAdapter adapter = new MySellHistoryAdapter(this, paramList);
+            prepareDataForDisplay(true);
+            adapter4 = new MySellHistoryAdapter(this, dataToDisplay);
             sellHisSearch.deleteObserver(this);
-            refreshLv.setAdapter(adapter);
+            refreshLv.setAdapter(adapter4);
             ok = true;
         }
         if(ok) {
-            if ((paramList).size() == 0) {
-                blank.setText("Sorry, no item found");
-                prev.setText("");
-                next.setText("");
-            } else {
-                blank.setText("");
-                prev.setText("Previous");
-                next.setText("Next");
+            if (isRefreshing) {
+                isRefreshing = false;
+                refreshLv.refreshComplete();
+                if(dataToDisplay.size() < 5){
+                    refreshLv.loadComplete(true);
+                    Log.i("ihihihihi: ", "kkkk");
+                }else{
+                    refreshLv.loadComplete(false);
+                    Log.i("ihihihihi: ", "jjjj");
+                }
             }
-            refreshLv.refreshComplete();
         }
     }
 
@@ -244,14 +250,83 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         };
     }
 
+    private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
+    private int lastLoad = 0;
+    private boolean isToEnd = false;
+
+    private boolean prepareDataForDisplay(boolean isRefresh) {
+        if (isRefresh) {
+            dataToDisplay.clear();
+            lastLoad = 0;
+            isToEnd = false;
+        }
+        if(isToEnd) return false;
+        for (int i = 0; i < 5; i++) {
+            if (lastLoad + 1 > paramList.size()) {
+                isToEnd = true;
+                return false;
+            }
+            dataToDisplay.add(paramList.get(lastLoad));
+            lastLoad++;
+        }
+        return true;
+    }
+
+    private void refreshLoadData() {
+        initLoadData();
+        refreshLv.loadComplete(false);
+    }
+
+    private void augmentLoadData() {
+        prepareDataForDisplay(false);
+        if (isToEnd) {
+            refreshLv.loadComplete(true);
+            return;
+        }
+        switch(currentBut){
+            case "biddingBut":
+                adapter1.updateView(dataToDisplay);
+                break;
+            case "sellingBut":
+                adapter2.updateView(dataToDisplay);
+                break;
+            case "bidHisBut":
+                adapter3.updateView(dataToDisplay);
+                break;
+            case "sellHisBut":
+                adapter4.updateView(dataToDisplay);
+                break;
+            default:
+                break;
+        }
+        if(dataToDisplay.size() == paramList.size())
+            refreshLv.loadComplete(true);
+        else refreshLv.loadComplete(false);
+    }
+
+    boolean isRefreshing = false;
+
     @Override
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                initLoadData();
+                isRefreshing = true;
+                refreshLoadData();
+
             }
-        }, 10);
+        }, 1000);
+    }
+
+    @Override
+    public void onLoad() {
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                augmentLoadData();
+            }
+        }, 500);
     }
 }

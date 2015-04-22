@@ -26,7 +26,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-public class SearchResult extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener {
+public class SearchResult extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener, RefreshListView.OnLoadListener  {
 
     private RefreshListView refreshLv;
     private LazyAdapter adapter;
@@ -72,6 +72,9 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
 
         refreshLv=(RefreshListView)findViewById(R.id.search_result_frame_list);
         refreshLv.setOnRefreshListener(this);
+        refreshLv.setOnLoadListener(this);
+
+        isRefreshing = true;
         search = new GeneralSearch("0",category,keyword,"","","");
         search.addObserver(this);
         search.loadList();
@@ -99,14 +102,24 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
         searchContainer.setText(keyword);
     }
 
+
     @Override
     public void update(Observable observable, Object data) {
         if(observable == search) {
             paramList = (ArrayList<HashMap<String, String>>) data;
-            adapter = new LazyAdapter(this, paramList);
+            prepareDataForDisplay(true);
+            adapter = new LazyAdapter(this, dataToDisplay);
             search.deleteObserver(this);
             refreshLv.setAdapter(adapter);
-            refreshLv.refreshComplete();
+            if (isRefreshing) {
+                isRefreshing = false;
+                refreshLv.refreshComplete();
+                if(dataToDisplay.size() < 5){
+                    refreshLv.loadComplete(true);
+                }else{
+                    refreshLv.loadComplete(false);
+                }
+            }
         }
         if(observable == categoryLoader){
             categorySel.setSelection(intent.getIntExtra("category_index", 0));
@@ -120,6 +133,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
             case R.id.search_button_again:
                 keyword = searchContainer.getText().toString();
                 category = categorySel.getSelectedItem().toString();
+                isRefreshing = true;
                 search = new GeneralSearch("0",category.equals("All")? null:category, keyword,"","","");
                 search.addObserver(this);
                 search.loadList();
@@ -153,6 +167,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
     }
 
     private void onTabClick(LinearLayout l){
+        isRefreshing = true;
         priceAsc.setBackgroundColor(DARK_COLOR);
         priceDesc.setBackgroundColor(DARK_COLOR);
         timeAsc.setBackgroundColor(DARK_COLOR);
@@ -185,16 +200,70 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
         search.loadList();
     }
 
+    private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
+    private int lastLoad = 0;
+    private boolean isToEnd = false;
+
+    private boolean prepareDataForDisplay(boolean isRefresh) {
+        if (isRefresh) {
+            dataToDisplay.clear();
+            lastLoad = 0;
+            isToEnd = false;
+        }
+        if(isToEnd) return false;
+        for (int i = 0; i < 5; i++) {
+            if (lastLoad + 1 > paramList.size()) {
+                isToEnd = true;
+                return false;
+            }
+            dataToDisplay.add(paramList.get(lastLoad));
+            lastLoad++;
+        }
+        return true;
+    }
+
+    private void refreshLoadData() {
+        initLoadData();
+        refreshLv.loadComplete(false);
+    }
+
+    private void augmentLoadData() {
+        prepareDataForDisplay(false);
+        if (isToEnd) {
+            refreshLv.loadComplete(true);
+            return;
+        }
+
+        adapter.updateView(dataToDisplay);
+        if(dataToDisplay.size() == paramList.size())
+            refreshLv.loadComplete(true);
+        else refreshLv.loadComplete(false);
+    }
+
+    boolean isRefreshing = false;
+
     @Override
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                initLoadData();
+                isRefreshing = true;
+                refreshLoadData();
 
             }
-        }, 10);
+        }, 1000);
+    }
+
+    @Override
+    public void onLoad() {
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                augmentLoadData();
+            }
+        }, 500);
     }
 }
 
