@@ -72,8 +72,10 @@ public class LazyMyBidAdapter extends BaseAdapter {
         current_price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
         if(goods.get(Utility.KEY_HIGHEST_BIDDER_ID).equals(UserID)){
             status.setText("Hignest Now");
+            vi.setBackgroundColor(0xffcbffa1);
         }else{
             status.setText("Not Highest");
+            vi.setBackgroundColor(0xffffe9d9);
         }
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
