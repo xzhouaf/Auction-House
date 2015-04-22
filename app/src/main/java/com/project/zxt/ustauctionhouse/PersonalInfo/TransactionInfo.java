@@ -4,19 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.LazyMyBidAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.MyAuctionAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.MyBidHistoryAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.MySellHistoryAdapter;
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.NewListView.RefreshListView;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
@@ -30,9 +29,9 @@ import java.util.Observer;
  * Created by Paul on 2015/4/13.
  *
  */
-public class TransactionInfo extends Activity implements View.OnClickListener, Observer {
+public class TransactionInfo extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener {
 
-    private ListView list;
+    private RefreshListView refreshLv;
     private LinearLayout sellingBut, biddingBut, sellHisBut, bidHisBut;
     private String currentBut, ApiKey, UserID;
     private Context ctx;
@@ -47,8 +46,8 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transaction_info_frame);
-        list=(ListView)findViewById(R.id.transaction_info_frame_list);
-
+        refreshLv=(RefreshListView)findViewById(R.id.transaction_info_frame_list);
+        refreshLv.setOnRefreshListener(this);
 
 
         sellingBut = (LinearLayout)findViewById(R.id.selling_touch);
@@ -92,17 +91,15 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
         }
 
        //为单一列表行添加单击事件
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        refreshLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
                 //这里可以自由发挥，比如播放一首歌曲等等
-                Log.i("onClickEntry: ", "Position is " + position);
-                Log.i("onClickEntry: ", "task_ID is " + paramList.get(position).get("id"));
                 Intent intent = new Intent(ctx, ViewItem.class);
-                intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
-                intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
+                intent.putExtra(Utility.KEY_IMAGE, paramList.get(position-1).get(Utility.KEY_IMAGE));
+                intent.putExtra(Utility.KEY_ID, paramList.get(position-1).get(Utility.KEY_ID));
                 intent.putExtra("user_ID", UserID);
                 startActivity(intent);
             }
@@ -190,28 +187,28 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
             paramList = (ArrayList<HashMap<String, String>>) data;
             LazyMyBidAdapter adapter = new LazyMyBidAdapter(this, paramList, UserID);
             biddingSearch.deleteObserver(this);
-            list.setAdapter(adapter);
+            refreshLv.setAdapter(adapter);
             ok = true;
         }
         else if(observable == sellingSearch) {
             paramList = (ArrayList<HashMap<String, String>>) data;
             MyAuctionAdapter adapter = new MyAuctionAdapter(this, paramList);
             sellingSearch.deleteObserver(this);
-            list.setAdapter(adapter);
+            refreshLv.setAdapter(adapter);
             ok = true;
         }
         else if(observable == bidHisSearch) {
             paramList = (ArrayList<HashMap<String, String>>) data;
             MyBidHistoryAdapter adapter = new MyBidHistoryAdapter(this, paramList);
             bidHisSearch.deleteObserver(this);
-            list.setAdapter(adapter);
+            refreshLv.setAdapter(adapter);
             ok = true;
         }
         else if(observable == sellHisSearch) {
             paramList = (ArrayList<HashMap<String, String>>) data;
             MySellHistoryAdapter adapter = new MySellHistoryAdapter(this, paramList);
             sellHisSearch.deleteObserver(this);
-            list.setAdapter(adapter);
+            refreshLv.setAdapter(adapter);
             ok = true;
         }
         if(ok) {
@@ -224,6 +221,37 @@ public class TransactionInfo extends Activity implements View.OnClickListener, O
                 prev.setText("Previous");
                 next.setText("Next");
             }
+            refreshLv.refreshComplete();
         }
+    }
+
+    private void initLoadData() {
+        switch(currentBut){
+            case "biddingBut":
+                onBiddingButClick();
+                break;
+            case "sellingBut":
+                onSellingButClick();
+                break;
+            case "bidHisBut":
+                onBidHisButClick();
+                break;
+            case "sellHisBut":
+                onSellHisButClick();
+                break;
+            default:
+                break;
+        };
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                initLoadData();
+            }
+        }, 10);
     }
 }

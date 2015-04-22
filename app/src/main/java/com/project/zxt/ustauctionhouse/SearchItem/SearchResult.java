@@ -4,39 +4,31 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.NewListView.RefreshListView;
 import com.project.zxt.ustauctionhouse.Utility.ConditionCategoryLoader;
 import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
-import com.project.zxt.ustauctionhouse.Utility.Unit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.locks.Condition;
 
 
-public class SearchResult extends Activity implements View.OnClickListener, Observer {
+public class SearchResult extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener {
 
-    private ListView list;
+    private RefreshListView refreshLv;
     private LazyAdapter adapter;
     private GeneralSearch search;
     private ConditionCategoryLoader categoryLoader;
@@ -78,24 +70,23 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
         if(category.equals("All")) category = "";
         ApiKey = intent.getStringExtra("api");
 
-        list=(ListView)findViewById(R.id.search_result_frame_list);
+        refreshLv=(RefreshListView)findViewById(R.id.search_result_frame_list);
+        refreshLv.setOnRefreshListener(this);
         search = new GeneralSearch("0",category,keyword,"","","");
         search.addObserver(this);
         search.loadList();
 
         ctx = getApplicationContext();
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        refreshLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
                 //这里可以自由发挥，比如播放一首歌曲等等
-                Log.i("onClickEntry: ", "Position is " + position);
-                Log.i("onClickEntry: ", "task_ID is " + paramList.get(position).get("id"));
                 Intent intent = new Intent(ctx, ViewItem.class);
-                intent.putExtra(Utility.KEY_IMAGE, paramList.get(position).get(Utility.KEY_IMAGE));
-                intent.putExtra(Utility.KEY_ID,paramList.get(position).get(Utility.KEY_ID));
+                intent.putExtra(Utility.KEY_IMAGE, paramList.get(position-1).get(Utility.KEY_IMAGE));
+                intent.putExtra(Utility.KEY_ID,paramList.get(position-1).get(Utility.KEY_ID));
                 intent.putExtra("user_ID", UserID);
                 intent.putExtra("API_key", ApiKey);
                 startActivity(intent);
@@ -114,7 +105,8 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
             paramList = (ArrayList<HashMap<String, String>>) data;
             adapter = new LazyAdapter(this, paramList);
             search.deleteObserver(this);
-            list.setAdapter(adapter);
+            refreshLv.setAdapter(adapter);
+            refreshLv.refreshComplete();
         }
         if(observable == categoryLoader){
             categorySel.setSelection(intent.getIntExtra("category_index", 0));
@@ -133,27 +125,26 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
                 search.loadList();
                 break;
             case R.id.price_asc_touch:
-                if(currentBut.equals("priceAsc")) return;
                 currentBut = "priceAsc";
-                search = new GeneralSearch("0",category,keyword,"","0","");
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","0","");
                 onTabClick(priceAsc);
                 break;
             case R.id.price_desc_touch:
                 if(currentBut.equals("priceDesc")) return;
                 currentBut = "priceDesc";
-                search = new GeneralSearch("0",category,keyword,"","1","");
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","1","");
                 onTabClick(priceDesc);
                 break;
             case R.id.time_asc_touch:
                 if(currentBut.equals("timeAsc")) return;
                 currentBut = "timeAsc";
-                search = new GeneralSearch("0",category,keyword,"","2","");
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","2","");
                 onTabClick(timeAsc);
                 break;
             case R.id.time_desc_touch:
                 if(currentBut.equals("timeDesc")) return;
                 currentBut = "timeDesc";
-                search = new GeneralSearch("0",category,keyword,"","3","");
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","3","");
                 onTabClick(timeDesc);
                 break;
             default:
@@ -171,6 +162,39 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
 
         search.addObserver(this);
         search.loadList();
+    }
+
+    private void initLoadData() {
+        switch(currentBut){
+            case "priceAsc":
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","0","");
+                break;
+            case "priceDesc":
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","1","");
+                break;
+            case "timeAsc":
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","2","");
+                break;
+            case "timeDesc":
+                search = new GeneralSearch("0",category.equals("All")? null:category,keyword,"","3","");
+                break;
+            default:
+                break;
+        }
+        search.addObserver(this);
+        search.loadList();
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                initLoadData();
+
+            }
+        }, 10);
     }
 }
 

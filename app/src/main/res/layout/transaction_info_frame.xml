@@ -138,10 +138,10 @@
             android:textColor="#ffffffff" />
     </RelativeLayout>
 
-    <ListView
+    <com.project.zxt.ustauctionhouse.NewListView.RefreshListView
         android:id="@+id/transaction_info_frame_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:divider="#b5b5b5"
         android:dividerHeight="1dp" />
 
