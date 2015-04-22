@@ -107,7 +107,7 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         confirm = (Button) findViewById(R.id.confirm_post_button);
         confirm.setOnClickListener(this);
 
-        new ConditionCategoryLoader(condition_name, category_name, this).loadConditionCategory();
+        new ConditionCategoryLoader(condition_name, category_name, this, true).loadConditionCategory();
 
     }
 

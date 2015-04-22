@@ -63,7 +63,7 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
 
         searchKeyword = (EditText) findViewById(R.id.searchInput);
 
-        new ConditionCategoryLoader(null, searchCategory, this).loadConditionCategory();
+        new ConditionCategoryLoader(null, searchCategory, this, false).loadConditionCategory();
 
     }
 

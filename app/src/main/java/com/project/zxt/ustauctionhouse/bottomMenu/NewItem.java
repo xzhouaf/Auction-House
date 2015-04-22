@@ -94,17 +94,17 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
         super.onDestroy();
     }
 
-    private Toast goBackTopToast = null;
+    //private Toast goBackTopToast = null;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.new_item_frame_title:
                 if((System.currentTimeMillis() - mBackToTopTime)>500){
-                    goBackTopToast = Toast.makeText(ctx, "Double click back to top", Toast.LENGTH_SHORT);
-                    goBackTopToast.setGravity(Gravity.TOP, 0, 150);
-                    goBackTopToast.show();
+                    //goBackTopToast = Toast.makeText(ctx, "Double click back to top", Toast.LENGTH_SHORT);
+                    //goBackTopToast.setGravity(Gravity.TOP, 0, 150);
+                    //goBackTopToast.show();
                     mBackToTopTime = System.currentTimeMillis();
                 }else{
-                    goBackTopToast.cancel();
+                    //goBackTopToast.cancel();
                     refreshLv.smoothScrollToPosition(0);
                 }
                 break;

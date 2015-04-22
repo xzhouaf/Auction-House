@@ -95,7 +95,7 @@ public class SearchResult extends Activity implements View.OnClickListener, Obse
             }
         });
 
-        categoryLoader = new ConditionCategoryLoader(null, categorySel, this);
+        categoryLoader = new ConditionCategoryLoader(null, categorySel, this, false);
         categoryLoader.addObserver(this);
         categoryLoader.loadConditionCategory();
         searchContainer.setText(keyword);
