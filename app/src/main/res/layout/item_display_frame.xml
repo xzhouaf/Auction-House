@@ -177,7 +177,7 @@
             android:textColor="#ffffffff" />
     </RelativeLayout>
 
-    <com.project.zxt.ustauctionhouse.ItemListView.RefreshListView
+    <com.project.zxt.ustauctionhouse.NewListView.RefreshListView
         android:id="@+id/search_result_frame_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

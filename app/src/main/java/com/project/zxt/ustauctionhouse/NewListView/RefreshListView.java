@@ -1,4 +1,4 @@
-package com.project.zxt.ustauctionhouse.ItemListView;
+package com.project.zxt.ustauctionhouse.NewListView;
 
 /**
  * Created by Paul on 2015/4/22.
