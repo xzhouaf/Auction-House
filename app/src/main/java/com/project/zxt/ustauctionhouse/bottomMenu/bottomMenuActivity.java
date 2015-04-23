@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * Created by Xutong on 2015/4/11.
- *
+ * This is a test for the git
  */
 public abstract class bottomMenuActivity extends Activity{
 
