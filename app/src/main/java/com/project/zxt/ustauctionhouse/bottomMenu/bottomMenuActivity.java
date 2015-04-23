@@ -3,19 +3,30 @@ package com.project.zxt.ustauctionhouse.bottomMenu;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.zxt.ustauctionhouse.PersonalInfo.PersonalInformation;
 import com.project.zxt.ustauctionhouse.PostItem.PostItem;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.SearchItem.Search;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Xutong on 2015/4/11.
@@ -31,6 +42,14 @@ public abstract class bottomMenuActivity extends Activity{
     Intent intent;
     Context ctx;
     //private GestureDetector mDetector;
+
+
+    private ViewPager mPager;//页卡内容
+    private List<View> listViews; // Tab页面列表
+    private View realizedViewForChild;
+    private int currentSelectedViewPager;
+    private int changeToWhichPage;
+    private boolean needToSwitchPage = false;
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -55,11 +74,14 @@ public abstract class bottomMenuActivity extends Activity{
 
         //将业务自定义的layout实例化出来，设置给完整页面Layout的内容部分。其中，获取业务自定义layoutID的时候回调了子类的方法。
         this.mInflater = LayoutInflater.from(this);
-        contentView = mInflater.inflate(getContentViewLayoutResId(), null);
+        //contentView = mInflater.inflate(getContentViewLayoutResId(), null);
+        contentView = mInflater.inflate(R.layout.view_pager_frame, null);
         bottomMenuLayout.addView(contentView);
+        InitViewPager();
+
 
         //回调子类,正常处理onCreate方法。
-        onCreatOverride(savedInstanceState);
+        onCreatOverride(savedInstanceState, realizedViewForChild);
 
         current_tab = intent.getStringExtra("current_tab");
         UserName = intent.getStringExtra("user_name");
@@ -112,6 +134,142 @@ public abstract class bottomMenuActivity extends Activity{
                         onClickTab(3);
                     }
                 });
+            }
+        }
+    }
+
+    private void InitViewPager() {
+        mPager = (ViewPager) findViewById(R.id.vPager);
+        listViews = new ArrayList<View>();
+        LayoutInflater mInflater = getLayoutInflater();
+        switch(getContentViewLayoutResId()){
+            case R.layout.new_item:
+                realizedViewForChild = mInflater.inflate(getContentViewLayoutResId(), null);
+                listViews.add(realizedViewForChild);
+                listViews.add(mInflater.inflate(R.layout.post_item, null));
+                currentSelectedViewPager = 0;
+                break;
+            case R.layout.post_item:
+                listViews.add(mInflater.inflate(R.layout.new_item, null));
+                realizedViewForChild = mInflater.inflate(getContentViewLayoutResId(), null);
+                listViews.add(realizedViewForChild);
+                listViews.add(mInflater.inflate(R.layout.search, null));
+                currentSelectedViewPager = 1;
+                break;
+            case R.layout.search:
+                listViews.add(mInflater.inflate(R.layout.post_item, null));
+                realizedViewForChild = mInflater.inflate(getContentViewLayoutResId(), null);
+                listViews.add(realizedViewForChild);
+                listViews.add(mInflater.inflate(R.layout.me, null));
+                currentSelectedViewPager = 1;
+                break;
+            case R.layout.me:
+                listViews.add(mInflater.inflate(R.layout.search, null));
+                realizedViewForChild = mInflater.inflate(getContentViewLayoutResId(), null);
+                listViews.add(realizedViewForChild);
+                currentSelectedViewPager = 1;
+                break;
+            default:
+                break;
+        }
+        mPager.setAdapter(new MyPagerAdapter(listViews));
+        mPager.setCurrentItem(currentSelectedViewPager);
+        mPager.setOnPageChangeListener(new MyOnPageChangeListener());
+    }
+
+    public class MyPagerAdapter extends PagerAdapter {
+        public List<View> mListViews;
+
+        public MyPagerAdapter(List<View> mListViews) {
+            this.mListViews = mListViews;
+        }
+
+        @Override
+        public void destroyItem(View arg0, int arg1, Object arg2) {
+            ((ViewPager) arg0).removeView(mListViews.get(arg1));
+        }
+
+        @Override
+        public void finishUpdate(View arg0) {
+        }
+
+        @Override
+        public int getCount() {
+            return mListViews.size();
+        }
+
+        @Override
+        public Object instantiateItem(View arg0, int arg1) {
+            ((ViewPager) arg0).addView(mListViews.get(arg1), 0);
+            return mListViews.get(arg1);
+        }
+
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return arg0 == (arg1);
+        }
+
+        @Override
+        public void restoreState(Parcelable arg0, ClassLoader arg1) {
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void startUpdate(View arg0) {
+        }
+    }
+
+
+    public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageSelected(int arg0) {
+            if(currentSelectedViewPager == arg0) return;
+            needToSwitchPage = true;
+            switch (arg0) {
+                case 0:
+                    changeToWhichPage = 0;
+                    break;
+                case 1:
+                    changeToWhichPage = 1;
+                    break;
+                case 2:
+                    changeToWhichPage = 2;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+            if(arg0 == ViewPager.SCROLL_STATE_IDLE && needToSwitchPage) {
+                needToSwitchPage = false;
+                switch(getContentViewLayoutResId()){
+                    case R.layout.new_item:
+                        onClickTab(changeToWhichPage);
+                        break;
+                    case R.layout.post_item:
+                        onClickTab(changeToWhichPage);
+                        break;
+                    case R.layout.search:
+                        onClickTab(changeToWhichPage+1);
+                        break;
+                    case R.layout.me:
+                        onClickTab(changeToWhichPage+2);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -189,7 +347,7 @@ public abstract class bottomMenuActivity extends Activity{
      * 子类实现后，在原来的onCreate方法中内容移到这里来操作。
      * @param savedInstanceState
      */
-    protected abstract void onCreatOverride(Bundle savedInstanceState);
+    protected abstract void onCreatOverride(Bundle savedInstanceState, View realizedView);
 
     /**
      * 返回layout xml的ID
@@ -211,64 +369,5 @@ public abstract class bottomMenuActivity extends Activity{
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    /*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        this.mDetector.onTouchEvent(event);
-
-        return super.onTouchEvent(event);
-    }
-
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-
-            return true;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX,
-                               float velocityY) {
-
-            // gesture is from left to right
-            if (velocityX > 100) {
-                switch(current_tab){
-                    case "Post Item":
-                        onClickTab(0);
-                        break;
-                    case "Search":
-                        onClickTab(1);
-                        break;
-                    case "Me":
-                        onClickTab(2);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            //from right to left
-            if (velocityX < 100) {
-                switch(current_tab){
-                    case "New Item":
-                        onClickTab(1);
-                        break;
-                    case "Post Item":
-                        onClickTab(2);
-                        break;
-                    case "Search":
-                        onClickTab(3);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return true;
-        }
-
-    }
-    */
 
 }

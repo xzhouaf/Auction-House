@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -76,7 +77,7 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
 
     public int getContentViewLayoutResId() { return R.layout.post_item; }
 
-    final protected void onCreatOverride(Bundle savedInstanceState) {
+    final protected void onCreatOverride(Bundle savedInstanceState, View vw) {
 
         Log.i(TAG, "Subclass Activity: onCreate()");
 
@@ -91,20 +92,20 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 
         image_file_name = "";
-        itemImage = (ImageView) findViewById(R.id.PostitemImage);
+        itemImage = (ImageView) vw.findViewById(R.id.PostitemImage);
         itemImage.setOnClickListener(this);
 
-        condition_name = (Spinner) findViewById(R.id.PostItemConditionSel);
-        category_name = (Spinner) findViewById(R.id.PostItemCategorySel);
+        condition_name = (Spinner) vw.findViewById(R.id.PostItemConditionSel);
+        category_name = (Spinner) vw.findViewById(R.id.PostItemCategorySel);
 
-        description = (TextView) findViewById(R.id.descriptionEditContent);
-        name = (TextView) findViewById(R.id.itemNameInput);
+        description = (TextView) vw.findViewById(R.id.descriptionEditContent);
+        name = (TextView) vw.findViewById(R.id.itemNameInput);
 
-        time_limit = (EditText) findViewById(R.id.limitTime);
-        direct_buy_price = (EditText) findViewById(R.id.dirPrice);
-        current_price = (EditText) findViewById(R.id.iniPrice);
+        time_limit = (EditText) vw.findViewById(R.id.limitTime);
+        direct_buy_price = (EditText) vw.findViewById(R.id.dirPrice);
+        current_price = (EditText) vw.findViewById(R.id.iniPrice);
 
-        confirm = (Button) findViewById(R.id.confirm_post_button);
+        confirm = (Button) vw.findViewById(R.id.confirm_post_button);
         confirm.setOnClickListener(this);
 
         new ConditionCategoryLoader(condition_name, category_name, this, true).loadConditionCategory();

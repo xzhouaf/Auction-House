@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -55,31 +56,31 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
 
     public int getContentViewLayoutResId() { return R.layout.me; }
 
-    final protected void onCreatOverride(Bundle savedInstanceState) {
+    final protected void onCreatOverride(Bundle savedInstanceState, View vw) {
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.me);
 
         Log.i(TAG, "Subclass Activity: onCreate()");
 
-        personalInfo = (LinearLayout) findViewById(R.id.personal_info);
+        personalInfo = (LinearLayout) vw.findViewById(R.id.personal_info);
         personalInfo.setOnClickListener(this);
 
-        myAuction = (LinearLayout) findViewById(R.id.myAuction);
+        myAuction = (LinearLayout) vw.findViewById(R.id.myAuction);
         myAuction.setOnClickListener(this);
 
-        myBid = (LinearLayout) findViewById(R.id.myBid);
+        myBid = (LinearLayout) vw.findViewById(R.id.myBid);
         myBid.setOnClickListener(this);
 
-        myHistory = (LinearLayout) findViewById(R.id.myHistory);
+        myHistory = (LinearLayout) vw.findViewById(R.id.myHistory);
         myHistory.setOnClickListener(this);
 
-        Button logoutBut = (Button) findViewById(R.id.logoutButton);
+        Button logoutBut = (Button) vw.findViewById(R.id.logoutButton);
         logoutBut.setOnClickListener(this);
 
-        Button updateBut = (Button) findViewById(R.id.update);
+        Button updateBut = (Button) vw.findViewById(R.id.update);
         updateBut.setOnClickListener(this);
 
-        portrait = (ImageView) findViewById(R.id.me_portrait);
+        portrait = (ImageView) vw.findViewById(R.id.me_portrait);
 
                 intent = this.getIntent();
         ctx = getApplicationContext();
@@ -89,7 +90,7 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
         CreatedAt = intent.getStringExtra("user_createdAt");
         UserID = intent.getStringExtra("user_ID");
 
-        name = (TextView) findViewById(R.id.me_UserName);
+        name = (TextView) vw.findViewById(R.id.me_UserName);
         name.setText(UserName);
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);

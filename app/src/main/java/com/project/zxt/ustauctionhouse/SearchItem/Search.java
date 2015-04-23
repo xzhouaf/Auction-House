@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -42,7 +43,7 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
 
     public int getContentViewLayoutResId() { return R.layout.search; }
 
-    final protected void onCreatOverride(Bundle savedInstanceState) {
+    final protected void onCreatOverride(Bundle savedInstanceState, View vw) {
 
         Log.i(TAG, "Subclass Activity: onCreate()");
 
@@ -56,12 +57,12 @@ public class Search extends bottomMenuActivity implements View.OnClickListener{
 
         Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
 
-        searchCategory = (Spinner) findViewById(R.id.searchCategorySel);
+        searchCategory = (Spinner) vw.findViewById(R.id.searchCategorySel);
 
-        Button testToResult = (Button)findViewById(R.id.searchButton);
+        Button testToResult = (Button)vw.findViewById(R.id.searchButton);
         testToResult.setOnClickListener(this);
 
-        searchKeyword = (EditText) findViewById(R.id.searchInput);
+        searchKeyword = (EditText) vw.findViewById(R.id.searchInput);
 
         new ConditionCategoryLoader(null, searchCategory, this, false).loadConditionCategory();
 

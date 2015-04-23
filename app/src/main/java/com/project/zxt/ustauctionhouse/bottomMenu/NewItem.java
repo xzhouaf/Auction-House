@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -45,7 +46,7 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
         return R.layout.new_item;
     }
 
-    final protected void onCreatOverride(Bundle savedInstanceState) {
+    final protected void onCreatOverride(Bundle savedInstanceState, View vw) {
 
         Log.i(TAG, "Subclass Activity: onCreate()");
 
@@ -57,10 +58,13 @@ public class NewItem extends bottomMenuActivity implements View.OnClickListener,
         CreatedAt = intent.getStringExtra("user_createdAt");
         UserID = intent.getStringExtra("user_ID");
 
-        goBackToTop = (TextView) findViewById(R.id.new_item_frame_title);
+
+
+        goBackToTop = (TextView) vw.findViewById(R.id.new_item_frame_title);
         goBackToTop.setOnClickListener(this);
 
-        refreshLv = (RefreshListView) findViewById(R.id.new_item_listview);
+
+        refreshLv = (RefreshListView) vw.findViewById(R.id.new_item_listview);
         refreshLv.setOnRefreshListener(this);
         refreshLv.setOnLoadListener(this);
         refreshLv.setOnItemClickListener(

@@ -128,7 +128,7 @@
             android:layout_toEndOf="@+id/PostitemImage"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -138,7 +138,7 @@
             android:layout_alignStart="@+id/iNameTag"
             android:layout_alignRight="@+id/conditionInfo"
             android:layout_alignEnd="@+id/conditionInfo"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_below="@+id/iNameTag"
