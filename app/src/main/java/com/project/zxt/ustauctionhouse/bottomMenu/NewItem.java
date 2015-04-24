@@ -29,7 +29,7 @@ import java.util.Observer;
 
 /**
  * Created by Paul on 2015/4/12.
- *
+ * This is just for testing of Ubuntu, first test of Android Studio on Ubuntu
  */
 public class NewItem extends bottomMenuActivity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener, RefreshListView.OnLoadListener {
     private static final String TAG = "New Item";
