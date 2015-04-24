@@ -253,7 +253,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         protected void onPostExecute(String result){
             super.onPostExecute(result);
             if(result != null) {
-                String imageFileURL = Utility.serverUrl + "/portrait/" + result;
+                String imageFileURL = Utility.serverUrlForPicture + "/portrait/" + result;
                 imageLoader = new ImageLoader(ctx);
                 imageLoader.DisplayImage(imageFileURL, portraitMod);
             }else{

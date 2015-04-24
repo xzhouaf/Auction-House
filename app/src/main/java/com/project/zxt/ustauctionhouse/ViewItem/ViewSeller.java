@@ -160,7 +160,7 @@ public class ViewSeller extends Activity implements View.OnClickListener {
                     String imageFileName = obj.getString("portrait");
 
                     imageLoader = new ImageLoader(ctx);
-                    imageLoader.DisplayImage(Utility.serverUrl + "/portrait/" + imageFileName, portrait);
+                    imageLoader.DisplayImage(Utility.serverUrlForPicture + "/portrait/" + imageFileName, portrait);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

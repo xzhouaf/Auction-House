@@ -268,7 +268,7 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
 
             Bitmap bitmap = null;
             try{
-                URL url = new URL(Utility.serverUrl + "/portrait/" + fileName);
+                URL url = new URL(Utility.serverUrlForPicture + "/portrait/" + fileName);
                 HttpURLConnection conn  = (HttpURLConnection)url.openConnection();
                 conn.setDoInput(true);
                 conn.connect();
