@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.project.zxt.ustauctionhouse.bottomMenu.BottomMenuHome;
 import com.project.zxt.ustauctionhouse.bottomMenu.NewItem;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.GCM.RegisterApp;
@@ -255,7 +256,7 @@ public class LogIn extends Activity implements View.OnClickListener {
     }
 
     private void jumpToMainActivity(String a, String b, String c, String d, String e){
-        Intent i = new Intent(ctx, NewItem.class);
+        Intent i = new Intent(ctx, BottomMenuHome.class);
         i.putExtra("user_name", a);
         i.putExtra("user_email", b);
         i.putExtra("user_apiKey", c);

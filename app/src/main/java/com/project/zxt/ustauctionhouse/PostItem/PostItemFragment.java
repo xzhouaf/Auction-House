@@ -4,15 +4,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,49 +20,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.project.zxt.ustauctionhouse.LoginRelated.LogIn;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.ConditionCategoryLoader;
 import com.project.zxt.ustauctionhouse.Utility.UploadImage;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
+import com.project.zxt.ustauctionhouse.bottomMenu.BottomMenuHome;
 import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by Paul on 2015/4/12.
+ * Created by paul on 15年4月26日.
  *
  */
-public class PostItem extends bottomMenuActivity implements View.OnClickListener, Observer{
+public class PostItemFragment extends Fragment implements View.OnClickListener, Observer, BottomMenuHome.OnPassParamListener {
+
     private static final String TAG = "PostItem";
     private String UserName, Email, ApiKey, CreatedAt, UserID;
     private Intent intent;
@@ -75,21 +61,13 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
     private Button confirm;
     private UploadImage imageUploader;
 
-    public int getContentViewLayoutResId() { return R.layout.post_item; }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    final protected void onCreatOverride(Bundle savedInstanceState, View vw) {
+        Log.i(TAG, "Fragment View: onCreate()");
 
-        Log.i(TAG, "Subclass Activity: onCreate()");
-
-        intent = this.getIntent();
-        ctx = getApplicationContext();
-        UserName = intent.getStringExtra("user_name");
-        Email = intent.getStringExtra("user_email");
-        ApiKey = intent.getStringExtra("user_apiKey");
-        CreatedAt = intent.getStringExtra("user_createdAt");
-        UserID = intent.getStringExtra("user_ID");
-
-        Log.i(TAG, UserName + ", " + Email + ", " + ApiKey + ", " + CreatedAt);
+        View vw = inflater.inflate(R.layout.post_item, container, false);
+        intent = getActivity().getIntent();
+        ctx = getActivity().getApplicationContext();
 
         image_file_name = "";
         itemImage = (ImageView) vw.findViewById(R.id.PostitemImage);
@@ -108,13 +86,12 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
         confirm = (Button) vw.findViewById(R.id.confirm_post_button);
         confirm.setOnClickListener(this);
 
-        new ConditionCategoryLoader(condition_name, category_name, this, true).loadConditionCategory();
-
+        return vw;
     }
 
     private void modifyItemImage(){
         final CharSequence[] items = { "Camera", "Gallery" };
-        new AlertDialog.Builder(this).setTitle("Select Source")
+        new AlertDialog.Builder(getActivity()).setTitle("Select Source")
                 .setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 1) {
@@ -126,35 +103,15 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
                             } else {
                                 intent.setAction(Intent.ACTION_GET_CONTENT);
                             }
-                            startActivityForResult(intent, 1);
+                            getActivity().startActivityForResult(intent, 1);
                         } else {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, 1);
+                            getActivity().startActivityForResult(intent, 1);
                         }
                     }
                 }).create().show();
     }
-/*
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            switch (requestCode) {
-                case 1:
-                    if(data != null) {
-                        Uri uri = data.getData();
-                        Log.i("uri", uri.toString());
-                        imageUploader.startPhotoZoom(uri);
-                    }
-                    break;
-                case 2:
-                    if(data != null){
-                        imageUploader.uploadItemImageToServer(data);
-                    }
-                    break;
-                default:
-                    break;
-            }
-            super.onActivityResult(requestCode, resultCode, data);
-    }
-*/
+
     @Override
     public void update(Observable observable, Object data) {
         if (observable == imageUploader) {
@@ -173,7 +130,7 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.PostitemImage:
-                imageUploader = new UploadImage(this, itemImage, "item");
+                imageUploader = new UploadImage(getActivity(), itemImage, "item");
                 imageUploader.addObserver(this);
                 modifyItemImage();
                 break;
@@ -212,13 +169,51 @@ public class PostItem extends bottomMenuActivity implements View.OnClickListener
             return false;
         }
         if(image_file_name.toString().equals("")){
-            Toast.makeText(this, "Upload image for your item!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Upload image for your item!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
 
 
         return true;
+    }
+
+    @Override
+    public void onPassAction(String a, String b, String c, String d) {
+        UserName = a;
+        Email = b;
+        ApiKey = c;
+        UserID = d;
+    }
+
+    boolean updated = false;
+    @Override
+    public void onUpdateAction() {
+        if(!updated) {
+            updated = true;
+            new ConditionCategoryLoader(condition_name, category_name, getActivity(), true).loadConditionCategory();
+        }
+    }
+
+    @Override
+    public void activityResultHandle(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "Success2, " + requestCode);
+        switch (requestCode) {
+            case 1:
+                if(data != null) {
+                    Uri uri = data.getData();
+                    Log.i("uri", uri.toString());
+                    imageUploader.startPhotoZoom(uri);
+                }
+                break;
+            case 2:
+                if(data != null){
+                    imageUploader.uploadItemImageToServer(data);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private class AsyncPostItem extends AsyncTask<String, Void, JSONObject> {

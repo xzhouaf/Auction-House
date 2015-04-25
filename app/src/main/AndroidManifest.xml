@@ -81,6 +81,9 @@
         <activity
             android:name=".ViewItem.ViewSeller"
             android:label="ViewSeller" />
+        <activity
+            android:name=".bottomMenu.BottomMenuHome"
+            android:label="BottomMenuHome" />
     </application>
 
 </manifest>
