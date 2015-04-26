@@ -83,7 +83,8 @@
             android:label="ViewSeller" />
         <activity
             android:name=".bottomMenu.BottomMenuHome"
-            android:label="BottomMenuHome" />
+            android:label="BottomMenuHome"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
