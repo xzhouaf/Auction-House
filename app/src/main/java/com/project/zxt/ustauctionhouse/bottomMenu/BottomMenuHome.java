@@ -71,6 +71,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
         UserID = intent.getStringExtra("user_ID");
 
         mPager = (ViewPager) findViewById(R.id.internal_view_pager);
+        mPager.setOffscreenPageLimit(3);
         fragments = new ArrayList<Fragment>();
 
         newItem = new NewItemFragment();
