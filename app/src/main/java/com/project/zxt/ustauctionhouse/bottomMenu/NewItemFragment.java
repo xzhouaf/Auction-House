@@ -41,7 +41,8 @@ import java.util.Observer;
  *
  */
 
-public class NewItemFragment extends Fragment implements BottomMenuHome.OnPassParamListener, View.OnClickListener, Observer, RefreshListView.OnRefreshListener, RefreshListView.OnLoadListener {
+public class NewItemFragment extends Fragment implements BottomMenuHome.OnPassParamListener,
+        View.OnClickListener, Observer, RefreshListView.OnRefreshListener, RefreshListView.OnLoadListener {
 
     private static final String TAG = "New Item";
     private String UserName, Email, ApiKey, UserID;

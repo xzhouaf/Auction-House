@@ -41,6 +41,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
 
     final String TAG = "Bottom Menu Home";
     private String UserName, Email, ApiKey, CreatedAt, UserID;
+    private static final int DARK_COLOR = 0xffe9e31d, BRIGHT_COLOR = 0xfffdff29;
     Intent intent;
     Context ctx;
 
@@ -127,7 +128,30 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
+            case R.id.new_item_touch_vp:
+                if(currentSelectedViewPager != 0){
+                    mPager.setCurrentItem(0);
+                }
+                onClickTab(0);
+                break;
+            case R.id.post_item_touch_vp:
+                if(currentSelectedViewPager != 1){
+                    mPager.setCurrentItem(1);
+                }
+                onClickTab(1);
+                break;
+            case R.id.search_touch_vp:
+                if(currentSelectedViewPager != 2){
+                    mPager.setCurrentItem(2);
+                }
+                onClickTab(2);
+                break;
+            case R.id.me_touch_vp:
+                if(currentSelectedViewPager != 3){
+                    mPager.setCurrentItem(3);
+                }
+                onClickTab(3);
+                break;
             default:
                 break;
         }
@@ -196,27 +220,41 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
         switch(num){
             case 0:
                 if(currentSelectedViewPager == 0) return;
-
+                resetTabColor();
+                newBut.setBackgroundColor(BRIGHT_COLOR);
                 currentSelectedViewPager = 0;
                 break;
             case 1:
                 if(currentSelectedViewPager == 1) return;
+                resetTabColor();
+                postBut.setBackgroundColor(BRIGHT_COLOR);
                 postItemLis.onUpdateAction();
                 currentSelectedViewPager = 1;
                 break;
             case 2:
                 if(currentSelectedViewPager == 2) return;
+                resetTabColor();
+                searchBut.setBackgroundColor(BRIGHT_COLOR);
                 searchLis.onUpdateAction();
                 currentSelectedViewPager = 2;
                 break;
             case 3:
                 if(currentSelectedViewPager == 3) return;
+                resetTabColor();
+                meBut.setBackgroundColor(BRIGHT_COLOR);
                 meLis.onUpdateAction();
                 currentSelectedViewPager = 3;
                 break;
             default:
                 break;
         }
+    }
+
+    private void resetTabColor(){
+        newBut.setBackgroundColor(DARK_COLOR);
+        postBut.setBackgroundColor(DARK_COLOR);
+        searchBut.setBackgroundColor(DARK_COLOR);
+        meBut.setBackgroundColor(DARK_COLOR);
     }
 
     private long mExitTime;
