@@ -151,7 +151,7 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
                 break;
         }
     }
-
+/*
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==1){
@@ -162,7 +162,7 @@ public class PersonalInformation extends bottomMenuActivity implements View.OnCl
             }
         }
     }
-
+*/
     private void onLogoutPressed(){
         new AlertDialog.Builder(this).setTitle("Logout")
                 .setIcon(R.drawable.hhh)
