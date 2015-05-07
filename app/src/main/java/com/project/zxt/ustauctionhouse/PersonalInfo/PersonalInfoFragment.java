@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.zxt.ustauctionhouse.LiveAuction.WebSocketLive;
 import com.project.zxt.ustauctionhouse.LoginRelated.LogIn;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.bottomMenu.BottomMenuHome;
-import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -83,6 +82,9 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
         Button updateBut = (Button) vw.findViewById(R.id.update);
         updateBut.setOnClickListener(this);
 
+        Button tcpBut = (Button) vw.findViewById(R.id.tcpMe);
+        tcpBut.setOnClickListener(this);
+
         portrait = (ImageView) vw.findViewById(R.id.me_portrait);
 
         name = (TextView) vw.findViewById(R.id.me_UserName);
@@ -120,6 +122,12 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.update:
                 updatePortrait();
+                break;
+            case R.id.tcpMe:
+                Intent tcpIntent = new Intent(ctx, WebSocketLive.class);
+                tcpIntent.putExtra("user_apiKey", ApiKey);
+                tcpIntent.putExtra("user_ID", UserID);
+                startActivity(tcpIntent);
                 break;
             case R.id.myBid:
                 Intent intent1 = new Intent(ctx, TransactionInfo.class);

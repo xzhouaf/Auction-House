@@ -85,6 +85,12 @@
             android:name=".bottomMenu.BottomMenuHome"
             android:label="BottomMenuHome"
             android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".LiveAuction.Live"
+            android:label="Live" />
+        <activity
+            android:name=".LiveAuction.WebSocketLive"
+            android:label="Live" />
     </application>
 
 </manifest>
