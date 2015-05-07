@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,11 +32,12 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private Intent intent;
     private TextView returnText, timeText;
     private EditText sendText;
-    private Button sendBut;
+    private Button sendBut, reconBut;
     private String receivedMessage = "";
     private String ApiKey, UserID;
+    private boolean needReconnect = true;
 
-    public static String wsUrl = "ws://gaozihou.no-ip.org:3636";
+    public static String wsUrl = "ws://gaozihou.no-ip.org:7272";
     public WebSocketConnection wsC = new WebSocketConnection();
 
     /* Seems to be useless */
@@ -72,6 +74,8 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         timeText = (TextView) findViewById(R.id.timeText);
         sendBut = (Button) findViewById(R.id.sendTCP);
         sendBut.setOnClickListener(this);
+        reconBut = (Button) findViewById(R.id.reconBut);
+        reconBut.setOnClickListener(this);
 
         wsStart();
 
@@ -86,12 +90,13 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 public void onOpen()
                 {
                     toastLog( "Status: Connected to " + wsUrl );
+                    needReconnect = false;
 
                     JSONObject obj = new JSONObject();
                     try {
-                        obj.put("type", "authenticate");
-                        obj.put("api_key", ApiKey);
-                        obj.put("item_id", 1);
+                        obj.put("type", "login");
+                        obj.put("client_name", "Paul GAO");
+                        obj.put("room_id", 1);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -109,18 +114,27 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                             case "time":
                                 timeText.setText(obj.getString("time"));
                                 break;
+                            case "ping":
+                                JSONObject obj_send = new JSONObject();
+                                try {
+                                    obj_send.put("type", "pong");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                wsC.sendTextMessage(obj_send.toString());
+                                break;
                             case "login":
-                                receivedMessage += "User "+obj.getInt("from_id")+" login.\n";
+                                receivedMessage += "User "+obj.getInt("client_id")+" login.\n";
                                 returnText.setText(receivedMessage);
                                 timeText.setText(obj.getString("time"));
                                 break;
                             case "logout":
-                                receivedMessage += "User "+obj.getInt("from_id")+" logout.\n";
+                                receivedMessage += "User "+obj.getInt("from_client_id")+" logout.\n";
                                 returnText.setText(receivedMessage);
                                 break;
                             case "say":
-                                receivedMessage += "User "+obj.getInt("from_id")+" say: "
-                                        + obj.getString("content") + " " + obj.getInt("price") + "\n";
+                                receivedMessage += "User "+obj.getInt("from_client_id")+" say: "
+                                        + obj.getString("content") + "\n";
                                 returnText.setText(receivedMessage);
                                 break;
                             case "authenticate":
@@ -138,7 +152,8 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 @Override
                 public void onClose( int code, String reason )
                 {
-                    toastLog( "Connection lost." );
+                    toastLog( "Connection lost" );
+                    needReconnect = true;
                 }
             } );
         } catch ( WebSocketException e ) {
@@ -152,13 +167,21 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
             case R.id.sendTCP:
                 JSONObject obj = new JSONObject();
                 try {
-                    obj.put("type", "bid");
-                    obj.put("message", sendText.getText().toString());
+                    obj.put("type", "say");
+                    obj.put("to_client_id", "all");
+                    obj.put("to_client_name", null);
+                    obj.put("content", sendText.getText().toString());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 wsC.sendTextMessage(obj.toString());
                 sendText.setText("");
+                break;
+            case R.id.reconBut:
+                if(needReconnect){
+                    wsStart();
+                }
                 break;
             default:
                 break;
