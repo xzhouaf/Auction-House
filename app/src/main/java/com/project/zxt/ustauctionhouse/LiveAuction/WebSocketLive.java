@@ -13,13 +13,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Api;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnection;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnectionHandler;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketException;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by paul on 15年5月7日.
@@ -34,7 +40,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private EditText sendText;
     private Button sendBut, reconBut;
     private String receivedMessage = "";
-    private String ApiKey, UserID;
+    private String ApiKey, UserID, UserName;
     private boolean needReconnect = true;
 
     public static String wsUrl = "ws://gaozihou.no-ip.org:7272";
@@ -68,6 +74,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
 
         ApiKey = intent.getStringExtra("user_apiKey");
         UserID = intent.getStringExtra("user_ID");
+        UserName = intent.getStringExtra("user_name");
 
         returnText = (TextView) findViewById(R.id.returnMessage);
         sendText = (EditText) findViewById(R.id.sendText);
@@ -83,8 +90,13 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
 
     private void wsStart()
     {
+        /*
+            BasicNameValuePair pair1 = new BasicNameValuePair("Authorization", ApiKey);
+            List<BasicNameValuePair> pairList = new ArrayList<>();
+            pairList.add(pair1);
+            */
         try {
-            wsC.connect( wsUrl, new WebSocketConnectionHandler()
+            wsC.connect( wsUrl, null, new WebSocketConnectionHandler()
             {
                 @Override
                 public void onOpen()
@@ -95,8 +107,10 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                     JSONObject obj = new JSONObject();
                     try {
                         obj.put("type", "login");
-                        obj.put("client_name", "Paul GAO");
-                        obj.put("room_id", 1);
+                        obj.put("Authorization", ApiKey);
+                        obj.put("user_id", UserID);
+                        obj.put("client_name", UserName);
+                        obj.put("room_id", 2);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -134,11 +148,8 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 break;
                             case "say":
                                 receivedMessage += "User "+obj.getInt("from_client_id")+" say: "
-                                        + obj.getString("content") + "\n";
-                                returnText.setText(receivedMessage);
-                                break;
-                            case "authenticate":
-                                receivedMessage += obj.getString("content") + "\n";
+                                        + obj.getString("content") + " and current price is " +
+                                        obj.getInt("price") + "\n";
                                 returnText.setText(receivedMessage);
                                 break;
                             default:

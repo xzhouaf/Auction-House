@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +25,9 @@ import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.ConditionCategoryLoader;
 import com.project.zxt.ustauctionhouse.Utility.UploadImage;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
+import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnection;
+import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnectionHandler;
+import com.project.zxt.ustauctionhouse.WebSocket.WebSocketException;
 import com.project.zxt.ustauctionhouse.bottomMenu.BottomMenuHome;
 import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
@@ -55,11 +59,14 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
     private Context ctx;
     private String image_file_name;
     private EditText time_limit, direct_buy_price, current_price;
-    private Spinner condition_name, category_name;
+    private Spinner condition_name, category_name, post_mode;
     private TextView description, name;
     private ImageView itemImage;
     private Button confirm;
     private UploadImage imageUploader;
+
+    public static String wsUrl = "ws://gaozihou.no-ip.org:7272";
+    public WebSocketConnection wsC = new WebSocketConnection();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -75,6 +82,11 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
 
         condition_name = (Spinner) vw.findViewById(R.id.PostItemConditionSel);
         category_name = (Spinner) vw.findViewById(R.id.PostItemCategorySel);
+        post_mode = (Spinner) vw.findViewById(R.id.post_mode);
+
+        String conditionNewArray[] = {"Regular", "Live"};
+        ArrayAdapter adapter=new ArrayAdapter(ctx,R.layout.login_list_item,conditionNewArray);
+        post_mode.setAdapter(adapter);
 
         description = (TextView) vw.findViewById(R.id.descriptionEditContent);
         name = (TextView) vw.findViewById(R.id.itemNameInput);
@@ -135,11 +147,83 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
                 modifyItemImage();
                 break;
             case R.id.confirm_post_button:
-                if(!validateInput()) return;
-                new AsyncPostItem().execute();
+                switch (post_mode.getSelectedItem().toString()){
+                    case "Regular":
+                        if(!validateInput()) return;
+                        new AsyncPostItem().execute();
+                        break;
+                    case "Live":
+                        wsStart();
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
                 break;
+        }
+    }
+
+    private void wsStart()
+    {
+        /*
+            BasicNameValuePair pair1 = new BasicNameValuePair("Authorization", ApiKey);
+            List<BasicNameValuePair> pairList = new ArrayList<>();
+            pairList.add(pair1);
+            */
+        try {
+            wsC.connect( wsUrl, null, new WebSocketConnectionHandler()
+            {
+                @Override
+                public void onOpen()
+                {
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("type", "add");
+                        obj.put("Authorization", ApiKey);
+                        obj.put("seller_name", UserName);
+                        obj.put("image", image_file_name);
+                        obj.put("description", description.getText().toString());
+                        obj.put("room_id", 2);
+                        obj.put("name", name.getText().toString());
+                        obj.put("initial_price", current_price.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    wsC.sendTextMessage(obj.toString());
+                }
+
+                @Override
+                public void onTextMessage( String payload ){
+
+                    JSONObject obj = null;
+                    try {
+                        obj = new JSONObject(payload);
+                        switch(obj.getString("type")){
+                            case "ping":
+                                JSONObject obj_send = new JSONObject();
+                                try {
+                                    obj_send.put("type", "pong");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                wsC.sendTextMessage(obj_send.toString());
+                                break;
+                            default:
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onClose( int code, String reason ){
+                    Toast.makeText(ctx, "Item posted to live!", Toast.LENGTH_SHORT).show();
+                }
+            } );
+        } catch ( WebSocketException e ) {
+            e.printStackTrace();
         }
     }
 

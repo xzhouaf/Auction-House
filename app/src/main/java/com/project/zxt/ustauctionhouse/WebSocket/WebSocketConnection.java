@@ -208,8 +208,8 @@ public class WebSocketConnection implements WebSocket {
    }
 
 
-   public void connect(String wsUri, WebSocket.ConnectionHandler wsHandler) throws WebSocketException {
-      connect(wsUri, null, wsHandler, new WebSocketOptions(), null);
+   public void connect(String wsUri, List<BasicNameValuePair> header,  WebSocket.ConnectionHandler wsHandler) throws WebSocketException {
+      connect(wsUri, null, wsHandler, new WebSocketOptions(), header);
    }
 
 

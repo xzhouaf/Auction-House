@@ -199,6 +199,29 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/categoryInfo"
+            android:layout_alignLeft="@+id/categoryInfo"
+            android:layout_alignStart="@+id/categoryInfo"
+            android:background="#ffffbb6a">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type:        "
+                android:id="@+id/TypeTag"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp" />
+
+            <Spinner
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_mode" />
+        </LinearLayout>
+
     </RelativeLayout>
 
     <LinearLayout

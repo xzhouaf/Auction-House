@@ -127,6 +127,7 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                 Intent tcpIntent = new Intent(ctx, WebSocketLive.class);
                 tcpIntent.putExtra("user_apiKey", ApiKey);
                 tcpIntent.putExtra("user_ID", UserID);
+                tcpIntent.putExtra("user_name", UserName);
                 startActivity(tcpIntent);
                 break;
             case R.id.myBid:

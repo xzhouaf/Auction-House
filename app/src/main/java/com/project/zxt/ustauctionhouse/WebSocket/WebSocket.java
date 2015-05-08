@@ -1,6 +1,9 @@
 package com.project.zxt.ustauctionhouse.WebSocket;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
+
+import java.util.List;
 
 public interface WebSocket {
    
@@ -84,7 +87,7 @@ public interface WebSocket {
 	   public void onBinaryMessage(byte[] payload);
    }
 
-   public void connect(String wsUri, ConnectionHandler wsHandler) throws WebSocketException;
+   public void connect(String wsUri, List<BasicNameValuePair> header, ConnectionHandler wsHandler) throws WebSocketException;
    public void connect(String wsUri, ConnectionHandler wsHandler, WebSocketOptions options) throws WebSocketException;
    public void disconnect();
    public boolean isConnected();
