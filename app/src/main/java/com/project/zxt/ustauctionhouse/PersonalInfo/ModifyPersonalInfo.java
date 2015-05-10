@@ -75,6 +75,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
     private UploadImage imageUploader;
     private boolean success = false;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -144,6 +145,10 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         Phone = phone_.getText().toString();
         userName = user_name.getText().toString();
 
+        Intent i = new Intent();
+
+
+
         if(!newPass.equals(newPass2)){
 
             Toast.makeText(ctx, "New password and confirm password don't match!", Toast.LENGTH_SHORT).show();
@@ -151,15 +156,58 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         }
         else {
 
-            if ((!newPass.equals(null))&&(!oldPass.equals(null))) {
-                new AsyncLogout().execute();
+            if (!((newPass.equals(""))||(oldPass.equals("")))) {
+                if (new_pass.length()<6){
+                    new_pass.setError("Invalid Password");
+                    Toast.makeText(ctx, "Length of new password should be at least 6!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    new AlertDialog.Builder(this).setTitle("Logout")
+                            .setIcon(R.drawable.hhh)
+                            .setMessage("You will logout to update your information, are you sure?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new AsyncLogout().execute();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Do nothing
+                                }
+                            }).show();
+
+
+
+
+                }
+
 
             }
             else{
-                new AsyncUpdate().execute();
-                if (success) {
-                    finish();
-                }
+                new AlertDialog.Builder(this).setTitle("Logout")
+                        .setIcon(R.drawable.hhh)
+                        .setMessage("You will logout to update your information, are you sure?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new AsyncLogout().execute();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Do nothing
+                            }
+                        }).show();
+
+
+
             }
 
 
@@ -313,13 +361,15 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
 
                 }else{
 
-                    success = true;
+
+                    finish();
+                    setResult(Utility.RESULT_LOGOUT, null);
 
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            finish();
+
         }
     }
 
@@ -368,7 +418,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
                     Intent i = new Intent(ctx, LogIn.class);
                     startActivity(i);
                     new AsyncUpdate().execute();
-                    getParent().finish();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

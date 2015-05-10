@@ -45,6 +45,8 @@ public class Utility {
     public static final String KEY_TIME_LEFT = "time_left";
     public static final String KEY_HIGHEST_BIDDER = "highest_bidder";
     public static final String KEY_HIGHEST_BIDDER_ID = "highest_bidder_ID";
+    public static final int RESULT_LOGOUT = 2;
+    public static final int RESULT_UPDATE = 3;
 
     public static List<Unit> string2unit(String result) throws JSONException {
         Log.i("Important::::: ", result);

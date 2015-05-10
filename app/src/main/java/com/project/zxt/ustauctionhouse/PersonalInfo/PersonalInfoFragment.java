@@ -197,9 +197,19 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
     public void activityResultHandle(int requestCode, int resultCode, Intent data) {
         if (requestCode==3){
             if(resultCode== Activity.RESULT_CANCELED)
-                getActivity().setTitle("cancle");
+                getActivity().setTitle("cancel");
             else if (resultCode== Activity.RESULT_OK) {
                 updatePortrait();
+            }
+            else if(resultCode == Utility.RESULT_LOGOUT){
+                getActivity().finish();
+            }
+            else if(resultCode == Utility.RESULT_UPDATE){
+                String newUserName= data.getStringExtra("new_user_name");
+                name.setText(newUserName);
+                updatePortrait();
+
+
             }
         }
     }
