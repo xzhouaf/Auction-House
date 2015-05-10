@@ -68,6 +68,20 @@ public class Utility {
         return null;
     }
 
+    public static List<LiveUnit> string2liveunit(String result) throws JSONException {
+
+            JSONArray taskArray = new JSONArray(result);
+            List<LiveUnit> taskInfoArrayList = new ArrayList<LiveUnit>();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            Gson gson = gsonBuilder.create();
+            taskInfoArrayList = Arrays.asList(gson.fromJson(taskArray.toString(), LiveUnit[].class));
+            Log.i("IMPORTANT:::::length: ", ""+taskInfoArrayList.size());
+            //Log.i("IMPORTANT:::::name: ", taskInfoArrayList.get(0).name);
+            //Log.i("IMPORTANT:::::price: ", taskInfoArrayList.get(0).currentPrice+"");
+            //Log.i("IMPORTANT:::::name: ", taskInfoArrayList.get(0).timeLimit+"");
+            return taskInfoArrayList;
+    }
+
     public static JSONObject response2obj(HttpResponse response){
         String result = "";
         String line;

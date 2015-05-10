@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.Api;
 import com.project.zxt.ustauctionhouse.R;
+import com.project.zxt.ustauctionhouse.Utility.LiveUnit;
+import com.project.zxt.ustauctionhouse.Utility.Utility;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnection;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnectionHandler;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketException;
@@ -38,7 +41,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private Intent intent;
     private TextView returnText, timeText;
     private EditText sendText;
-    private Button sendBut, reconBut;
+    private Button sendBut, reconBut, listBut;
     private String receivedMessage = "";
     private String ApiKey, UserID, UserName;
     private boolean needReconnect = true;
@@ -83,8 +86,12 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         sendBut.setOnClickListener(this);
         reconBut = (Button) findViewById(R.id.reconBut);
         reconBut.setOnClickListener(this);
+        listBut = (Button) findViewById(R.id.get_list_but);
+        listBut.setOnClickListener(this);
 
-        wsStart();
+        wsGetRoomStart();
+
+        //wsStart();
 
     }
 
@@ -172,6 +179,74 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         }
     }
 
+    private void wsGetRoomStart()
+    {
+        /*
+            BasicNameValuePair pair1 = new BasicNameValuePair("Authorization", ApiKey);
+            List<BasicNameValuePair> pairList = new ArrayList<>();
+            pairList.add(pair1);
+            */
+        try {
+            wsC.connect( wsUrl, null, new WebSocketConnectionHandler()
+            {
+                @Override
+                public void onOpen()
+                {
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("type", "request_rooms");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    wsC.sendTextMessage(obj.toString());
+                }
+
+                @Override
+                public void onTextMessage( String payload ){
+
+                    JSONObject obj = null;
+                    try {
+                        obj = new JSONObject(payload);
+                        switch(obj.getString("type")){
+                            case "ping":
+                                JSONObject obj_send = new JSONObject();
+                                try {
+                                    obj_send.put("type", "pong");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                wsC.sendTextMessage(obj_send.toString());
+                                break;
+                            case "say":
+                                String roomList = obj.getString("list");
+                                Log.i("Important:   ", roomList);
+                                List<LiveUnit> unitList = Utility.string2liveunit(roomList);
+                                JSONObject obj_send1 = new JSONObject();
+                                try {
+                                    obj_send1 .put("type", "close_client");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                wsC.sendTextMessage(obj_send1.toString());
+                                break;
+                            default:
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onClose( int code, String reason ){
+                    //Toast.makeText(ctx, "Item posted to live!", Toast.LENGTH_SHORT).show();
+                }
+            } );
+        } catch ( WebSocketException e ) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -193,6 +268,9 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 if(needReconnect){
                     wsStart();
                 }
+                break;
+            case R.id.get_list_but:
+                wsGetRoomStart();
                 break;
             default:
                 break;
