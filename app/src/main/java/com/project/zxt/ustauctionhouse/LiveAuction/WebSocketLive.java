@@ -41,12 +41,13 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private Intent intent;
     private TextView returnText, timeText;
     private EditText sendText;
-    private Button sendBut, reconBut, listBut;
+    private Button sendBut, reconBut, reset_list_but;
     private String receivedMessage = "";
     private String ApiKey, UserID, UserName;
     private boolean needReconnect = true;
+    private String roomID;
 
-    public static String wsUrl = "ws://gaozihou.no-ip.org:7272";
+
     public WebSocketConnection wsC = new WebSocketConnection();
 
     /* Seems to be useless */
@@ -78,6 +79,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         ApiKey = intent.getStringExtra("user_apiKey");
         UserID = intent.getStringExtra("user_ID");
         UserName = intent.getStringExtra("user_name");
+        roomID = intent.getStringExtra("room_id");
 
         returnText = (TextView) findViewById(R.id.returnMessage);
         sendText = (EditText) findViewById(R.id.sendText);
@@ -86,12 +88,10 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         sendBut.setOnClickListener(this);
         reconBut = (Button) findViewById(R.id.reconBut);
         reconBut.setOnClickListener(this);
-        listBut = (Button) findViewById(R.id.get_list_but);
-        listBut.setOnClickListener(this);
+        reset_list_but = (Button) findViewById(R.id.get_list_but);
+        reset_list_but.setOnClickListener(this);
 
-        wsGetRoomStart();
-
-        //wsStart();
+        wsStart();
 
     }
 
@@ -103,12 +103,12 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
             pairList.add(pair1);
             */
         try {
-            wsC.connect( wsUrl, null, new WebSocketConnectionHandler()
+            wsC.connect( Utility.wsUrl, null, new WebSocketConnectionHandler()
             {
                 @Override
                 public void onOpen()
                 {
-                    toastLog( "Status: Connected to " + wsUrl );
+                    toastLog( "Status: Connected to " + Utility.wsUrl );
                     needReconnect = false;
 
                     JSONObject obj = new JSONObject();
@@ -117,7 +117,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                         obj.put("Authorization", ApiKey);
                         obj.put("user_id", UserID);
                         obj.put("client_name", UserName);
-                        obj.put("room_id", 2);
+                        obj.put("room_id", Integer.valueOf(roomID));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -179,74 +179,6 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         }
     }
 
-    private void wsGetRoomStart()
-    {
-        /*
-            BasicNameValuePair pair1 = new BasicNameValuePair("Authorization", ApiKey);
-            List<BasicNameValuePair> pairList = new ArrayList<>();
-            pairList.add(pair1);
-            */
-        try {
-            wsC.connect( wsUrl, null, new WebSocketConnectionHandler()
-            {
-                @Override
-                public void onOpen()
-                {
-                    JSONObject obj = new JSONObject();
-                    try {
-                        obj.put("type", "request_rooms");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    wsC.sendTextMessage(obj.toString());
-                }
-
-                @Override
-                public void onTextMessage( String payload ){
-
-                    JSONObject obj = null;
-                    try {
-                        obj = new JSONObject(payload);
-                        switch(obj.getString("type")){
-                            case "ping":
-                                JSONObject obj_send = new JSONObject();
-                                try {
-                                    obj_send.put("type", "pong");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                wsC.sendTextMessage(obj_send.toString());
-                                break;
-                            case "say":
-                                String roomList = obj.getString("list");
-                                Log.i("Important:   ", roomList);
-                                List<LiveUnit> unitList = Utility.string2liveunit(roomList);
-                                JSONObject obj_send1 = new JSONObject();
-                                try {
-                                    obj_send1 .put("type", "close_client");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                wsC.sendTextMessage(obj_send1.toString());
-                                break;
-                            default:
-                                break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onClose( int code, String reason ){
-                    //Toast.makeText(ctx, "Item posted to live!", Toast.LENGTH_SHORT).show();
-                }
-            } );
-        } catch ( WebSocketException e ) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -270,7 +202,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.get_list_but:
-                wsGetRoomStart();
+
                 break;
             default:
                 break;

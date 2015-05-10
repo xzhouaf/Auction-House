@@ -21,6 +21,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.project.zxt.ustauctionhouse.LiveAuction.LiveListFragment;
 import com.project.zxt.ustauctionhouse.PersonalInfo.PersonalInfoFragment;
 import com.project.zxt.ustauctionhouse.PersonalInfo.PersonalInformation;
 import com.project.zxt.ustauctionhouse.PostItem.PostItem;
@@ -49,9 +50,9 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
     private ArrayList<Fragment> fragments; // Tab页面列表
     private MyPagerAdapter adapter;
 
-    private Fragment newItem, postItem, search, me;
-    private OnPassParamListener newItemLis, postItemLis, searchLis, meLis;
-    private LinearLayout newBut, postBut, searchBut, meBut;
+    private Fragment newItem, postItem, search, live, me ;
+    private OnPassParamListener newItemLis, postItemLis, searchLis, liveLis, meLis;
+    private LinearLayout newBut, postBut, searchBut, liveBut, meBut;
 
     int currentSelectedViewPager = 0;
 
@@ -72,7 +73,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
         UserID = intent.getStringExtra("user_ID");
 
         mPager = (ViewPager) findViewById(R.id.internal_view_pager);
-        mPager.setOffscreenPageLimit(3);
+        mPager.setOffscreenPageLimit(4);
         fragments = new ArrayList<Fragment>();
 
         newItem = new NewItemFragment();
@@ -90,6 +91,11 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
         searchLis = (OnPassParamListener) search;
         searchLis.onPassAction(UserName, Email, ApiKey, UserID);
 
+        live = new LiveListFragment();
+        fragments.add(live);
+        liveLis = (OnPassParamListener) live;
+        liveLis.onPassAction(UserName, Email, ApiKey, UserID);
+
         me = new PersonalInfoFragment();
         fragments.add(me);
         meLis = (OnPassParamListener) me;
@@ -106,6 +112,8 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
         postBut.setOnClickListener(this);
         searchBut = (LinearLayout) findViewById(R.id.search_touch_vp);
         searchBut.setOnClickListener(this);
+        liveBut = (LinearLayout) findViewById(R.id.live_touch_vp);
+        liveBut.setOnClickListener(this);
         meBut = (LinearLayout) findViewById(R.id.me_touch_vp);
         meBut.setOnClickListener(this);
 
@@ -146,11 +154,17 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                 }
                 onClickTab(2);
                 break;
-            case R.id.me_touch_vp:
+            case R.id.live_touch_vp:
                 if(currentSelectedViewPager != 3){
                     mPager.setCurrentItem(3);
                 }
                 onClickTab(3);
+                break;
+            case R.id.me_touch_vp:
+                if(currentSelectedViewPager != 4){
+                    mPager.setCurrentItem(4);
+                }
+                onClickTab(4);
                 break;
             default:
                 break;
@@ -200,6 +214,9 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                 case 3:
                     onClickTab(3);
                     break;
+                case 4:
+                    onClickTab(4);
+                    break;
                 default:
                     break;
             }
@@ -241,9 +258,16 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
             case 3:
                 if(currentSelectedViewPager == 3) return;
                 resetTabColor();
+                liveBut.setBackgroundColor(BRIGHT_COLOR);
+                liveLis.onUpdateAction();
+                currentSelectedViewPager = 3;
+                break;
+            case 4:
+                if(currentSelectedViewPager == 4) return;
+                resetTabColor();
                 meBut.setBackgroundColor(BRIGHT_COLOR);
                 meLis.onUpdateAction();
-                currentSelectedViewPager = 3;
+                currentSelectedViewPager = 4;
                 break;
             default:
                 break;
@@ -254,6 +278,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
         newBut.setBackgroundColor(DARK_COLOR);
         postBut.setBackgroundColor(DARK_COLOR);
         searchBut.setBackgroundColor(DARK_COLOR);
+        liveBut.setBackgroundColor(DARK_COLOR);
         meBut.setBackgroundColor(DARK_COLOR);
     }
 

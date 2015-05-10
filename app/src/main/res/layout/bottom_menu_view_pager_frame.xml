@@ -47,7 +47,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="75dp"
+            android:layout_width="65dp"
             android:layout_height="fill_parent"
             android:id="@+id/new_item_touch_vp"
             android:focusableInTouchMode="true"
@@ -69,10 +69,10 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="75dp"
+            android:layout_width="65dp"
             android:layout_height="fill_parent"
             android:id="@+id/post_item_touch_vp"
-            android:layout_marginLeft="75dp"
+            android:layout_marginLeft="65dp"
             android:gravity="center_horizontal">
 
             <ImageView
@@ -90,10 +90,10 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="75dp"
+            android:layout_width="65dp"
             android:layout_height="fill_parent"
             android:id="@+id/search_touch_vp"
-            android:layout_marginLeft="150dp"
+            android:layout_marginLeft="130dp"
             android:gravity="center_horizontal">
 
             <ImageView
@@ -111,10 +111,31 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="75dp"
+            android:layout_width="65dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/live_touch_vp"
+            android:layout_marginLeft="195dp"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/chuizi" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Live"
+                android:id="@+id/textView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="65dp"
             android:layout_height="fill_parent"
             android:id="@+id/me_touch_vp"
-            android:layout_marginLeft="225dp"
+            android:layout_marginLeft="260dp"
             android:gravity="center_horizontal">
 
             <ImageView

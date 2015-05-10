@@ -36,6 +36,7 @@ public class Utility {
     public static final String serverUrl = "http://gaozihou.no-ip.org:8000/task_manager/v1/index.php";
     public static final String serverUrlForPicture = "http://gaozihou.no-ip.org:8000/task_manager/v1";
     public static String DATABASE_PATH = Environment.getExternalStorageDirectory() + "/AuctionHouse";
+    public static String wsUrl = "ws://gaozihou.no-ip.org:7272";
 
     public static final String KEY_ID = "id";
     public static final String KEY_NAME= "name";
@@ -45,8 +46,9 @@ public class Utility {
     public static final String KEY_TIME_LEFT = "time_left";
     public static final String KEY_HIGHEST_BIDDER = "highest_bidder";
     public static final String KEY_HIGHEST_BIDDER_ID = "highest_bidder_ID";
+    public static final String KEY_LIVE_STATUS = "status";
+
     public static final int RESULT_LOGOUT = 2;
-    public static final int RESULT_UPDATE = 3;
 
     public static List<Unit> string2unit(String result) throws JSONException {
         Log.i("Important::::: ", result);

@@ -75,7 +75,6 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
     private UploadImage imageUploader;
     private boolean success = false;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -145,10 +144,6 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         Phone = phone_.getText().toString();
         userName = user_name.getText().toString();
 
-        Intent i = new Intent();
-
-
-
         if(!newPass.equals(newPass2)){
 
             Toast.makeText(ctx, "New password and confirm password don't match!", Toast.LENGTH_SHORT).show();
@@ -156,15 +151,16 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         }
         else {
 
-            if (!((newPass.equals(""))||(oldPass.equals("")))) {
-                if (new_pass.length()<6){
+            if ((!newPass.equals(""))&&(!oldPass.equals(""))) {
+                if (newPass.length()<6){
                     new_pass.setError("Invalid Password");
-                    Toast.makeText(ctx, "Length of new password should be at least 6!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "The length of new password should be at least 6!", Toast.LENGTH_SHORT).show();
+
                 }
                 else{
                     new AlertDialog.Builder(this).setTitle("Logout")
                             .setIcon(R.drawable.hhh)
-                            .setMessage("You will logout to update your information, are you sure?")
+                            .setMessage("You will logout to modify your information, are you sure?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                                 @Override
@@ -180,9 +176,6 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
                                 }
                             }).show();
 
-
-
-
                 }
 
 
@@ -190,7 +183,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
             else{
                 new AlertDialog.Builder(this).setTitle("Logout")
                         .setIcon(R.drawable.hhh)
-                        .setMessage("You will logout to update your information, are you sure?")
+                        .setMessage("You will logout to modify your information, are you sure?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                             @Override
@@ -205,7 +198,6 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
                                 //Do nothing
                             }
                         }).show();
-
 
 
             }
@@ -361,9 +353,8 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
 
                 }else{
 
-
                     finish();
-                    setResult(Utility.RESULT_LOGOUT, null);
+                    setResult(Utility.RESULT_LOGOUT,null);
 
                 }
             } catch (JSONException e) {

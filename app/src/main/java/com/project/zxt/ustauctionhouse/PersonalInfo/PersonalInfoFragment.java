@@ -128,6 +128,7 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                 tcpIntent.putExtra("user_apiKey", ApiKey);
                 tcpIntent.putExtra("user_ID", UserID);
                 tcpIntent.putExtra("user_name", UserName);
+                tcpIntent.putExtra("room_id", "1");
                 startActivity(tcpIntent);
                 break;
             case R.id.myBid:
@@ -197,18 +198,12 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
     public void activityResultHandle(int requestCode, int resultCode, Intent data) {
         if (requestCode==3){
             if(resultCode== Activity.RESULT_CANCELED)
-                getActivity().setTitle("cancel");
+                getActivity().setTitle("cancle");
             else if (resultCode== Activity.RESULT_OK) {
                 updatePortrait();
             }
-            else if(resultCode == Utility.RESULT_LOGOUT){
+            else if (resultCode == Utility.RESULT_LOGOUT){
                 getActivity().finish();
-            }
-            else if(resultCode == Utility.RESULT_UPDATE){
-                String newUserName= data.getStringExtra("new_user_name");
-                name.setText(newUserName);
-                updatePortrait();
-
 
             }
         }

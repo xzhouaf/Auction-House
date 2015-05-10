@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="UST Auction House"
+            android:text="Live Auction"
             android:id="@+id/live_list_frame_title"
             android:gravity="center_vertical" />
     </LinearLayout>
