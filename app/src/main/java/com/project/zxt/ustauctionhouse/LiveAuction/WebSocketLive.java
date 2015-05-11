@@ -1,19 +1,28 @@
 package com.project.zxt.ustauctionhouse.LiveAuction;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +35,21 @@ import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnection;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnectionHandler;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketException;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,10 +63,8 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private final String TAG = "WebSocketLive";
     private Context ctx;
     private Intent intent;
-    private TextView returnText, timeText;
-    private EditText sendText;
-    private Button sendBut, reconBut, reset_list_but;
-    private String receivedMessage = "";
+    private TextView timeText;
+    private TextView bidBut;
     private String ApiKey, UserID, UserName;
     private boolean needReconnect = true;
     private String roomID, image_name;
@@ -57,7 +74,9 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
     private ImageLoader imageLoader;
     private ImageView goodImage;
+    private Bitmap imageBitmap;
     public WebSocketConnection wsC = new WebSocketConnection();
+
     public void toastLog( String s )
     {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
@@ -79,6 +98,11 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
 
         timeText = (TextView) findViewById(R.id.livebid_curr_time);
         goodImage = (ImageView) findViewById(R.id.livebid_image);
+        goodImage.setOnClickListener(this);
+        bidBut = (TextView) findViewById(R.id.livebid_bid_but);
+        bidBut.setOnClickListener(this);
+
+
 
         bidList = (ListView) findViewById(R.id.livebid_listview);
         //for debug
@@ -89,8 +113,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         adapter = new LiveBidAdapter(this, dataToDisplay);
         bidList.setAdapter(adapter);
 
-        imageLoader = new ImageLoader(ctx);
-        imageLoader.DisplayImage(image_name, goodImage);
+        new AsyncDownloadImage().execute();
 
         wsStart();
 
@@ -194,21 +217,21 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                     obj.put("type", "say");
                     obj.put("to_client_id", "all");
                     obj.put("to_client_name", null);
-                    obj.put("content", sendText.getText().toString());
+                    //obj.put("content", sendText.getText().toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 wsC.sendTextMessage(obj.toString());
-                sendText.setText("");
+                //sendText.setText("");
                 break;
             case R.id.reconBut:
                 if(needReconnect){
                     wsStart();
                 }
                 break;
-            case R.id.get_list_but:
-
+            case R.id.livebid_image:
+                openDialog();
                 break;
             default:
                 break;
@@ -220,6 +243,59 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
             wsC.disconnect();
         }
         super.onDestroy();
+    }
+
+
+    private void openDialog(){
+        View dialogView;
+        LayoutInflater inflater = null;
+
+        inflater = LayoutInflater.from(this);
+        dialogView = inflater.inflate(R.layout.dialog_view, null);
+        ImageView dialogImage = (ImageView)dialogView.findViewById(R.id.dialog_image);
+        TextView dialogDescription = (TextView)dialogView.findViewById(R.id.dialog_description);
+        TextView dialogSeller = (TextView)dialogView.findViewById(R.id.dialog_seller_name);
+        TextView dialogTitle = (TextView)dialogView.findViewById(R.id.dialog_title);
+        dialogTitle.setText("Hihi");
+        if(imageBitmap != null){
+            dialogImage.setImageBitmap(imageBitmap);
+        }
+
+        AlertDialog dlg = new AlertDialog.Builder(this).create();
+        dlg.show();
+        dlg.getWindow().setContentView(dialogView);
+    }
+
+    private class AsyncDownloadImage extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            Bitmap bitmap = null;
+            try{
+                URL url = new URL(image_name);
+                HttpURLConnection conn  = (HttpURLConnection)url.openConnection();
+                conn.setDoInput(true);
+                conn.connect();
+                InputStream inputStream=conn.getInputStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        protected void onPostExecute(Bitmap result){
+            super.onPostExecute(result);
+            if(result != null) {
+                imageBitmap = result;
+                goodImage.setImageBitmap(result);
+            }else{
+                goodImage.setImageDrawable(getResources().getDrawable(R.drawable.hhh));
+            }
+        }
     }
 
 }
