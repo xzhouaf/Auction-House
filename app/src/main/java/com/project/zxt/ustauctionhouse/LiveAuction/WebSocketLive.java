@@ -270,10 +270,14 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     }
 
     private boolean validateInput(){
+        if(inputDialogPrice.getText().toString().equals("")){
+            inputDialogError.setText("Please input your price!");
+            return false;
+        }
         float number = Float.valueOf(inputDialogPrice.getText().toString());
         if(number-current_price <= 9.99){
-            inputDialogError.setText("Bid price should be at least $10 higher!");
-            inputDialogPrice.setText("");
+            inputDialogError.setText("Bid price should be at least $10 higher!\n"
+                                    + "Current price is $" + current_price);
             return false;
         }
         return true;

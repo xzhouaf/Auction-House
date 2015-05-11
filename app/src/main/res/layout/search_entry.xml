@@ -27,7 +27,8 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/EntryItemImage"
         android:layout_toEndOf="@+id/EntryItemImage"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="5dp" />
     <TextView
         android:id="@+id/EntrySellerName"
         android:layout_width="wrap_content"
@@ -54,7 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="time left:          "
-            android:id="@+id/timeTag" />
+            android:id="@+id/timeTag"
+            android:layout_marginLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,5 +84,6 @@
         android:id="@+id/sellerTag"
         android:layout_above="@+id/linearLayout2"
         android:layout_toRightOf="@+id/EntryItemImage"
-        android:layout_toEndOf="@+id/EntryItemImage" />
+        android:layout_toEndOf="@+id/EntryItemImage"
+        android:layout_marginLeft="5dp" />
 </RelativeLayout>
