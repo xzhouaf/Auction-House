@@ -35,7 +35,7 @@ import java.util.List;
 
 /**
  * Created by paul on 15年4月26日.
- *
+ * This comment is for testing the git in terminal
  */
 
 public class BottomMenuHome extends FragmentActivity implements View.OnClickListener {
