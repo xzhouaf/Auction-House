@@ -12,11 +12,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Api;
+import com.project.zxt.ustauctionhouse.ItemListView.ImageLoader;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.LiveUnit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
@@ -48,11 +50,13 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private String receivedMessage = "";
     private String ApiKey, UserID, UserName;
     private boolean needReconnect = true;
-    private String roomID;
+    private String roomID, image_name;
     private ListView bidList;
     private LiveBidAdapter adapter;
     private ArrayList<HashMap<String, String>> goodList;
     private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
+    private ImageLoader imageLoader;
+    private ImageView goodImage;
     public WebSocketConnection wsC = new WebSocketConnection();
     public void toastLog( String s )
     {
@@ -71,8 +75,10 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         UserID = intent.getStringExtra("user_ID");
         UserName = intent.getStringExtra("user_name");
         roomID = intent.getStringExtra("room_id");
+        image_name = intent.getStringExtra("image");
 
         timeText = (TextView) findViewById(R.id.livebid_curr_time);
+        goodImage = (ImageView) findViewById(R.id.livebid_image);
 
         bidList = (ListView) findViewById(R.id.livebid_listview);
         //for debug
@@ -82,6 +88,9 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         //debug end
         adapter = new LiveBidAdapter(this, dataToDisplay);
         bidList.setAdapter(adapter);
+
+        imageLoader = new ImageLoader(ctx);
+        imageLoader.DisplayImage(image_name, goodImage);
 
         wsStart();
 

@@ -72,6 +72,7 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
                         if (position > goodList.size() || position <= 0) return;
                         Intent intent = new Intent(ctx, WebSocketLive.class);
                         intent.putExtra("room_id", goodList.get(position - 1).get(Utility.KEY_ID));
+                        intent.putExtra("image", goodList.get(position - 1).get(Utility.KEY_IMAGE));
                         intent.putExtra("user_name", UserName);
                         intent.putExtra("user_ID", UserID);
                         intent.putExtra("user_apiKey", ApiKey);
