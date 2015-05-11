@@ -12,13 +12,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.NewListView.RefreshListView;
 import com.project.zxt.ustauctionhouse.R;
-import com.project.zxt.ustauctionhouse.Utility.GeneralSearch;
 import com.project.zxt.ustauctionhouse.Utility.LiveUnit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
-import com.project.zxt.ustauctionhouse.ViewItem.ViewItem;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnection;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnectionHandler;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketException;
@@ -30,8 +27,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by paul on 15年5月11日.
@@ -66,7 +61,7 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
         goBackToTop.setOnClickListener(this);
 
 
-        refreshLv = (RefreshListView) rootView.findViewById(R.id.live_list_listview);
+        refreshLv = (RefreshListView) rootView.findViewById(R.id.livebid_listview);
         refreshLv.setOnRefreshListener(this);
         refreshLv.setOnLoadListener(this);
         refreshLv.setOnItemClickListener(

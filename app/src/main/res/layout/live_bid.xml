@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/livebid_status_layout"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#ffff7642">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Status:"
+            android:id="@+id/livebid_status_text"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:id="@+id/livebid_image"
+        android:background="#22ff7575"
+        android:layout_below="@+id/livebid_status_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="$100.00"
+        android:textSize="35sp"
+        android:id="@+id/livebid_price"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textColor="#ffff4126"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/livebid_image"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Bid Now"
+        android:id="@+id/livebid_bid_but"
+        android:layout_below="@+id/livebid_price"
+        android:layout_alignLeft="@+id/livebid_price"
+        android:layout_alignStart="@+id/livebid_price"
+        android:textSize="30sp"
+        android:textStyle="normal"
+        android:textColor="#ffffffff"
+        android:gravity="center_horizontal"
+        android:background="#ff669bff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2015-05-11 21:05:44"
+        android:id="@+id/livebid_curr_time"
+        android:layout_alignTop="@+id/livebid_price"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/livebid_bid_but"
+        android:layout_toStartOf="@+id/livebid_bid_but"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="05:49"
+        android:textSize="35sp"
+        android:id="@+id/livebid_countdown"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textColor="#ffff4126"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/livebid_curr_time"
+        android:layout_alignLeft="@+id/livebid_curr_time"
+        android:layout_alignStart="@+id/livebid_curr_time"
+        android:layout_marginTop="8dp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/livebid_bid_but"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:background="#ffffbc1a"
+        android:id="@+id/livebid_bottm_part">
+
+        <ListView
+            android:layout_width="240dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/livebid_listview"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:background="#ffececec"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/livebid_listview"
+            android:layout_toStartOf="@+id/livebid_listview"
+            android:layout_alignParentTop="true"
+            android:background="#ffececec"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="28dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Paul\n"
+                android:id="@+id/livebid_user_list"
+                android:textColor="#ff3d31ff"
+                android:textStyle="bold" />
+
+        </ScrollView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="User Online"
+            android:id="@+id/textView5"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_toLeftOf="@+id/livebid_listview"
+            android:layout_toStartOf="@+id/livebid_listview" />
+
+    </RelativeLayout>
+</RelativeLayout>

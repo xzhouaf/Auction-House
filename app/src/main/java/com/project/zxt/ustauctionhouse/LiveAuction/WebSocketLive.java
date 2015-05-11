@@ -9,8 +9,10 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -46,23 +49,11 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private String ApiKey, UserID, UserName;
     private boolean needReconnect = true;
     private String roomID;
-
-
+    private ListView bidList;
+    private LiveBidAdapter adapter;
+    private ArrayList<HashMap<String, String>> goodList;
+    private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
     public WebSocketConnection wsC = new WebSocketConnection();
-
-    /* Seems to be useless */
-    public Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage( Message msg )
-        {
-            super.handleMessage(msg);
-            if ( msg.what == 0 ){
-
-            }
-        }
-    };
-
     public void toastLog( String s )
     {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
@@ -72,7 +63,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.live);
+        setContentView(R.layout.live_bid);
         ctx = getApplicationContext();
         intent = getIntent();
 
@@ -81,15 +72,16 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         UserName = intent.getStringExtra("user_name");
         roomID = intent.getStringExtra("room_id");
 
-        returnText = (TextView) findViewById(R.id.returnMessage);
-        sendText = (EditText) findViewById(R.id.sendText);
-        timeText = (TextView) findViewById(R.id.timeText);
-        sendBut = (Button) findViewById(R.id.sendTCP);
-        sendBut.setOnClickListener(this);
-        reconBut = (Button) findViewById(R.id.reconBut);
-        reconBut.setOnClickListener(this);
-        reset_list_but = (Button) findViewById(R.id.get_list_but);
-        reset_list_but.setOnClickListener(this);
+        timeText = (TextView) findViewById(R.id.livebid_curr_time);
+
+        bidList = (ListView) findViewById(R.id.livebid_listview);
+        //for debug
+        dataToDisplay.add(new HashMap<String, String>());
+        dataToDisplay.add(new HashMap<String, String>());
+        dataToDisplay.add(new HashMap<String, String>());
+        //debug end
+        adapter = new LiveBidAdapter(this, dataToDisplay);
+        bidList.setAdapter(adapter);
 
         wsStart();
 
@@ -145,20 +137,25 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 wsC.sendTextMessage(obj_send.toString());
                                 break;
                             case "login":
+                                /*
                                 receivedMessage += "User "+obj.getInt("client_id")+" login.\n";
                                 returnText.setText(receivedMessage);
                                 timeText.setText(obj.getString("time"));
                                 break;
+                                */
                             case "logout":
+                                /*
                                 receivedMessage += "User "+obj.getInt("from_client_id")+" logout.\n";
                                 returnText.setText(receivedMessage);
                                 break;
-                            case "say":
+                                */
+                            case "say":/*
                                 receivedMessage += "User "+obj.getInt("from_client_id")+" say: "
                                         + obj.getString("content") + " and current price is " +
                                         obj.getInt("price") + "\n";
                                 returnText.setText(receivedMessage);
                                 break;
+                                */
                             default:
                                 break;
                         }
