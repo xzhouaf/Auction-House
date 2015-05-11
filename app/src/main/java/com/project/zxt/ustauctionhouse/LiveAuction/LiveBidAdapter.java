@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 /**
  * Created by paul on 15年5月11日.
+ *
  */
 public class LiveBidAdapter extends BaseAdapter {
 
@@ -58,6 +59,9 @@ public class LiveBidAdapter extends BaseAdapter {
         goods = data.get(position);
 
         // 设置ListView的相关值
+        price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
+        user.setText(goods.get(Utility.KEY_NAME));
+        time.setText(goods.get("time"));
 
         return vi;
     }

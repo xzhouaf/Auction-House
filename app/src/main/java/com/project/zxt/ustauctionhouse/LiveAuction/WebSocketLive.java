@@ -42,6 +42,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,6 +52,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,18 +65,20 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private final String TAG = "WebSocketLive";
     private Context ctx;
     private Intent intent;
-    private TextView timeText;
+    private TextView timeText, clientView, priceView;
     private TextView bidBut;
-    private String ApiKey, UserID, UserName;
+    private String ApiKey, UserID, UserName, dialogTitle, dialogSeller, dialogDescription;
+    private int seller_id, status;
     private boolean needReconnect = true;
-    private String roomID, image_name;
+    private String roomID, image_name, clientList = "";
     private ListView bidList;
     private LiveBidAdapter adapter;
-    private ArrayList<HashMap<String, String>> goodList;
+    private ArrayList<HashMap<String, String>> goodList = new ArrayList<>();
     private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
     private ImageLoader imageLoader;
     private ImageView goodImage;
     private Bitmap imageBitmap;
+    private float current_price = 0;
     public WebSocketConnection wsC = new WebSocketConnection();
 
     public void toastLog( String s )
@@ -102,14 +106,11 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         bidBut = (TextView) findViewById(R.id.livebid_bid_but);
         bidBut.setOnClickListener(this);
 
-
+        clientView = (TextView) findViewById(R.id.livebid_user_list);
+        clientList = UserName;
+        priceView = (TextView) findViewById(R.id.livebid_price);
 
         bidList = (ListView) findViewById(R.id.livebid_listview);
-        //for debug
-        dataToDisplay.add(new HashMap<String, String>());
-        dataToDisplay.add(new HashMap<String, String>());
-        dataToDisplay.add(new HashMap<String, String>());
-        //debug end
         adapter = new LiveBidAdapter(this, dataToDisplay);
         bidList.setAdapter(adapter);
 
@@ -169,25 +170,34 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 wsC.sendTextMessage(obj_send.toString());
                                 break;
                             case "login":
-                                /*
-                                receivedMessage += "User "+obj.getInt("client_id")+" login.\n";
-                                returnText.setText(receivedMessage);
+                                resetClientView(obj.getString("client_list"));
                                 timeText.setText(obj.getString("time"));
+                                current_price = Float.valueOf(obj.getString("price"));
+                                priceView.setText("$" + current_price);
+                                dialogTitle = obj.getString("name");
+                                dialogSeller = obj.getString("seller_name");
+                                dialogDescription = obj.getString("description");
+                                seller_id = Integer.valueOf(obj.getString("seller_id"));
+                                status = Integer.valueOf(obj.getString("status"));
                                 break;
-                                */
+
                             case "logout":
-                                /*
-                                receivedMessage += "User "+obj.getInt("from_client_id")+" logout.\n";
-                                returnText.setText(receivedMessage);
+                                resetClientView(obj.getString("client_list"));
                                 break;
-                                */
-                            case "say":/*
-                                receivedMessage += "User "+obj.getInt("from_client_id")+" say: "
-                                        + obj.getString("content") + " and current price is " +
-                                        obj.getInt("price") + "\n";
-                                returnText.setText(receivedMessage);
+                            case "say":
+                                current_price = Float.valueOf(obj.getString("price"));
+                                priceView.setText("$" + current_price);
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put(Utility.KEY_CURRENT_PRICE, "$" + current_price);
+                                map.put(Utility.KEY_NAME, obj.getString("from_client_name"));
+                                map.put("time", obj.getString("time"));
+                                Collections.reverse(dataToDisplay);
+                                dataToDisplay.add(map);
+                                Collections.reverse(dataToDisplay);
+                                adapter.updateView(dataToDisplay);
+                                //Collections.reverse(dataToDisplay);
                                 break;
-                                */
+
                             default:
                                 break;
                         }
@@ -206,6 +216,16 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         } catch ( WebSocketException e ) {
             e.printStackTrace();
         }
+    }
+
+    private void resetClientView(String raw) throws JSONException {
+        JSONArray array = new JSONArray(raw);
+        clientList = "";
+        for(int i = 0; i < array.length(); i++){
+            JSONObject obj1 = (JSONObject) array.get(i);
+            clientList += obj1.getString("client_name") + "\n";
+        }
+        clientView.setText(clientList);
     }
 
     @Override
@@ -253,12 +273,20 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         inflater = LayoutInflater.from(this);
         dialogView = inflater.inflate(R.layout.dialog_view, null);
         ImageView dialogImage = (ImageView)dialogView.findViewById(R.id.dialog_image);
-        TextView dialogDescription = (TextView)dialogView.findViewById(R.id.dialog_description);
-        TextView dialogSeller = (TextView)dialogView.findViewById(R.id.dialog_seller_name);
-        TextView dialogTitle = (TextView)dialogView.findViewById(R.id.dialog_title);
-        dialogTitle.setText("Hihi");
+        TextView dialogDescriptionView = (TextView)dialogView.findViewById(R.id.dialog_description);
+        TextView dialogSellerView = (TextView)dialogView.findViewById(R.id.dialog_seller_name);
+        TextView dialogTitleView = (TextView)dialogView.findViewById(R.id.dialog_title);
+        if(dialogTitle != null) {
+            dialogTitleView.setText(dialogTitle);
+        }
         if(imageBitmap != null){
             dialogImage.setImageBitmap(imageBitmap);
+        }
+        if(dialogDescription != null){
+            dialogDescriptionView.setText(dialogDescription);
+        }
+        if(dialogSeller != null){
+            dialogSellerView.setText(dialogSeller);
         }
 
         AlertDialog dlg = new AlertDialog.Builder(this).create();

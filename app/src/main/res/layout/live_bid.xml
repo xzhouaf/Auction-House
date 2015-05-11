@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Status:"
+            android:text="Status: Bidding"
             android:id="@+id/livebid_status_text"
             android:textSize="20sp" />
     </LinearLayout>
@@ -156,4 +156,13 @@
             android:layout_toStartOf="@+id/livebid_listview" />
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click image to see more details"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/livebid_status_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp" />
 </RelativeLayout>
