@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:id="@+id/livebid_input_relative"
+        android:background="#fffef8f4"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Input your bid price"
+            android:id="@+id/textView9"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="#ffffbe3c" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:id="@+id/relativeLayout3">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Bid"
+                android:id="@+id/livebid_input_bid_but"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="#ff72a9ff"
+                android:textColor="#ffffffff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Cancel"
+                android:id="@+id/livebid_input_cancel_but"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/livebid_input_bid_but"
+                android:layout_toEndOf="@+id/livebid_input_bid_but"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="#ff72a9ff"
+                android:textColor="#ffffffff"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/livebid_input_price"
+            android:layout_above="@+id/relativeLayout3"
+            android:layout_centerHorizontal="true"
+            android:hint="Input price here"
+            android:textSize="20sp"
+            android:gravity="center_vertical|center_horizontal"
+            android:numeric="decimal" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/livebid_input_error"
+            android:layout_below="@+id/textView9"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#ffff3f20" />
+    </RelativeLayout>
+</RelativeLayout>

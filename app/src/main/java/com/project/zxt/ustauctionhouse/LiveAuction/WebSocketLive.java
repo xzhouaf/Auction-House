@@ -13,10 +13,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,6 +84,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private ImageView goodImage;
     private Bitmap imageBitmap;
     private float current_price = 0;
+    private AlertDialog inputDialog;
     public WebSocketConnection wsC = new WebSocketConnection();
 
     public void toastLog( String s )
@@ -231,24 +237,8 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sendTCP:
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("type", "say");
-                    obj.put("to_client_id", "all");
-                    obj.put("to_client_name", null);
-                    //obj.put("content", sendText.getText().toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                wsC.sendTextMessage(obj.toString());
-                //sendText.setText("");
-                break;
-            case R.id.reconBut:
-                if(needReconnect){
-                    wsStart();
-                }
+            case R.id.livebid_bid_but:
+                openBidDialog();
                 break;
             case R.id.livebid_image:
                 openDialog();
@@ -263,6 +253,110 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
             wsC.disconnect();
         }
         super.onDestroy();
+    }
+
+    private void bid(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("type", "say");
+            obj.put("to_client_id", "all");
+            obj.put("to_client_name", null);
+            obj.put("content", inputDialogPrice.getText().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        wsC.sendTextMessage(obj.toString());
+    }
+
+    private boolean validateInput(){
+        float number = Float.valueOf(inputDialogPrice.getText().toString());
+        if(number-current_price <= 9.99){
+            inputDialogError.setText("Bid price should be at least $10 higher!");
+            inputDialogPrice.setText("");
+            return false;
+        }
+        return true;
+    }
+
+    private TextView inputDialogError;
+    private EditText inputDialogPrice;
+    private void openBidDialog(){
+        View dialogView;
+        LayoutInflater inflater = null;
+        inflater = LayoutInflater.from(this);
+        dialogView = inflater.inflate(R.layout.live_bid_input, null);
+
+        inputDialogError = (TextView) dialogView.findViewById(R.id.livebid_input_error);
+        inputDialogPrice = (EditText) dialogView.findViewById(R.id.livebid_input_price);
+        inputDialogPrice.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        inputDialogPrice.setText(s);
+                        inputDialogPrice.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    inputDialogPrice.setText(s);
+                    inputDialogPrice.setSelection(2);
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        inputDialogPrice.setText(s.subSequence(0, 1));
+                        inputDialogPrice.setSelection(1);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+
+        TextView bid = (TextView) dialogView.findViewById(R.id.livebid_input_bid_but);
+        bid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!validateInput()){
+                    return;
+                }
+                bid();
+                inputDialog.cancel();
+            }
+        });
+
+        TextView cancel = (TextView) dialogView.findViewById(R.id.livebid_input_cancel_but);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputDialog.cancel();
+            }
+        });
+
+        inputDialog = new AlertDialog.Builder(this).create();
+        inputDialog.show();
+        inputDialog.getWindow().setContentView(dialogView);
+        inputDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        inputDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
 
