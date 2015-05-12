@@ -205,9 +205,10 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                     countView.setText(Utility.timeLeftFormat.format(left));
 
                                     changeStatusDisplay(obj.getString("start_time"));
-
                                     timeUpdater = new UpdateTimeLeft();
                                     timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+
+                                    resetBidList(obj.getString("bid_list"));
                                 }
                                 break;
                             case "logout":
@@ -232,9 +233,11 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 toastLog("Bid start now!");
                                 break;
                             case "end":
-                                status = 3;
-                                changeStatusDisplay("");
-                                toastLog("Bid end now!");
+                                if(status != 3) {
+                                    status = 3;
+                                    changeStatusDisplay("");
+                                    toastLog("Bid end now!");
+                                }
                                 break;
                             default:
                                 break;
@@ -270,7 +273,13 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 break;
             case 3:
                 statusView.setText("Status: Finished");
-                countView.setText("00:00");
+                countView.setText("Result");
+                countView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        seeBidResult();
+                    }
+                });
                 continueUpdateAnim = false;
                 break;
             default:
@@ -279,6 +288,10 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         if(!start_time.equals("")) {
             statusTimeText.setText("Start at " + start_time);
         }
+    }
+
+    private void seeBidResult(){
+        
     }
 
     private class UpdateTimeLeft extends AsyncTask<Object, String, Boolean> {
@@ -292,6 +305,10 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 time_left--;
                 Date left = new Date(time_left*1000);
                 countView.setText(Utility.timeLeftFormat.format(left));
+            }else if(status == 2){
+                status = 3;
+                changeStatusDisplay("");
+                toastLog("Bid end now!");
             }
         }
 
@@ -352,6 +369,21 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
             clientList += obj1.getString("client_name") + "\n";
         }
         clientView.setText(clientList);
+    }
+
+    private void resetBidList(String raw) throws JSONException {
+        JSONArray array = new JSONArray(raw);
+        dataToDisplay.clear();
+        for(int i = 0; i < array.length(); i++){
+            JSONObject obj = (JSONObject) array.get(i);
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put(Utility.KEY_CURRENT_PRICE, "$" + obj.getString("price"));
+            map.put(Utility.KEY_NAME, obj.getString("user_name"));
+            map.put("time", obj.getString("time"));
+            dataToDisplay.add(map);
+        }
+        Collections.reverse(dataToDisplay);
+        adapter.updateView(dataToDisplay);
     }
 
     @Override
