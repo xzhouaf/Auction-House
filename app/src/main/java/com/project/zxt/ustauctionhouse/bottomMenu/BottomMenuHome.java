@@ -1,33 +1,23 @@
 package com.project.zxt.ustauctionhouse.bottomMenu;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.project.zxt.ustauctionhouse.LiveAuction.LiveListFragment;
 import com.project.zxt.ustauctionhouse.PersonalInfo.PersonalInfoFragment;
-import com.project.zxt.ustauctionhouse.PersonalInfo.PersonalInformation;
-import com.project.zxt.ustauctionhouse.PostItem.PostItem;
 import com.project.zxt.ustauctionhouse.PostItem.PostItemFragment;
 import com.project.zxt.ustauctionhouse.R;
-import com.project.zxt.ustauctionhouse.SearchItem.Search;
 import com.project.zxt.ustauctionhouse.SearchItem.SearchFragment;
 
 import java.util.ArrayList;

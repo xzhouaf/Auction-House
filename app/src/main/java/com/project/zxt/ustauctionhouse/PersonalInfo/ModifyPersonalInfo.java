@@ -323,7 +323,7 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
             pairList.add(pair4);
 
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = new HttpPost(Utility.serverUrl + "/updateProfile");
                 httpPost.addHeader("Authorization", ApiKey);

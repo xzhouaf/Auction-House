@@ -109,7 +109,7 @@ public class ViewSeller extends Activity implements View.OnClickListener {
             pairList.add(pair1);
 
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = null;
 

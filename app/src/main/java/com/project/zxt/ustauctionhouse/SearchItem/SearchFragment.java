@@ -15,7 +15,6 @@ import android.widget.Spinner;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.ConditionCategoryLoader;
 import com.project.zxt.ustauctionhouse.bottomMenu.BottomMenuHome;
-import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
 /**
  * Created by paul on 15年4月26日.

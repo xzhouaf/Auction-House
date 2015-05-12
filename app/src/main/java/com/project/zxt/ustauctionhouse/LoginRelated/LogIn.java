@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.project.zxt.ustauctionhouse.bottomMenu.BottomMenuHome;
-import com.project.zxt.ustauctionhouse.bottomMenu.NewItem;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.GCM.RegisterApp;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
@@ -208,7 +207,7 @@ public class LogIn extends Activity implements View.OnClickListener {
             pairList.add(pair1);
             pairList.add(pair2);
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = new HttpPost(Utility.serverUrl + "/login");
                 // 将请求体内容加入请求中

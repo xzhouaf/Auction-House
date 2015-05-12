@@ -30,7 +30,6 @@ import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnection;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketConnectionHandler;
 import com.project.zxt.ustauctionhouse.WebSocket.WebSocketException;
 import com.project.zxt.ustauctionhouse.bottomMenu.BottomMenuHome;
-import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -394,7 +393,7 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
             pairList.add(pair8);
             pairList.add(pair9);
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = new HttpPost(Utility.serverUrl + "/postItem");
                 httpPost.addHeader("Authorization", ApiKey);

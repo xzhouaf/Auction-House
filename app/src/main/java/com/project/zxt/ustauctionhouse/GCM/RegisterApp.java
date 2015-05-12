@@ -91,7 +91,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
         List<NameValuePair> pairList = new ArrayList<>();
         pairList.add(pair1);
         try {
-            HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+            HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
             // URL使用基本URL即可，其中不需要加参数
             HttpPost httpPost = new HttpPost(Utility.serverUrl + "/registerGCM");
             httpPost.addHeader("Authorization",userKey);

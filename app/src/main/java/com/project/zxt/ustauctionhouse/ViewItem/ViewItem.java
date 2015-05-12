@@ -5,32 +5,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.project.zxt.ustauctionhouse.GCM.RegisterApp;
 import com.project.zxt.ustauctionhouse.ItemListView.ImageLoader;
-import com.project.zxt.ustauctionhouse.LoginRelated.Register;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.Unit;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
-import com.project.zxt.ustauctionhouse.bottomMenu.NewItem;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -42,19 +31,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import static com.project.zxt.ustauctionhouse.Utility.Utility.formatDouble;
 import static com.project.zxt.ustauctionhouse.Utility.Utility.secondsToTime;
@@ -356,7 +341,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
             pairList.add(pair1);
 
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = null;
 
@@ -451,7 +436,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
             pairList.add(pair2);
 
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = new HttpPost(Utility.serverUrl + "/placeBid");
                 httpPost.addHeader("Authorization", ApiKey);
@@ -504,7 +489,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
             pairList.add(pair2);
 
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = new HttpPost(Utility.serverUrl + "/directBuy");
                 httpPost.addHeader("Authorization", ApiKey);

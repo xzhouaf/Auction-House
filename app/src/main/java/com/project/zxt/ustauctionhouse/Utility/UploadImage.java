@@ -213,7 +213,7 @@ public class UploadImage extends Observable{
             List<NameValuePair> pairList = new ArrayList<NameValuePair>();
             pairList.add(pair2);
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = new HttpPost(Utility.serverUrl + "/userPortrait");
                 httpPost.addHeader("Authorization", api_key);

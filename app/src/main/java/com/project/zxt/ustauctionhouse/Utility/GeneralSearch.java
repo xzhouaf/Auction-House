@@ -15,7 +15,6 @@ import com.google.gson.GsonBuilder;
 import com.project.zxt.ustauctionhouse.ItemListView.LazyAdapter;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.SearchItem.SearchResult;
-import com.project.zxt.ustauctionhouse.bottomMenu.bottomMenuActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -81,7 +80,7 @@ public class GeneralSearch extends Observable {
             pairList.add(pair4);
             pairList.add(pair5);
             try {
-                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList);
+                HttpEntity requestHttpEntity = new UrlEncodedFormEntity(pairList,"UTF-8");
                 // URL使用基本URL即可，其中不需要加参数
                 HttpPost httpPost = null;
                 if(!user_api.equals("")) {
