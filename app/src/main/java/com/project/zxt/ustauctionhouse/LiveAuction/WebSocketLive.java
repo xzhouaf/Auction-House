@@ -187,26 +187,28 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 break;
                             case "login":
                                 resetClientView(obj.getString("client_list"));
-                                timeText.setText(obj.getString("time"));
-                                current_price = Float.valueOf(obj.getString("price"));
-                                priceView.setText("$" + current_price);
-                                dialogTitle = obj.getString("name");
-                                dialogSeller = obj.getString("seller_name");
-                                dialogDescription = obj.getString("description");
-                                seller_id = Integer.valueOf(obj.getString("seller_id"));
-                                status = obj.getInt("status");
+                                if(obj.getString("user_id").equals(UserID)) {
+                                    timeText.setText(obj.getString("time"));
+                                    current_price = Float.valueOf(obj.getString("price"));
+                                    priceView.setText("$" + current_price);
+                                    dialogTitle = obj.getString("name");
+                                    dialogSeller = obj.getString("seller_name");
+                                    dialogDescription = obj.getString("description");
+                                    seller_id = Integer.valueOf(obj.getString("seller_id"));
+                                    status = obj.getInt("status");
 
-                                Date curr_date = Utility.format.parse(obj.getString("time"));
-                                curr_time = curr_date.getTime();
-                                time_left = Integer.valueOf(obj.getString("time_left"));
+                                    Date curr_date = Utility.format.parse(obj.getString("time"));
+                                    curr_time = curr_date.getTime();
+                                    time_left = Integer.valueOf(obj.getString("time_left"));
 
-                                Date left = new Date(time_left*1000);
-                                countView.setText(Utility.timeLeftFormat.format(left));
+                                    Date left = new Date(time_left * 1000);
+                                    countView.setText(Utility.timeLeftFormat.format(left));
 
-                                changeStatusDisplay(obj.getString("start_time"));
+                                    changeStatusDisplay(obj.getString("start_time"));
 
-                                timeUpdater = new UpdateTimeLeft();
-                                timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+                                    timeUpdater = new UpdateTimeLeft();
+                                    timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+                                }
                                 break;
                             case "logout":
                                 resetClientView(obj.getString("client_list"));
@@ -357,9 +359,13 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.livebid_bid_but:
                 if(status == 2) {
+                    if(Integer.valueOf(UserID) == seller_id){
+                        toastLog("You cannot buy your own item!");
+                        return;
+                    }
                     openBidDialog();
                 }else{
-                    toastLog("You cannot bid at this moment");
+                    toastLog("You cannot bid at this moment!");
                 }
                 break;
             case R.id.livebid_image:
