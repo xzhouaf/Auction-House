@@ -133,22 +133,15 @@
         android:gravity="center_horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:text="Logout"
-            android:id="@+id/logoutButton" />
+            android:id="@+id/logoutButton"
+            android:background="#ff499dff"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Update"
-            android:id="@+id/update" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TCP"
-            android:id="@+id/tcpMe" />
     </LinearLayout>
 
 </LinearLayout>

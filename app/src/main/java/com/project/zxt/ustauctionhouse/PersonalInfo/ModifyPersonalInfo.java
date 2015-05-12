@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -65,7 +66,8 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
 
     private final String TAG = "ModifyPersonalInfo";
     private Context ctx;
-    ImageView portraitMod, update, cancel;
+    ImageView portraitMod;
+    Button update, cancel;
     EditText user_name,phone_, old_pass, new_pass, new_pass2;
     String userName, Phone, oldPass, newPass, newPass2;
     Intent intent;
@@ -93,9 +95,9 @@ public class ModifyPersonalInfo extends Activity implements View.OnClickListener
         new_pass2 = (EditText) findViewById(R.id.cPassField);
         new_pass2.setText(null);
 
-        update = (ImageView) findViewById(R.id.InfoModUpdate);
+        update = (Button) findViewById(R.id.InfoModUpdate);
         update.setOnClickListener(this);
-        cancel = (ImageView) findViewById(R.id.InfoModCancel);
+        cancel = (Button) findViewById(R.id.InfoModCancel);
         cancel.setOnClickListener(this);
 
         ctx = getApplicationContext();

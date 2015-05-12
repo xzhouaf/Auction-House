@@ -291,7 +291,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     }
 
     private void seeBidResult(){
-        
+
     }
 
     private class UpdateTimeLeft extends AsyncTask<Object, String, Boolean> {

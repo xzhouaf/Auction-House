@@ -79,12 +79,6 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
         Button logoutBut = (Button) vw.findViewById(R.id.logoutButton);
         logoutBut.setOnClickListener(this);
 
-        Button updateBut = (Button) vw.findViewById(R.id.update);
-        updateBut.setOnClickListener(this);
-
-        Button tcpBut = (Button) vw.findViewById(R.id.tcpMe);
-        tcpBut.setOnClickListener(this);
-
         portrait = (ImageView) vw.findViewById(R.id.me_portrait);
 
         name = (TextView) vw.findViewById(R.id.me_UserName);
@@ -119,17 +113,6 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
                 i.putExtra("api_key", ApiKey);
                 i.putExtra("user_ID", UserID);
                 getActivity().startActivityForResult(i, 3);
-                break;
-            case R.id.update:
-                updatePortrait();
-                break;
-            case R.id.tcpMe:
-                Intent tcpIntent = new Intent(ctx, WebSocketLive.class);
-                tcpIntent.putExtra("user_apiKey", ApiKey);
-                tcpIntent.putExtra("user_ID", UserID);
-                tcpIntent.putExtra("user_name", UserName);
-                tcpIntent.putExtra("room_id", "1");
-                startActivity(tcpIntent);
                 break;
             case R.id.myBid:
                 Intent intent1 = new Intent(ctx, TransactionInfo.class);
@@ -197,6 +180,7 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
     @Override
     public void activityResultHandle(int requestCode, int resultCode, Intent data) {
         if (requestCode==3){
+            Log.i("Debug::: ", "Return to personalInfoFragment");
             if(resultCode== Activity.RESULT_CANCELED)
                 getActivity().setTitle("cancle");
             else if (resultCode== Activity.RESULT_OK) {

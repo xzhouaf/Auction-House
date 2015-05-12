@@ -114,6 +114,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Success1");
         postItemLis.activityResultHandle(requestCode, resultCode, data);
+        meLis.activityResultHandle(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
