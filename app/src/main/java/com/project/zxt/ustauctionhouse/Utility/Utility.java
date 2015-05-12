@@ -25,8 +25,11 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,8 +50,21 @@ public class Utility {
     public static final String KEY_HIGHEST_BIDDER = "highest_bidder";
     public static final String KEY_HIGHEST_BIDDER_ID = "highest_bidder_ID";
     public static final String KEY_LIVE_STATUS = "status";
-
+    public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat timeLeftFormat = new SimpleDateFormat("mm:ss");
     public static final int RESULT_LOGOUT = 2;
+
+    public static String formatDateTime(int seconds){
+        String result = "";
+        Date date = new Date(seconds*1000);
+        result = result + date.getYear() + "-";
+        result = result + date.getMonth() + "-";
+        result = result + date.getDate() + " ";
+        result = result + date.getHours() + ":";
+        result = result + date.getMinutes() + ":";
+        result = result + date.getSeconds();
+        return result;
+    }
 
     public static List<Unit> string2unit(String result) throws JSONException {
         Log.i("Important::::: ", result);

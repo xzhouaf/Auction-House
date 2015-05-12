@@ -67,7 +67,21 @@ public class LiveListAdapter extends BaseAdapter {
         status_title.setText("Status: ");
         name.setText(goods.get(Utility.KEY_NAME));
         seller.setText(goods.get(Utility.KEY_SELLER));
-        status.setText(goods.get(Utility.KEY_LIVE_STATUS));
+        switch(goods.get(Utility.KEY_LIVE_STATUS)){
+            case "1":
+                status.setText("Not Started");
+                vi.setBackgroundColor(0xb8c0ffa3);
+                break;
+            case "2":
+                status.setText("Bidding");
+                vi.setBackgroundColor(0xB5FF826A);
+                break;
+            case "3":
+                status.setText("Finished");
+                break;
+            default:
+                break;
+        }
         current_price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;

@@ -56,10 +56,15 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+
+import static com.project.zxt.ustauctionhouse.Utility.Utility.secondsToTime;
 
 /**
  * Created by paul on 15年5月7日.
@@ -70,10 +75,10 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private final String TAG = "WebSocketLive";
     private Context ctx;
     private Intent intent;
-    private TextView timeText, clientView, priceView;
+    private TextView timeText, clientView, priceView, statusTimeText, countView, statusView;
     private TextView bidBut;
     private String ApiKey, UserID, UserName, dialogTitle, dialogSeller, dialogDescription;
-    private int seller_id, status;
+    private int seller_id, status, time_left;
     private boolean needReconnect = true;
     private String roomID, image_name, clientList = "";
     private ListView bidList;
@@ -86,6 +91,11 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private float current_price = 0;
     private AlertDialog inputDialog;
     public WebSocketConnection wsC = new WebSocketConnection();
+    private long curr_time;
+    private boolean continueUpdate = true, continueUpdateAnim = true;
+    private UpdateTimeLeft timeUpdater;
+    private UpdateAnimation animUpdater;
+    private int currAnimState = 0;
 
     public void toastLog( String s )
     {
@@ -115,6 +125,9 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         clientView = (TextView) findViewById(R.id.livebid_user_list);
         clientList = UserName;
         priceView = (TextView) findViewById(R.id.livebid_price);
+        statusTimeText = (TextView) findViewById(R.id.livebid_status_time);
+        countView = (TextView) findViewById(R.id.livebid_countdown);
+        statusView = (TextView) findViewById(R.id.livebid_status_text);
 
         bidList = (ListView) findViewById(R.id.livebid_listview);
         adapter = new LiveBidAdapter(this, dataToDisplay);
@@ -163,9 +176,6 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                     try {
                         obj = new JSONObject(payload);
                         switch(obj.getString("type")){
-                            case "time":
-                                timeText.setText(obj.getString("time"));
-                                break;
                             case "ping":
                                 JSONObject obj_send = new JSONObject();
                                 try {
@@ -184,9 +194,20 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 dialogSeller = obj.getString("seller_name");
                                 dialogDescription = obj.getString("description");
                                 seller_id = Integer.valueOf(obj.getString("seller_id"));
-                                status = Integer.valueOf(obj.getString("status"));
-                                break;
+                                status = obj.getInt("status");
 
+                                Date curr_date = Utility.format.parse(obj.getString("time"));
+                                curr_time = curr_date.getTime();
+                                time_left = Integer.valueOf(obj.getString("time_left"));
+
+                                Date left = new Date(time_left*1000);
+                                countView.setText(Utility.timeLeftFormat.format(left));
+
+                                changeStatusDisplay(obj.getString("start_time"));
+
+                                timeUpdater = new UpdateTimeLeft();
+                                timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+                                break;
                             case "logout":
                                 resetClientView(obj.getString("client_list"));
                                 break;
@@ -203,11 +224,22 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 adapter.updateView(dataToDisplay);
                                 //Collections.reverse(dataToDisplay);
                                 break;
-
+                            case "start":
+                                status = 2;
+                                changeStatusDisplay("");
+                                toastLog("Bid start now!");
+                                break;
+                            case "end":
+                                status = 3;
+                                changeStatusDisplay("");
+                                toastLog("Bid end now!");
+                                break;
                             default:
                                 break;
                         }
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
@@ -221,6 +253,92 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
             } );
         } catch ( WebSocketException e ) {
             e.printStackTrace();
+        }
+    }
+
+    private void changeStatusDisplay(String start_time){
+        switch (status){
+            case 1:
+                statusView.setText("Status: Not started yet");
+                break;
+            case 2:
+                statusView.setText("Status: Bidding now!");
+                animUpdater = new UpdateAnimation();
+                animUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+                break;
+            case 3:
+                statusView.setText("Status: Finished");
+                countView.setText("00:00");
+                continueUpdateAnim = false;
+                break;
+            default:
+                break;
+        }
+        if(!start_time.equals("")) {
+            statusTimeText.setText("Start at " + start_time);
+        }
+    }
+
+    private class UpdateTimeLeft extends AsyncTask<Object, String, Boolean> {
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            curr_time += 1000;
+            Date date = new Date(curr_time);
+            timeText.setText(Utility.format.format(date));
+            if(status == 2 && time_left != 0){
+                time_left--;
+                Date left = new Date(time_left*1000);
+                countView.setText(Utility.timeLeftFormat.format(left));
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            while(continueUpdate) {
+                publishProgress();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            Log.i("Stopped! ", "");
+            return null;
+        }
+    }
+
+    private class UpdateAnimation extends AsyncTask<Object, String, Boolean> {
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            if(status == 2){
+                if(currAnimState == 1){
+                    currAnimState = 0;
+                    bidBut.setBackgroundColor(0xff669bff);
+                }else{
+                    currAnimState = 1;
+                    bidBut.setBackgroundColor(0xFFFF5A26);
+                }
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            while(continueUpdateAnim) {
+                publishProgress();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            Log.i("Stopped! ", "");
+            return false;
+        }
+
+        protected void onPostExecute(Boolean b){
+            bidBut.setBackgroundColor(0xff669bff);
         }
     }
 
@@ -238,7 +356,11 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.livebid_bid_but:
-                openBidDialog();
+                if(status == 2) {
+                    openBidDialog();
+                }else{
+                    toastLog("You cannot bid at this moment");
+                }
                 break;
             case R.id.livebid_image:
                 openDialog();
@@ -252,6 +374,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         if (wsC.isConnected()){
             wsC.disconnect();
         }
+        continueUpdate = false;
         super.onDestroy();
     }
 

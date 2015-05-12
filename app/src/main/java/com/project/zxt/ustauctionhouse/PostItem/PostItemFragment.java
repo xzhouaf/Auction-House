@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +61,7 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
     private String image_file_name;
     private EditText time_limit, direct_buy_price, current_price;
     private Spinner condition_name, category_name, post_mode;
-    private TextView description, name;
+    private TextView description, name, timeLimitTag, hourTag;
     private ImageView itemImage;
     private Button confirm;
     private UploadImage imageUploader;
@@ -80,13 +81,12 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
         itemImage = (ImageView) vw.findViewById(R.id.PostitemImage);
         itemImage.setOnClickListener(this);
 
+        timeLimitTag = (TextView)vw.findViewById(R.id.timeLimitTag);
+        hourTag = (TextView) vw.findViewById(R.id.hrsTag);
+
         condition_name = (Spinner) vw.findViewById(R.id.PostItemConditionSel);
         category_name = (Spinner) vw.findViewById(R.id.PostItemCategorySel);
         post_mode = (Spinner) vw.findViewById(R.id.post_mode);
-
-        String conditionNewArray[] = {"Regular", "Live"};
-        ArrayAdapter adapter=new ArrayAdapter(ctx,R.layout.login_list_item,conditionNewArray);
-        post_mode.setAdapter(adapter);
 
         description = (TextView) vw.findViewById(R.id.descriptionEditContent);
         name = (TextView) vw.findViewById(R.id.itemNameInput);
@@ -97,6 +97,40 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
 
         confirm = (Button) vw.findViewById(R.id.confirm_post_button);
         confirm.setOnClickListener(this);
+
+        String conditionNewArray[] = {"Regular", "Live"};
+        ArrayAdapter adapter=new ArrayAdapter(ctx,R.layout.login_list_item,conditionNewArray);
+        post_mode.setAdapter(adapter);
+        post_mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("Debug::: ", "Hihi: " + position);
+                switch (position) {
+                    case 0:
+                        condition_name.setEnabled(true);
+                        category_name.setEnabled(true);
+                        direct_buy_price.setEnabled(true);
+                        timeLimitTag.setText("time limit: ");
+                        hourTag.setText("hours");
+                        break;
+                    case 1:
+                        condition_name.setEnabled(false);
+                        category_name.setEnabled(false);
+                        direct_buy_price.setEnabled(false);
+                        timeLimitTag.setText("start time: ");
+                        hourTag.setText("minutes later");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
 
         return vw;
     }
@@ -153,6 +187,7 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
                         new AsyncPostItem().execute();
                         break;
                     case "Live":
+                        if(!validateLiveInput()) return;
                         wsStart();
                         break;
                     default:
@@ -185,6 +220,7 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
                         obj.put("image", image_file_name);
                         obj.put("description", description.getText().toString());
                         obj.put("room_id", 2);
+                        obj.put("later", Integer.valueOf(time_limit.getText().toString())*60);
                         obj.put("name", name.getText().toString());
                         obj.put("initial_price", current_price.getText().toString());
                     } catch (JSONException e) {
@@ -256,9 +292,39 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
             Toast.makeText(getActivity(), "Upload image for your item!", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return true;
+    }
 
+    private boolean validateLiveInput(){
+        //TODO: Verify all the inputs by the user
+        if (name.getText().toString().equals("")) {
+            name.requestFocus();
+            name.setError("You should input an item Name");
+            return false;
+        }
+        if (description.getText().toString().equals("")) {
+            description.requestFocus();
+            description.setError("You should at least input one word of description!");
+            return false;
+        }
 
+        if(time_limit.getText().toString().equals("")){
+            time_limit.requestFocus();
+            time_limit.setError("You should specify the start time!");
+            return false;
 
+        }
+
+        if(current_price.getText().toString().equals("")){
+            current_price.requestFocus();
+            current_price.setError("An initial price should be specified!");
+            return false;
+        }
+
+        if(image_file_name.toString().equals("")){
+            Toast.makeText(getActivity(), "Upload image for your item!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 

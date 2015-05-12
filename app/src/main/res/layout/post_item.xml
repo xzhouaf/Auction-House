@@ -253,13 +253,14 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="150dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="Confirm Post"
+        android:text="Post"
         android:id="@+id/confirm_post_button"
         android:layout_alignTop="@+id/timeInfo"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp" />
 
 
 </RelativeLayout>

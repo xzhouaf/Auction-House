@@ -2,15 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/livebid_status_layout"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="#ffff7642">
+        android:background="#b8c0ffa3">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,8 +17,22 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Status: Bidding"
             android:id="@+id/livebid_status_text"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:textSize="20sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="#b8c0ffa3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Start at 2015-05-11 12:05:45"
+            android:id="@+id/livebid_status_time"
+            android:layout_below="@+id/livebid_status_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp" />
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="180dp"
@@ -82,7 +95,7 @@
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="05:49"
+        android:text="01:00"
         android:textSize="35sp"
         android:id="@+id/livebid_countdown"
         android:textStyle="bold"
@@ -165,4 +178,5 @@
         android:layout_below="@+id/livebid_status_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="3dp" />
+
 </RelativeLayout>

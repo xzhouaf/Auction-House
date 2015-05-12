@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.project.zxt.ustauctionhouse.NewListView.RefreshListView;
@@ -25,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -142,6 +144,7 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
                                         goodList.add(map1);
                                     }
                                 }
+                                Collections.reverse(goodList);
                                 prepareDataForDisplay(true);
                                 adapter = new LiveListAdapter(getActivity(), dataToDisplay);
                                 refreshLv.setAdapter(adapter);
@@ -200,8 +203,11 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
                 }else{
                     //goBackTopToast.cancel();
                     refreshLv.smoothScrollToPosition(0);
+                    isRefreshing = true;
+                    wsGetRoomStart();
                 }
                 break;
+            case R.id.livebid_status_layout:
             default:
                 break;
         }
