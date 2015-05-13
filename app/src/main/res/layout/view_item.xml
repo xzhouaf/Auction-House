@@ -1,37 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/generalPanel">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="450dp"
+    android:id="@+id/rolling">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/itemInfo">
+
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="New Text"
         android:id="@+id/ViewItemName"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ViewItemImage"
+        android:layout_marginTop="365dp"
         android:textSize="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp" />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:id="@+id/ViewItemImage"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/InfoFields"
         android:layout_below="@+id/ViewItemName"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffffff">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="250dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/timeInfo"
+            android:layout_alignLeft="@+id/timeInfo"
+            android:layout_alignStart="@+id/timeInfo"
+            android:id="@+id/sellerInfo"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:text="seller:            "
+                android:id="@+id/sellerTag"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="20dp"
+                android:text="New Text"
+                android:id="@+id/ViewSeller"
+                android:textColor="#ff597bff"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="250dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/timeInfo"
+            android:layout_marginLeft="0dp">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:text="time left:       "
+                android:id="@+id/timeTag"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="20dp"
+                android:text="New Text"
+                android:id="@+id/ViewTimeLeft"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:id="@+id/itemPrice"
+            android:layout_below="@+id/sellerInfo"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="current bid:   "
+                android:id="@+id/priceTag"
+                android:layout_below="@+id/ViewItemName"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="0dp"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/ViewPrice"
+                android:textSize="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:id="@+id/itemBuyNow"
+            android:layout_below="@+id/itemPrice"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="direct buy:"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/ViewDBPrice"
+                android:layout_marginLeft="10dp"
+                android:textSize="24dp"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:id="@+id/bidNow"
+            android:layout_alignTop="@+id/timeInfo"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:id="@+id/buyNow"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/bidNow"
+            android:layout_alignStart="@+id/bidNow" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/InfoFields2"
+        android:layout_height="150dp"
         android:id="@+id/descriptionInfo"
-        android:layout_marginTop="5dp">
+        android:layout_below="@+id/categoryInfo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
             android:text="item description："
             android:id="@+id/descriptionTag"
             android:layout_alignParentTop="true"
@@ -43,205 +201,109 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:text="New Text"
             android:id="@+id/ViewDescription"
             android:layout_below="@+id/descriptionTag"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="0dp"
             android:layout_marginLeft="15dp" />
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/InfoFields"
-        android:layout_toRightOf="@+id/ViewItemImage"
-        android:layout_alignTop="@+id/ViewItemImage"
-        android:layout_marginLeft="5dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/conditionInfo"
+        android:background="#fff0f0f0"
+        android:layout_below="@+id/InfoFields"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/timeInfo"
-            android:layout_alignLeft="@+id/timeInfo"
-            android:layout_alignStart="@+id/timeInfo"
-            android:id="@+id/sellerInfo"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="0dp">
+            android:text="condition:"
+            android:id="@+id/conditionTag"
+            android:layout_marginLeft="40dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="15dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="seller:            "
-                android:id="@+id/sellerTag" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/ViewSeller"
-                android:textColor="#ff597bff" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/timeInfo"
-            android:layout_marginLeft="0dp">
+            android:text="New Text"
+            android:id="@+id/ViewCondition"
+            android:layout_marginLeft="80dp"
+            android:textSize="15dp"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="time left:       "
-                android:id="@+id/timeTag" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/categoryInfo"
+        android:background="#ffe6e6e6"
+        android:layout_below="@+id/conditionInfo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/ViewTimeLeft" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/itemPrice"
-            android:layout_below="@+id/sellerInfo"
-            android:layout_marginTop="10dp">
+            android:text="category:"
+            android:id="@+id/categoryTag"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="40dp"
+            android:textSize="15dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="current bid:   "
-                android:id="@+id/priceTag"
-                android:layout_below="@+id/ViewItemName"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="7dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/ViewPrice"
-                android:textSize="24dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/itemBuyNow"
-            android:layout_below="@+id/itemPrice"
-            android:layout_marginTop="5dp">
+            android:text="New Text"
+            android:id="@+id/ViewCategory"
+            android:layout_marginLeft="84dp"
+            android:textSize="15dp"
+            android:layout_gravity="center_vertical" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="direct buy:"
-                />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/ViewDBPrice"
-                android:layout_marginLeft="16dp"
-                android:textSize="24dp" />
-        </LinearLayout>
 
-    </RelativeLayout>
+</RelativeLayout>
+</ScrollView>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonField"
-        android:id="@+id/InfoFields2"
-        android:layout_marginTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/rolling"
+        android:id="@+id/HisField"
+        android:background="#ffcdcdcd">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/conditionInfo"
-            android:background="#fffff29e">
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:id="@+id/buyHisList"
+            android:layout_below="@+id/textView10"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#fff0f0f0" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="condition:"
-                android:id="@+id/conditionTag"
-                android:layout_marginLeft="40dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/ViewCondition"
-                android:layout_marginLeft="80dp"
-                android:textSize="12dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/categoryInfo"
-            android:layout_below="@+id/conditionInfo"
-            android:background="#ffd8ffb1">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="category:"
-                android:id="@+id/categoryTag"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="40dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/ViewCategory"
-                android:layout_marginLeft="84dp"
-                android:textSize="12dp" />
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="25dp"
+            android:text="Buy History:"
+            android:id="@+id/textView10"
+            android:layout_alignLeft="@+id/buyHisList"
+            android:layout_alignStart="@+id/buyHisList"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonField"
-        android:layout_below="@+id/ViewItemImage"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:id="@+id/buyNow"
-            android:layout_toRightOf="@+id/bidNow"
-            android:layout_marginLeft="15dp"
-            android:layout_gravity="center_horizontal" />
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:id="@+id/bidNow"
-            android:layout_marginLeft="125dp" />
-
-    </RelativeLayout>
 
 </RelativeLayout>

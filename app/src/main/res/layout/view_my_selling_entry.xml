@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp"
-    >
+    android:background="#ffffffff">
     <ImageView
         android:id="@+id/sellEntryItemImage"
         android:layout_width="100dp"
@@ -21,23 +21,13 @@
     <TextView
         android:id="@+id/sellEntryItemName"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:text="item name"
         android:textSize="25dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/sellEntryItemImage"
         android:layout_marginTop="0dp"
         android:layout_toRightOf="@+id/sellEntryItemImage"
-        android:layout_marginLeft="5dp" />
-    <TextView
-        android:id="@+id/sellEntryHighestBidderName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="#ff6964ff"
-        android:layout_above="@+id/linearLayout"
-        android:layout_toRightOf="@+id/sellerTag"
-        android:layout_toEndOf="@+id/sellerTag"
         android:layout_marginLeft="5dp" />
 
     <LinearLayout
@@ -52,13 +42,13 @@
         android:layout_marginLeft="105dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="20dp"
             android:text="time left:          "
             android:id="@+id/timeTag" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/sellEntryTimeLeft"
             android:layout_weight="0.58"
@@ -66,23 +56,34 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
         android:text="99.99"
         android:id="@+id/sellEntryPrice"
-        android:layout_below="@+id/sellEntryItemName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/linearLayout"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:layout_alignRight="@+id/sellEntryItemName"
+        android:layout_alignEnd="@+id/sellEntryItemName"
+        android:layout_below="@+id/sellEntryItemName" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
         android:text="Highest bidder:"
         android:id="@+id/sellerTag"
-        android:layout_alignBottom="@+id/sellEntryPrice"
+        android:layout_above="@+id/linearLayout"
         android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout" />
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:text="New Text"
+        android:id="@+id/sellEntryHighestBidderName"
+        android:layout_toRightOf="@+id/sellerTag"
+        android:layout_below="@+id/sellEntryPrice"
+        android:layout_alignBottom="@+id/sellerTag"
+        android:layout_alignTop="@+id/sellerTag"
+        android:textColor="#ff6964ff" />
 
 </RelativeLayout>

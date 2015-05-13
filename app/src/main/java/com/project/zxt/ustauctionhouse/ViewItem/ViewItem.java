@@ -13,9 +13,11 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.zxt.ustauctionhouse.ItemListView.BidListAdapter;
 import com.project.zxt.ustauctionhouse.ItemListView.ImageLoader;
 import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.Unit;
@@ -29,6 +31,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +39,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,6 +62,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private ImageLoader imageLoader;
     private TextView timeLeft, viewSeller;
     private TextView Description, ItemName, Price ,Category, Condition, DBPrice;
+    private ListView buyerList;
     private double cPrice;
     private UpdateTimeLeft timeUpdater;
     private boolean continueUpdate = true;
@@ -64,6 +70,11 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private String item_id, user_id, priceInput, ApiKey, UserID, dBuyPrice;
     private int intTimeLeft = 10000;
     private int status;
+    private  String buy_list;
+    private BidListAdapter adapter;
+    private ArrayList<HashMap<String, String>> buyHis;
+    private Activity act;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +102,8 @@ public class ViewItem extends Activity implements View.OnClickListener {
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         ApiKey = intent.getStringExtra("API_key");
         UserID = intent.getStringExtra("user_ID");
+        buyerList = (ListView) findViewById(R.id.buyHisList);
+        act = this;
 
         String imageFileURL = intent.getStringExtra(Utility.KEY_IMAGE);
         item_id = intent.getStringExtra((Utility.KEY_ID));
@@ -99,8 +112,9 @@ public class ViewItem extends Activity implements View.OnClickListener {
 
         new AsyncGetSingleItem().execute();
 
-        timeUpdater = new UpdateTimeLeft();
-        timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+
+
+
 
     }
 
@@ -228,7 +242,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
                         if(confirmBid(userInputPrice.getText().toString())){
                             priceInput = userInputPrice.getText().toString();
                             new AsyncPlaceBid().execute();
-                            new AsyncGetSingleItem().execute();
+                            //new AsyncGetSingleItem().execute();
 
 
 
@@ -384,6 +398,31 @@ public class ViewItem extends Activity implements View.OnClickListener {
             Price.setText("$ "+unitList.get(0).currentPrice);
             cPrice = unitList.get(0).currentPrice;
             dBuyPrice = unitList.get(0).directBuyPrice+"";
+            buy_list = unitList.get(0).buyList;
+            try {
+                JSONArray array = new JSONArray(buy_list) ;
+                int length = array.length();
+                Log.i("Testinggggggg! ", buy_list);
+                buyHis = new ArrayList<HashMap<String, String>>();
+
+                for(int j = length-1; j>=0;j--) {
+                    HashMap<String, String> buyer = new HashMap<String, String>();
+                    JSONObject single = array.getJSONObject(j);
+                    buyer.put("buyer",single.getString("user_name"));
+                    buyer.put("price",single.getString("bid_price"));
+                    buyer.put("time",single.getString("time"));
+                    buyHis.add(buyer);
+                }
+                adapter = new BidListAdapter(act, buyHis);
+
+                buyerList.setAdapter(adapter);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
             if (Double.valueOf(dBuyPrice)>0.001){
                 DBPrice.setText("$ "+unitList.get(0).directBuyPrice);
             }
@@ -400,6 +439,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 buyNow.setOnClickListener(null);
                 bidNow.setImageResource(R.drawable.bid_now_grey);
                 buyNow.setImageResource(R.drawable.buy_now_grey);
+                timeLeft.setText("expired!");
 
             }
 
@@ -414,7 +454,10 @@ public class ViewItem extends Activity implements View.OnClickListener {
                     buyNow.setImageResource(R.drawable.buy_now);
                 }
 
+                timeUpdater = new UpdateTimeLeft();
+                timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
             }
+
 
 
         }
@@ -465,6 +508,17 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 if(result.getString("error").equals("true")){
 
                 }else{
+                    Price.setText("$ "+priceInput);
+                    Collections.reverse(buyHis);
+                    HashMap<String, String> buyer = new HashMap<>();
+                    buyer.put("buyer",result.getString("user_name"));
+                    buyer.put("price",priceInput);
+                    buyer.put("time", result.getString("time"));
+                    buyHis.add(buyer);
+                    Collections.reverse(buyHis);
+                    adapter.updateView(buyHis);
+
+
 
                 }
             } catch (JSONException e) {

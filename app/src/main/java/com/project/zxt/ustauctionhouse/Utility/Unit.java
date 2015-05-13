@@ -1,5 +1,7 @@
 package com.project.zxt.ustauctionhouse.Utility;
 
+import org.json.JSONArray;
+
 import java.sql.Timestamp;
 
 /**
@@ -23,6 +25,7 @@ public class Unit {
     public String buyerName;
     public int buyerID;
     public int timeLeft;
+    public String buyList;
 }
 
 
