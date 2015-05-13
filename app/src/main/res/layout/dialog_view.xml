@@ -5,20 +5,19 @@
 
     <RelativeLayout
         android:layout_width="250dp"
-        android:layout_height="400dp"
+        android:layout_height="450dp"
         android:id="@+id/dialog_relative"
         android:background="#fffef8f4"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:id="@+id/dialog_image"
             android:background="#fff1f1f1"
-            android:layout_below="@+id/dialog_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp" />
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,11 +25,10 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Title"
             android:id="@+id/dialog_title"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="25sp"
-            android:layout_marginTop="10dp"
-            android:textColor="#ff534fff" />
+            android:textSize="18sp"
+            android:textColor="#ff534fff"
+            android:layout_below="@+id/dialog_image"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,9 +39,9 @@
             android:layout_below="@+id/dialog_image"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +49,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Paul"
             android:id="@+id/dialog_seller_name"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_alignTop="@+id/textView6"
             android:layout_toRightOf="@+id/textView6"
             android:layout_toEndOf="@+id/textView6"
@@ -64,11 +62,11 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Description:"
             android:id="@+id/textView7"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:layout_below="@+id/textView6"
             android:layout_alignLeft="@+id/textView6"
             android:layout_alignStart="@+id/textView6"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="2dp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -76,14 +74,15 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Description"
             android:id="@+id/dialog_description"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:textSize="15sp"
+            android:layout_marginTop="41dp"
+            android:textColor="#ff534fff"
+            android:layout_below="@+id/dialog_title"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginLeft="10dp"
-            android:layout_below="@+id/textView7"
-            android:textSize="15sp"
-            android:layout_marginTop="5dp"
-            android:textColor="#ff534fff" />
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
 </RelativeLayout>
