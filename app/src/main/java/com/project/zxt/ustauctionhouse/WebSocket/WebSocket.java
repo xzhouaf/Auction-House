@@ -61,7 +61,7 @@ public interface WebSocket {
 	    * @param code       Close code.
 	    * @param reason     Close reason (human-readable).
 	    */
-	   public void onClose(int code, String reason);
+	   public void onClose(int code, String reason) throws InterruptedException;
 
 	   /**
 	    * Fired when a text message has been received (and text

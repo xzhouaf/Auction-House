@@ -79,11 +79,9 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private TextView bidBut;
     private String ApiKey, UserID, UserName, dialogTitle, dialogSeller, dialogDescription;
     private int seller_id, status, time_left;
-    private boolean needReconnect = true;
     private String roomID, image_name, clientList = "";
     private ListView bidList;
     private LiveBidAdapter adapter;
-    private ArrayList<HashMap<String, String>> goodList = new ArrayList<>();
     private ArrayList<HashMap<String, String>> dataToDisplay = new ArrayList<>();
     private ImageLoader imageLoader;
     private ImageView goodImage;
@@ -92,7 +90,8 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
     private AlertDialog inputDialog;
     public WebSocketConnection wsC = new WebSocketConnection();
     private long curr_time;
-    private boolean continueUpdate = true, continueUpdateAnim = true;
+    private boolean continueUpdate = true, continueUpdateAnim = true,
+            needToastForLost = true, isReconnection = false;
     private UpdateTimeLeft timeUpdater;
     private UpdateAnimation animUpdater;
     private int currAnimState = 0;
@@ -152,8 +151,9 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 @Override
                 public void onOpen()
                 {
-                    toastLog( "Status: Connected to " + Utility.wsUrl );
-                    needReconnect = false;
+                    if(isReconnection) {
+                        toastLog("Reconnected");
+                    }
 
                     JSONObject obj = new JSONObject();
                     try {
@@ -187,7 +187,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                                 break;
                             case "login":
                                 resetClientView(obj.getString("client_list"));
-                                if(obj.getString("user_id").equals(UserID)) {
+                                if(obj.getString("user_id").equals(UserID) && !isReconnection) {
                                     timeText.setText(obj.getString("time"));
                                     current_price = Float.valueOf(obj.getString("price"));
                                     priceView.setText("$" + current_price);
@@ -250,10 +250,14 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 }
 
                 @Override
-                public void onClose( int code, String reason )
-                {
-                    toastLog( "Connection lost" );
-                    needReconnect = true;
+                public void onClose( int code, String reason ) throws InterruptedException {
+                    if(needToastForLost) {
+                        toastLog("Connection lost");
+                        //TODO Reconnection
+                        Thread.sleep(3000);
+                        wsStart();
+                        isReconnection = true;
+                    }
                 }
             } );
         } catch ( WebSocketException e ) {
@@ -273,13 +277,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
                 break;
             case 3:
                 statusView.setText("Status: Finished");
-                countView.setText("Result");
-                countView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        seeBidResult();
-                    }
-                });
+                countView.setText("Finished");
                 continueUpdateAnim = false;
                 break;
             default:
@@ -288,10 +286,6 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         if(!start_time.equals("")) {
             statusTimeText.setText("Start at " + start_time);
         }
-    }
-
-    private void seeBidResult(){
-
     }
 
     private class UpdateTimeLeft extends AsyncTask<Object, String, Boolean> {
@@ -412,6 +406,7 @@ public class WebSocketLive extends Activity implements View.OnClickListener {
         if (wsC.isConnected()){
             wsC.disconnect();
         }
+        needToastForLost = false;
         continueUpdate = false;
         super.onDestroy();
     }

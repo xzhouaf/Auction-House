@@ -40,7 +40,7 @@ public class WebSocketConnectionHandler implements WebSocket.ConnectionHandler {
     * @param code       Close code.
     * @param reason     Close reason (human-readable).
     */
-   public void onClose(int code, String reason) {
+   public void onClose(int code, String reason) throws InterruptedException {
    }
 
    /**
