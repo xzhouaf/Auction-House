@@ -5,80 +5,89 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    >
+    android:background="#ffffffff">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="#fff6ffaa"
-        android:id="@+id/itemNameSearch">
+        android:background="#ffebebeb"
+        android:id="@+id/itemNameSearch"
+        android:layout_marginTop="20dp">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/searchIcon"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/brownchuizi"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="24dp" />
 
         <EditText
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:id="@+id/searchInput"
             android:textSize="20dp"
-            android:layout_marginTop="10dp"
-            android:hint="Search item name here"/>
+            android:layout_marginTop="20dp"
+            android:hint="Search here"
+            android:layout_marginLeft="10dp"
+            android:textColor="#ff000000" />
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/itemNameSearch"
         android:id="@+id/categorySearch"
         android:weightSum="1"
-        android:background="#ffffd6f2">
+        android:background="#ffebebeb"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category selection:"
+            android:text="Category"
             android:id="@+id/textView2"
             android:layout_below="@+id/itemNameSearch"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginStart="42dp"
             android:textSize="20dp" />
 
         <Spinner
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:id="@+id/searchCategorySel"
             android:layout_below="@+id/itemNameSearch"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="65dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginStart="42dp"
             android:layout_weight="0.36" />
 
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:text="Search"
         android:id="@+id/searchButton"
-        android:textSize="15dp"
+        android:textSize="18sp"
         android:layout_below="@+id/categorySearch"
         android:layout_alignRight="@+id/itemNameSearch"
         android:layout_alignEnd="@+id/itemNameSearch"
-        android:layout_gravity="right" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="#ff417eff"
+        android:textStyle="bold"
+        android:textColor="#ffffffff" />
 
 </LinearLayout>

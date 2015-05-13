@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.zxt.ustauctionhouse.LiveAuction.LiveListFragment;
@@ -44,6 +45,9 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
     private OnPassParamListener newItemLis, postItemLis, searchLis, liveLis, meLis;
     private LinearLayout newBut, postBut, searchBut, liveBut, meBut;
 
+    private TextView title;
+    private long mBackToTopTime;
+
     int currentSelectedViewPager = 0;
 
     @Override
@@ -55,6 +59,9 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
 
         intent = getIntent();
         ctx = getApplicationContext();
+
+        title = (TextView)findViewById(R.id.vp_frame_title);
+        title.setOnClickListener(this);
 
         UserName = intent.getStringExtra("user_name");
         Email = intent.getStringExtra("user_email");
@@ -122,6 +129,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
         public void onPassAction(String a, String b, String c, String d);
         public void onUpdateAction();
         public void activityResultHandle(int requestCode, int resultCode, Intent data);
+        public void onDoubleClick();
     }
 
     @Override
@@ -156,6 +164,18 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                     mPager.setCurrentItem(4);
                 }
                 onClickTab(4);
+                break;
+            case R.id.vp_frame_title:
+                if((System.currentTimeMillis() - mBackToTopTime)>500){
+                    //goBackTopToast = Toast.makeText(ctx, "Double click back to top", Toast.LENGTH_SHORT);
+                    //goBackTopToast.setGravity(Gravity.TOP, 0, 150);
+                    //goBackTopToast.show();
+                    mBackToTopTime = System.currentTimeMillis();
+                }else{
+                    //TODO
+                    liveLis.onDoubleClick();
+                    newItemLis.onDoubleClick();
+                }
                 break;
             default:
                 break;
@@ -231,6 +251,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                 resetTabColor();
                 newBut.setBackgroundColor(BRIGHT_COLOR);
                 currentSelectedViewPager = 0;
+                title.setText("Auction House Home");
                 break;
             case 1:
                 if(currentSelectedViewPager == 1) return;
@@ -238,6 +259,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                 postBut.setBackgroundColor(BRIGHT_COLOR);
                 postItemLis.onUpdateAction();
                 currentSelectedViewPager = 1;
+                title.setText("Post Item");
                 break;
             case 2:
                 if(currentSelectedViewPager == 2) return;
@@ -245,6 +267,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                 searchBut.setBackgroundColor(BRIGHT_COLOR);
                 searchLis.onUpdateAction();
                 currentSelectedViewPager = 2;
+                title.setText("Search Item");
                 break;
             case 3:
                 if(currentSelectedViewPager == 3) return;
@@ -252,6 +275,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                 liveBut.setBackgroundColor(BRIGHT_COLOR);
                 liveLis.onUpdateAction();
                 currentSelectedViewPager = 3;
+                title.setText("Live Auction");
                 break;
             case 4:
                 if(currentSelectedViewPager == 4) return;
@@ -259,6 +283,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                 meBut.setBackgroundColor(BRIGHT_COLOR);
                 meLis.onUpdateAction();
                 currentSelectedViewPager = 4;
+                title.setText("Personal Information");
                 break;
             default:
                 break;

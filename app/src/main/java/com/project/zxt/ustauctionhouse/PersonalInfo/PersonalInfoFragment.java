@@ -193,6 +193,11 @@ public class PersonalInfoFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onDoubleClick() {
+
+    }
+
 
     private class AsyncLogout extends AsyncTask<String, Void, JSONObject> {
 

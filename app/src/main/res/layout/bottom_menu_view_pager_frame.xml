@@ -3,23 +3,34 @@
     android:layout_width="fill_parent" android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:id="@+id/top_title_relative"
+        android:background="#ff628bff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Auction House"
+            android:id="@+id/vp_frame_title"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="#ffffffff" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/internal_view_pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/relativeLayout2">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/internal_view_pager"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1.0"
-            android:flipInterval="30"
-            android:persistentDrawingCache="animation" />
-
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:layout_weight="1.0"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation"
+        android:layout_above="@+id/relativeLayout2"
+        android:layout_below="@+id/top_title_relative" />
 
     <RelativeLayout
         android:layout_width="fill_parent"

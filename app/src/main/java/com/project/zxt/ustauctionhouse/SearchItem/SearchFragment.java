@@ -90,4 +90,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Bo
     public void activityResultHandle(int requestCode, int resultCode, Intent data) {
 
     }
+
+    @Override
+    public void onDoubleClick() {
+
+    }
 }

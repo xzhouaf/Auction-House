@@ -5,22 +5,6 @@
     android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="#ffffc834"
-        android:gravity="center_vertical|center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="UST Auction House"
-            android:id="@+id/new_item_frame_title"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-
     <com.project.zxt.ustauctionhouse.NewListView.RefreshListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

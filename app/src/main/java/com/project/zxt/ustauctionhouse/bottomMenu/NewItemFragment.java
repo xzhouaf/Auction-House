@@ -49,10 +49,10 @@ public class NewItemFragment extends Fragment implements BottomMenuHome.OnPassPa
         View rootView = inflater.inflate(R.layout.new_item, container, false);
         ctx = getActivity().getApplicationContext();
         intent = getActivity().getIntent();
-
+/*
         goBackToTop = (TextView) rootView.findViewById(R.id.new_item_frame_title);
         goBackToTop.setOnClickListener(this);
-
+*/
 
         refreshLv = (RefreshListView) rootView.findViewById(R.id.new_item_listview);
         refreshLv.setOnRefreshListener(this);
@@ -86,6 +86,7 @@ public class NewItemFragment extends Fragment implements BottomMenuHome.OnPassPa
     //private Toast goBackTopToast = null;
     public void onClick(View v) {
         switch (v.getId()) {
+            /*
             case R.id.new_item_frame_title:
                 if((System.currentTimeMillis() - mBackToTopTime)>500){
                     //goBackTopToast = Toast.makeText(ctx, "Double click back to top", Toast.LENGTH_SHORT);
@@ -97,6 +98,7 @@ public class NewItemFragment extends Fragment implements BottomMenuHome.OnPassPa
                     refreshLv.smoothScrollToPosition(0);
                 }
                 break;
+                */
             default:
                 break;
         }
@@ -213,5 +215,10 @@ public class NewItemFragment extends Fragment implements BottomMenuHome.OnPassPa
     @Override
     public void activityResultHandle(int requestCode, int resultCode, Intent data) {
 
+    }
+
+    @Override
+    public void onDoubleClick() {
+        refreshLv.smoothScrollToPosition(0);
     }
 }

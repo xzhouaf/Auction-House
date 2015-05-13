@@ -365,6 +365,11 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onDoubleClick() {
+
+    }
+
     private class AsyncPostItem extends AsyncTask<String, Void, JSONObject> {
 
         @Override

@@ -59,8 +59,8 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
         ctx = getActivity().getApplicationContext();
         intent = getActivity().getIntent();
 
-        goBackToTop = (TextView) rootView.findViewById(R.id.live_list_frame_title);
-        goBackToTop.setOnClickListener(this);
+        //goBackToTop = (TextView) rootView.findViewById(R.id.live_list_frame_title);
+        //goBackToTop.setOnClickListener(this);
 
 
         refreshLv = (RefreshListView) rootView.findViewById(R.id.livebid_listview);
@@ -194,6 +194,7 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
     //private Toast goBackTopToast = null;
     public void onClick(View v) {
         switch (v.getId()) {
+            /*
             case R.id.live_list_frame_title:
                 if((System.currentTimeMillis() - mBackToTopTime)>500){
                     //goBackTopToast = Toast.makeText(ctx, "Double click back to top", Toast.LENGTH_SHORT);
@@ -207,6 +208,7 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
                     wsGetRoomStart();
                 }
                 break;
+                */
             case R.id.livebid_status_layout:
             default:
                 break;
@@ -296,5 +298,12 @@ public class LiveListFragment extends Fragment implements BottomMenuHome.OnPassP
     @Override
     public void activityResultHandle(int requestCode, int resultCode, Intent data) {
 
+    }
+
+    @Override
+    public void onDoubleClick() {
+        refreshLv.smoothScrollToPosition(0);
+        isRefreshing = true;
+        wsGetRoomStart();
     }
 }
