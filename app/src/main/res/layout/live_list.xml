@@ -8,6 +8,7 @@
     <com.project.zxt.ustauctionhouse.NewListView.RefreshListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/livebid_listview" />
+        android:id="@+id/livebid_listview"
+        android:background="#ffffffff" />
 
 </LinearLayout>

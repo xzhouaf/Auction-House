@@ -19,15 +19,15 @@
         android:id="@+id/personal_info"
         android:layout_marginTop="25dp"
         android:weightSum="1"
-        android:background="#ffe3ffd1"
-        android:backgroundTint="#ffe8ffc3">
+        android:background="#ff499dff">
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/me_portrait"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +36,8 @@
             android:layout_marginTop="55dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="0.12"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:textColor="#ffffffff" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,7 +47,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:id="@+id/myAuction"
-        android:background="#ffdaffe4">
+        android:background="#ffebebeb">
 
         <ImageView
             android:layout_width="40dp"
@@ -69,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/myBid"
-        android:background="#ffccfff8">
+        android:background="#ffd5d5d5">
 
         <ImageView
             android:layout_width="40dp"
@@ -94,7 +95,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="35dp"
         android:id="@+id/myHistory"
-        android:background="#ffffdb6c">
+        android:background="#ffebebeb">
 
         <ImageView
             android:layout_width="40dp"

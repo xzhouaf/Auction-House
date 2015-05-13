@@ -125,16 +125,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="0dp"
-        android:background="#fffffcf5">
+        android:background="#ffffffff">
 
         <ImageView
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:id="@+id/PostitemImage"
-            android:src="@drawable/no_photo"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="30dp"
+            android:background="#fff6f6f6" />
 
         <TextView
             android:layout_width="wrap_content"

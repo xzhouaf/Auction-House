@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ffffffff">
 
     <RelativeLayout
         android:orientation="horizontal"
@@ -9,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/livebid_status_layout"
-        android:background="#b8c0ffa3">
+        android:background="#ff628bff">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,7 +22,8 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:background="#b8c0ffa3" />
+            android:background="#00000000"
+            android:textColor="#ffffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +33,8 @@
             android:id="@+id/livebid_status_time"
             android:layout_below="@+id/livebid_status_text"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp" />
+            android:layout_marginTop="2dp"
+            android:textColor="#ffffffff" />
     </RelativeLayout>
 
     <ImageView
@@ -113,7 +116,7 @@
         android:layout_below="@+id/livebid_bid_but"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
-        android:background="#ffffbc1a"
+        android:background="#ff628bff"
         android:id="@+id/livebid_bottm_part">
 
         <ListView
@@ -166,7 +169,8 @@
             android:layout_alignParentStart="true"
             android:gravity="center_vertical|center_horizontal"
             android:layout_toLeftOf="@+id/livebid_listview"
-            android:layout_toStartOf="@+id/livebid_listview" />
+            android:layout_toStartOf="@+id/livebid_listview"
+            android:textColor="#ffffffff" />
 
     </RelativeLayout>
 
