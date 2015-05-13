@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/scrollView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#ffffffff">
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -19,15 +12,15 @@
         android:id="@+id/personal_info"
         android:layout_marginTop="25dp"
         android:weightSum="1"
-        android:background="#ff499dff">
+        android:background="#ffe3ffd1"
+        android:backgroundTint="#ffe8ffc3">
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/me_portrait"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp" />
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,8 +29,7 @@
             android:layout_marginTop="55dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="0.12"
-            android:textSize="25dp"
-            android:textColor="#ffffffff" />
+            android:textSize="25dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +39,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:id="@+id/myAuction"
-        android:background="#ffebebeb">
+        android:background="#ffdaffe4">
 
         <ImageView
             android:layout_width="40dp"
@@ -70,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/myBid"
-        android:background="#ffd5d5d5">
+        android:background="#ffccfff8">
 
         <ImageView
             android:layout_width="40dp"
@@ -95,7 +87,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="35dp"
         android:id="@+id/myHistory"
-        android:background="#ffebebeb">
+        android:background="#ffffdb6c">
 
         <ImageView
             android:layout_width="40dp"
@@ -133,5 +125,3 @@
     </LinearLayout>
 
 </LinearLayout>
-
-    </ScrollView>
