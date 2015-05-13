@@ -53,22 +53,8 @@
             android:name=".LoginRelated.Register"
             android:label="Register New Account" />
         <activity
-            android:name=".PersonalInfo.PersonalInformation"
-            android:label="Me" />
-        <activity
             android:name=".PersonalInfo.ModifyPersonalInfo"
             android:label="Modify" />
-        <activity
-            android:name=".SearchItem.Search"
-            android:label="Search" />
-        <activity
-            android:name=".bottomMenu.NewItem"
-            android:label="NewItem" />
-        <activity
-            android:name=".PostItem.PostItem"
-            android:label="PostItem"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:configChanges="orientation|keyboardHidden"/>
         <activity
             android:name=".SearchItem.SearchResult"
             android:label="SearchResult" />
