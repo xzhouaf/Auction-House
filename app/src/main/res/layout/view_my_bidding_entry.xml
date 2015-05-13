@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp"
-    >
+    android:background="#ffffffff">
     <ImageView
         android:id="@+id/bidEntryItemImage"
         android:layout_width="100dp"
@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/bidEntryItemName"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="item name"
         android:textSize="25dp"
         android:layout_alignParentTop="true"
@@ -31,8 +31,8 @@
         android:layout_marginLeft="5dp" />
     <TextView
         android:id="@+id/bidEntrySellerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="20dp"
         android:text="GAO Zihou"
         android:textSize="12sp"
         android:textColor="#ff6964ff"
@@ -52,32 +52,35 @@
         android:layout_marginLeft="105dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="20dp"
             android:text="time left:          "
-            android:id="@+id/timeTag" />
+            android:id="@+id/timeTag"
+            android:layout_marginTop="15dp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
             android:id="@+id/bidentryTimeLeft"
             android:layout_weight="0.58"
-            android:text="111" />
+            android:text="111"
+            android:layout_marginTop="15dp" />
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
         android:text="99.99"
         android:id="@+id/bidEntryPrice"
         android:textSize="25dp"
-        android:layout_alignBottom="@+id/linearLayout"
-        android:layout_alignRight="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout" />
+        android:layout_alignTop="@+id/bidEntrySellerName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="20dp"
         android:text="Posted by :"
         android:id="@+id/sellerTag"
         android:layout_alignTop="@+id/bidEntrySellerName"
@@ -87,8 +90,8 @@
         android:layout_marginLeft="5dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="20dp"
         android:text="Status:"
         android:id="@+id/StatusTag"
         android:layout_alignTop="@+id/bidEntrySellerName"
@@ -98,8 +101,8 @@
         android:layout_marginLeft="5dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
         android:text="outbidded"
         android:id="@+id/bidStatus"
         android:layout_alignTop="@+id/StatusTag"

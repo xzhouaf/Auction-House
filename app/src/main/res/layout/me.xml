@@ -3,17 +3,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ffffffff">
+    android:background="#ffebebeb">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:id="@+id/personal_info"
         android:layout_marginTop="25dp"
         android:weightSum="1"
-        android:background="#ffe3ffd1"
-        android:backgroundTint="#ffe8ffc3">
+        android:background="#ffffffff">
 
         <ImageView
             android:layout_width="100dp"
@@ -23,8 +23,8 @@
             android:layout_marginTop="15dp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
             android:id="@+id/me_UserName"
             android:layout_marginTop="55dp"
             android:layout_marginLeft="5dp"
@@ -35,11 +35,11 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:id="@+id/myAuction"
-        android:background="#ffdaffe4">
+        android:background="#ffffffff">
 
         <ImageView
             android:layout_width="40dp"
@@ -60,9 +60,10 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/myBid"
-        android:background="#ffccfff8">
+        android:background="#ffffffff"
+        android:layout_marginTop="1dp">
 
         <ImageView
             android:layout_width="40dp"
@@ -83,11 +84,11 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="35dp"
         android:id="@+id/myHistory"
-        android:background="#ffffdb6c">
+        android:background="#ffffffff">
 
         <ImageView
             android:layout_width="40dp"

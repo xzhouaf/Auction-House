@@ -3,9 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
-    android:background="#ffffffff">
+    android:orientation="vertical">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -14,9 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="#ffebebeb"
-        android:id="@+id/itemNameSearch"
-        android:layout_marginTop="20dp">
+        android:background="#ffdcdcdc"
+        android:id="@+id/itemNameSearch">
 
         <ImageView
             android:layout_width="50dp"
@@ -39,39 +36,39 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/itemNameSearch"
         android:id="@+id/categorySearch"
         android:weightSum="1"
-        android:background="#ffebebeb"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical">
+        android:background="#ffffffff">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Category"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:text="  Category selection:"
             android:id="@+id/textView2"
             android:layout_below="@+id/itemNameSearch"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginStart="42dp"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:background="#ffebebeb" />
 
         <Spinner
-            android:layout_width="150dp"
+            android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:id="@+id/searchCategorySel"
             android:layout_below="@+id/itemNameSearch"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginStart="42dp"
-            android:layout_weight="0.36" />
+            android:layout_weight="0.36"
+            android:layout_marginRight="5dp" />
 
     </LinearLayout>
 
