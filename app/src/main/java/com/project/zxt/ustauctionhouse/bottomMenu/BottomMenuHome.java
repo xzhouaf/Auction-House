@@ -56,6 +56,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.bottom_menu_view_pager_frame);
         Log.i(TAG, "Activity: onCreate()");
 

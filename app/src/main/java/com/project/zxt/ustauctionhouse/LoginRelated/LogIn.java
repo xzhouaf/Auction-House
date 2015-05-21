@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -258,17 +259,25 @@ public class LogIn extends Activity implements View.OnClickListener {
         }
     }
 
-    private void jumpToMainActivity(String a, String b, String c, String d, String e){
-        Intent i = new Intent(ctx, BottomMenuHome.class);
+    private void jumpToMainActivity(final String a, String b, String c, String d, String e){
+        final Intent i = new Intent(ctx, BottomMenuHome.class);
         i.putExtra("user_name", a);
         i.putExtra("user_email", b);
         i.putExtra("user_apiKey", c);
         i.putExtra("user_createdAt", d);
         i.putExtra("user_ID", e);
         i.putExtra("current_tab", "New Item");
-        startActivity(i);
-        Toast.makeText(ctx, "Welcome, " + a, Toast.LENGTH_SHORT).show();
-        finish();
+        setContentView(R.layout.welcome);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                startActivity(i);
+                Toast.makeText(ctx, "Welcome, " + a, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }, 1000);
+
     }
 
     private long mExitTime;
