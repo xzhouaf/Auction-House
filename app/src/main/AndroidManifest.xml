@@ -50,6 +50,9 @@
         <service android:name=".GCM.GCMIntentService" />
 
         <activity
+            android:name=".PersonalInfo.AppInfo"
+            android:label="Application information" />
+        <activity
             android:name=".LoginRelated.Register"
             android:label="Register New Account" />
         <activity
