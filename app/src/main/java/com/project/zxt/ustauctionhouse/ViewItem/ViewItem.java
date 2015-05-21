@@ -74,6 +74,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
     private BidListAdapter adapter;
     private ArrayList<HashMap<String, String>> buyHis;
     private Activity act;
+    private boolean clockrunning = false;
 
 
     @Override
@@ -242,7 +243,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
                         if(confirmBid(userInputPrice.getText().toString())){
                             priceInput = userInputPrice.getText().toString();
                             new AsyncPlaceBid().execute();
-                            //new AsyncGetSingleItem().execute();
+                            new AsyncGetSingleItem().execute();
 
 
 
@@ -431,7 +432,9 @@ public class ViewItem extends Activity implements View.OnClickListener {
 
             }
             Category.setText(unitList.get(0).categoryName);
-            intTimeLeft = Integer.valueOf(unitList.get(0).timeLeft);
+            if(!clockrunning) {
+                intTimeLeft = Integer.valueOf(unitList.get(0).timeLeft);
+            }
             user_id =unitList.get(0).userID+"";
             status = unitList.get(0).status;
             if (status == 1){
@@ -453,9 +456,11 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 else{
                     buyNow.setImageResource(R.drawable.buy_now);
                 }
-
-                timeUpdater = new UpdateTimeLeft();
-                timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+                if(!clockrunning) {
+                    timeUpdater = new UpdateTimeLeft();
+                    timeUpdater.executeOnExecutor(Executors.newCachedThreadPool());
+                    clockrunning = true;
+                }
             }
 
 
@@ -508,7 +513,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
                 if(result.getString("error").equals("true")){
 
                 }else{
-                    Price.setText("$ "+priceInput);
+                   /* Price.setText("$ "+priceInput);
                     Collections.reverse(buyHis);
                     HashMap<String, String> buyer = new HashMap<>();
                     buyer.put("buyer",result.getString("user_name"));
@@ -516,7 +521,7 @@ public class ViewItem extends Activity implements View.OnClickListener {
                     buyer.put("time", result.getString("time"));
                     buyHis.add(buyer);
                     Collections.reverse(buyHis);
-                    adapter.updateView(buyHis);
+                    adapter.updateView(buyHis);*/
 
 
 
