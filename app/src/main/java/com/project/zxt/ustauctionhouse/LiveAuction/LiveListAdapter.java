@@ -1,3 +1,8 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
+
 package com.project.zxt.ustauctionhouse.LiveAuction;
 
 import android.app.Activity;
@@ -18,9 +23,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by paul on 15年5月11日.
- */
+
 public class LiveListAdapter extends BaseAdapter {
 
     private Activity activity;

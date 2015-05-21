@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+     # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk      -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent" android:layout_height="fill_parent"
     android:background="#00000000">

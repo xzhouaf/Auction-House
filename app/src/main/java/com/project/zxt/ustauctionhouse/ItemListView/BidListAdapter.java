@@ -1,4 +1,12 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
+
 package com.project.zxt.ustauctionhouse.ItemListView;
+
+
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,9 +22,8 @@ import com.project.zxt.ustauctionhouse.Utility.Utility;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Xutong on 2015/5/14.
- */
+
+
 public class BidListAdapter extends BaseAdapter {
 
     private Activity activity;

@@ -1,3 +1,8 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
+
 package com.project.zxt.ustauctionhouse.ViewItem;
 
 import android.app.Activity;
@@ -49,10 +54,7 @@ import java.util.concurrent.Executors;
 import static com.project.zxt.ustauctionhouse.Utility.Utility.formatDouble;
 import static com.project.zxt.ustauctionhouse.Utility.Utility.secondsToTime;
 
-/**
- * Created by Paul on 2015/4/14.
- *
- */
+
 public class ViewItem extends Activity implements View.OnClickListener {
 
     private static final String TAG = "View Item";

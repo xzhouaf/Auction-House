@@ -1,3 +1,7 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
 package com.project.zxt.ustauctionhouse.PersonalInfo;
 
 import android.app.Activity;
@@ -44,10 +48,7 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by paul on 15年4月26日.
- *
- */
+
 public class PersonalInfoFragment extends Fragment implements View.OnClickListener, Observer, BottomMenuHome.OnPassParamListener {
     private static final String TAG = "Personal Information";
     private LinearLayout personalInfo, myAuction, myBid, myHistory;

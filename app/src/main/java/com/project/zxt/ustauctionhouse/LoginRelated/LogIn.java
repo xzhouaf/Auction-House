@@ -1,3 +1,7 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
 package com.project.zxt.ustauctionhouse.LoginRelated;
 
 import android.app.Activity;

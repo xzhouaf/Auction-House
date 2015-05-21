@@ -1,9 +1,10 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
 package com.project.zxt.ustauctionhouse.ItemListView;
 
-/**
- * Created by Paul on 2015/4/12.
- *
- */
+
 import java.lang.ref.SoftReference;
 import java.util.Collections;
 import java.util.HashMap;

@@ -1,3 +1,8 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
+
 package com.project.zxt.ustauctionhouse.Utility;
 
 import android.app.Activity;
@@ -19,10 +24,7 @@ import org.json.JSONObject;
 
 import java.util.Observable;
 
-/**
- * Created by Paul on 2015/4/15.
- *
- */
+
 public class ConditionCategoryLoader extends Observable {
 
     private Spinner condition = null;

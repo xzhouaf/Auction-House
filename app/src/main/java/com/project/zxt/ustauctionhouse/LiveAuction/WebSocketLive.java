@@ -1,3 +1,9 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
+
+
 package com.project.zxt.ustauctionhouse.LiveAuction;
 
 import android.app.Activity;
@@ -66,10 +72,7 @@ import java.util.concurrent.Executors;
 
 import static com.project.zxt.ustauctionhouse.Utility.Utility.secondsToTime;
 
-/**
- * Created by paul on 15年5月7日.
- *
- */
+
 public class WebSocketLive extends Activity implements View.OnClickListener {
 
     private final String TAG = "WebSocketLive";
