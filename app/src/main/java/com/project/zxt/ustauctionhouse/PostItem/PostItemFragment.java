@@ -288,6 +288,11 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
             current_price.setError("An initial price should be specified!");
             return false;
         }
+        if(Float.valueOf(current_price.getText().toString())<0.5) {
+            current_price.requestFocus();
+            current_price.setError("Initial price should be at least $ 0.5!");
+            return false;
+        }
         if(image_file_name.toString().equals("")){
             Toast.makeText(getActivity(), "Upload image for your item!", Toast.LENGTH_SHORT).show();
             return false;
@@ -315,10 +320,18 @@ public class PostItemFragment extends Fragment implements View.OnClickListener, 
 
         }
 
+
         if(current_price.getText().toString().equals("")){
             current_price.requestFocus();
             current_price.setError("An initial price should be specified!");
             return false;
+        }
+
+        if(Float.valueOf(current_price.getText().toString())<0.5){
+            current_price.requestFocus();
+            current_price.setError("Initial price should be at least $ 0.5!");
+            return false;
+
         }
 
         if(image_file_name.toString().equals("")){
