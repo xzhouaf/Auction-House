@@ -33,7 +33,7 @@
         android:layout_marginLeft="5dp" />
     <TextView
         android:id="@+id/bHistorySellerName"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="GAO Zihou"
         android:textSize="12sp"
@@ -54,7 +54,7 @@
         android:layout_marginLeft="105dp">
 
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Complete at:"
             android:id="@+id/timeTag" />
@@ -64,7 +64,8 @@
             android:layout_height="20dp"
             android:id="@+id/bHistoryTime"
             android:layout_weight="0.58"
-            android:text="111" />
+            android:text="111"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView

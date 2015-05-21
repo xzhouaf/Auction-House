@@ -18,6 +18,7 @@ import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -64,6 +65,8 @@ public class MyBidHistoryAdapter extends BaseAdapter {
         name.setText(goods.get(Utility.KEY_NAME));
         seller.setText(goods.get(Utility.KEY_SELLER));
         current_price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
+        Date endTime = new Date((Long.valueOf(goods.get(Utility.KET_END_TIME)))*1000);
+        time_complete.setText(Utility.format.format(endTime));
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
     }

@@ -24,7 +24,7 @@
         android:id="@+id/sellEntryItemName"
         android:layout_width="fill_parent"
         android:layout_height="30dp"
-        android:text="item name"
+        android:text="item name name "
         android:textSize="25dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/sellEntryItemImage"
@@ -50,7 +50,7 @@
             android:id="@+id/timeTag" />
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sellEntryTimeLeft"
             android:layout_weight="0.58"
