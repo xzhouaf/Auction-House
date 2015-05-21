@@ -16,11 +16,13 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.zxt.ustauctionhouse.LiveAuction.LiveListFragment;
+import com.project.zxt.ustauctionhouse.PersonalInfo.AppInfo;
 import com.project.zxt.ustauctionhouse.PersonalInfo.PersonalInfoFragment;
 import com.project.zxt.ustauctionhouse.PostItem.PostItemFragment;
 import com.project.zxt.ustauctionhouse.R;
@@ -48,6 +50,7 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
     private LinearLayout newBut, postBut, searchBut, liveBut, meBut;
 
     private TextView title;
+    private ImageView tiny_icon;
     private long mBackToTopTime;
 
     int currentSelectedViewPager = 0;
@@ -65,6 +68,8 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
 
         title = (TextView)findViewById(R.id.vp_frame_title);
         title.setOnClickListener(this);
+        tiny_icon = (ImageView)findViewById(R.id.top_icon_button);
+        tiny_icon.setOnClickListener(this);
 
         UserName = intent.getStringExtra("user_name");
         Email = intent.getStringExtra("user_email");
@@ -143,6 +148,10 @@ public class BottomMenuHome extends FragmentActivity implements View.OnClickList
                     mPager.setCurrentItem(0);
                 }
                 onClickTab(0);
+                break;
+            case R.id.top_icon_button:
+                Intent intent = new Intent(ctx, AppInfo.class);
+                startActivity(intent);
                 break;
             case R.id.post_item_touch_vp:
                 if(currentSelectedViewPager != 1){
