@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+     # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk      -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="#ffebebeb">
@@ -26,7 +28,7 @@
 
         <EditText
             android:layout_width="258dp"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:id="@+id/userNameMod"
             android:layout_toRightOf="@+id/portraitMod"
             android:layout_marginTop="50dp"
@@ -49,7 +51,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:layout_below="@+id/headZone"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -72,7 +74,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="45dp"
             android:id="@+id/phoneMod"
             android:layout_below="@+id/phoneTag"
             android:layout_alignParentLeft="true"
@@ -105,7 +107,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="45dp"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/oPassField"
@@ -128,7 +130,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="45dp"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/nPassField"
@@ -152,7 +154,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="45dp"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/cPassField"

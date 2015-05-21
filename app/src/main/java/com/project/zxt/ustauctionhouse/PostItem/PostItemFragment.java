@@ -1,3 +1,7 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
 package com.project.zxt.ustauctionhouse.PostItem;
 
 import android.app.AlertDialog;
@@ -47,10 +51,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by paul on 15年4月26日.
- *
- */
+
 public class PostItemFragment extends Fragment implements View.OnClickListener, Observer, BottomMenuHome.OnPassParamListener {
 
     private static final String TAG = "PostItem";

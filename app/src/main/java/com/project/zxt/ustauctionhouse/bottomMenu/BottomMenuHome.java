@@ -1,3 +1,8 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
+
 package com.project.zxt.ustauctionhouse.bottomMenu;
 
 import android.support.v4.app.Fragment;
@@ -24,10 +29,7 @@ import com.project.zxt.ustauctionhouse.SearchItem.SearchFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by paul on 15年4月26日.
- * This comment is for testing the git in terminal
- */
+
 
 public class BottomMenuHome extends FragmentActivity implements View.OnClickListener {
 

@@ -1,4 +1,9 @@
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
 package com.project.zxt.ustauctionhouse.GCM;
+
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -17,6 +22,8 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class RegisterApp extends AsyncTask<Void, Void, String> {
     private static final String TAG = "GCMRelated";

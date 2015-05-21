@@ -1,5 +1,8 @@
 package com.project.zxt.ustauctionhouse.PersonalInfo;
-
+/**
+ *  # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+ *  # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk
+ */
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,10 +29,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by Paul on 2015/4/13.
- *
- */
+
 public class TransactionInfo extends Activity implements View.OnClickListener, Observer, RefreshListView.OnRefreshListener, RefreshListView.OnLoadListener {
 
     private RefreshListView refreshLv;

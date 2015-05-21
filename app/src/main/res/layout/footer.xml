@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- # COMP 4521    #  ZHOU Xutong       20091184          xzhouaf@connect.ust.hk
+     # COMP 4521    #  GAO Zihou         20090130          zgao@connect.ust.hk      -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/footer_ll"
