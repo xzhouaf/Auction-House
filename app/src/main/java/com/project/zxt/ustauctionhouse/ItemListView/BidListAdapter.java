@@ -16,13 +16,14 @@ import java.util.HashMap;
 
 /**
  * Created by Xutong on 2015/5/14.
+ *
  */
 public class BidListAdapter extends BaseAdapter {
 
     private Activity activity;
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater = null;
-    public ImageLoader imageLoader; //ÓÃÀ´ÏÂÔØÍ¼Æ¬µÄÀà£¬ºóÃæÓĞ½éÉÜ
+    public ImageLoader imageLoader; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ğ½ï¿½ï¿½ï¿½
 
     public BidListAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
         activity = a;
@@ -55,7 +56,7 @@ public class BidListAdapter extends BaseAdapter {
         HashMap<String, String> goods = new HashMap<String, String>();
         goods = data.get(position);
 
-        // ÉèÖÃListViewµÄÏà¹ØÖµ
+        // ï¿½ï¿½ï¿½ï¿½ListViewï¿½ï¿½ï¿½ï¿½ï¿½Öµ
         price.setText("$"+ goods.get("price"));
         user.setText(goods.get("buyer"));
         time.setText(goods.get("time"));
