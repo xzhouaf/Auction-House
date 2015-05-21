@@ -49,9 +49,10 @@
         android:weightSum="1"
         android:layout_alignBottom="@+id/EntryItemImage"
         android:layout_toRightOf="@+id/EntryItemImage"
-        android:layout_toLeftOf="@+id/searchEntryPrice"
         android:layout_toStartOf="@+id/searchEntryPrice"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,10 +62,9 @@
             android:layout_marginLeft="5dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/entryTimeLeft"
-            android:layout_weight="0.58"
             android:text="111" />
     </LinearLayout>
 

@@ -55,6 +55,7 @@ public class Utility {
     public static final String KEY_HIGHEST_BIDDER = "highest_bidder";
     public static final String KEY_HIGHEST_BIDDER_ID = "highest_bidder_ID";
     public static final String KEY_LIVE_STATUS = "status";
+    public static final String KET_END_TIME = "end_time";
     public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat timeLeftFormat = new SimpleDateFormat("mm:ss");
     public static final int RESULT_LOGOUT = 2;

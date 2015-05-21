@@ -28,6 +28,7 @@ public class Unit {
     public int buyerID;
     public int timeLeft;
     public String buyList;
+    public long endTime;
 }
 
 

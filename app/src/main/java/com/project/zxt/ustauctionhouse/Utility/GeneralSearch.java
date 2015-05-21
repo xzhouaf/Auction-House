@@ -134,6 +134,7 @@ public class GeneralSearch extends Observable {
                     map1.put(Utility.KEY_IMAGE, Utility.serverUrlForPicture + "/uploads/" + unitList.get(i).imageFileName);
                     map1.put(Utility.KEY_HIGHEST_BIDDER, (unitList.get(i).buyerName == null)? "No bidder yet" : unitList.get(i).buyerName);
                     map1.put(Utility.KEY_HIGHEST_BIDDER_ID, unitList.get(i).buyerID+"");
+                    map1.put(Utility.KET_END_TIME, unitList.get(i).endTime+"");
 
                     // HashList添加到数组列表
                     goodList.add(map1);

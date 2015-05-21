@@ -18,6 +18,7 @@ import com.project.zxt.ustauctionhouse.R;
 import com.project.zxt.ustauctionhouse.Utility.Utility;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -62,7 +63,13 @@ public class MySellHistoryAdapter extends BaseAdapter {
 
         // 设置ListView的相关值
         name.setText(goods.get(Utility.KEY_NAME));
-
+        if(goods.get(Utility.KEY_HIGHEST_BIDDER).equals("No bidder yet")){
+            buyer.setText("Failed");
+        }else{
+            buyer.setText(goods.get(Utility.KEY_HIGHEST_BIDDER));
+        }
+        Date endTime = new Date((Long.valueOf(goods.get(Utility.KET_END_TIME)))*1000);
+        time_complete.setText(Utility.format.format(endTime));
         current_price.setText(goods.get(Utility.KEY_CURRENT_PRICE));
         imageLoader.DisplayImage(goods.get(Utility.KEY_IMAGE), thumb_image);
         return vi;
